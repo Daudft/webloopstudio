@@ -26,6 +26,7 @@ const config: Config = {
       fontFamily: {
         montserrat: ['var(--font-montserrat)'],
         sora: ['var(--font-sora)'],
+        commissioner: ['var(--font-commissioner)'],
       },
       colors: {
         border: 'hsl(var(--border))',

@@ -9,18 +9,9 @@ import { Menu, X, ArrowRight, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const navOrder = ['About', 'Work', 'Services', 'Process'];
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -28,14 +19,7 @@ export function Navbar() {
   }, [pathname]);
 
   return (
-    <header
-      className={cn(
-        'fixed left-0 right-0 top-[18px] z-50',
-        isScrolled
-          ? 'top-0 bg-[#0b234e] py-3 shadow-lg'
-          : 'py-0'
-      )}
-    >
+    <header className="fixed left-0 right-0 top-[18px] z-50">
       <div className="mx-auto max-w-[600px] px-4 sm:px-0">
         <div style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600 }} className="font-montserrat flex h-[42px] items-center justify-between rounded-[5px] bg-[#0b234e] px-[17px] text-[#eaf2ff]">
           {/* Logo */}

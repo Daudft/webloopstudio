@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Montserrat, Plus_Jakarta_Sans, Sora } from 'next/font/google';
+import { Commissioner, Inter, Montserrat, Plus_Jakarta_Sans, Sora } from 'next/font/google';
 import '@/styles/globals.css';
 import { siteConfig } from '@/config/site';
 import { ThemeProvider } from '@/components/providers/theme-provider';
@@ -28,6 +28,12 @@ const montserrat = Montserrat({
 const sora = Sora({
   subsets: ['latin'],
   variable: '--font-sora',
+  display: 'swap',
+});
+
+const commissioner = Commissioner({
+  subsets: ['latin'],
+  variable: '--font-commissioner',
   display: 'swap',
 });
 
@@ -84,7 +90,7 @@ export default function RootLayout({
   const orgJsonLd = getOrganizationSchema();
 
   return (
-    <html lang="en" className={`dark ${inter.variable} ${plusJakarta.variable} ${montserrat.variable} ${sora.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`dark ${inter.variable} ${plusJakarta.variable} ${montserrat.variable} ${sora.variable} ${commissioner.variable}`} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
