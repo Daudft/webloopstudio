@@ -21,12 +21,12 @@ export function HeroSection() {
     <section className="hero-section relative min-h-screen overflow-hidden bg-[#eaf2ff] text-[#0b234e]">
       <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col items-center px-5 pt-[163px] text-center sm:px-8">
         <Globe strokeWidth={2.75} className="mb-3 h-11 w-11" aria-hidden="true" />
-        <h1 style={{ fontFamily: 'var(--font-sora)', fontWeight: 700 }} className="font-sora max-w-[390px] text-[36px] font-bold leading-[1.08] tracking-[-0.04em] sm:text-[38px]">
+        <h1 className="font-sora max-w-[390px] text-[36px] font-bold leading-[1.08] tracking-[-0.04em] sm:text-[38px]">
           Products that sell
           <br />
           themselves
         </h1>
-        <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600 }} className="font-montserrat mt-5 max-w-[300px] text-[15px] font-semibold leading-[1.55] tracking-[0.01em]">
+        <p className="font-montserrat mt-5 max-w-[300px] text-[15px] font-semibold leading-[1.55] tracking-[0.01em]">
           Websites, apps, and custom software for businesses whose growth has outpaced their digital presence
         </p>
         <img

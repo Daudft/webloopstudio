@@ -12,7 +12,7 @@ export function IntroSection() {
             Small businesses, startups, and growing teams
           </p>
         </div>
-        <div className="self-start min-w-0 max-w-[900px] text-left font-commissioner" style={{ fontFamily: 'var(--font-commissioner)' }}>
+        <div className="self-start min-w-0 max-w-[900px] text-left font-commissioner">
           <p className="text-pretty text-[32px] font-bold leading-[1.08] tracking-[-0.035em] sm:text-[44px] lg:text-[52px]">
             Your business has outgrown the website you built it on. Whether you&apos;re a small business finally ready to look the part, or a startup that&apos;s already proven the product the website is usually the last thing to catch up.
           </p>

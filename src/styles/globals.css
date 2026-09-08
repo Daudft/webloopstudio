@@ -74,7 +74,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/30 selection:text-white;
+    @apply overflow-x-hidden bg-background text-foreground antialiased selection:bg-primary/30 selection:text-white;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
@@ -111,14 +111,6 @@
 .loader-label {
   opacity: 0;
   animation: loader-label-in 0.45s ease-out 2.85s forwards;
-}
-
-.mosaic-panel {
-  background:
-    linear-gradient(35deg, transparent 15%, rgba(255, 125, 37, 0.8) 16% 28%, transparent 29% 42%, rgba(16, 152, 134, 0.85) 43% 57%, transparent 58% 70%, rgba(255, 188, 38, 0.9) 71% 84%, transparent 85%),
-    linear-gradient(110deg, #f36d2e 0 14%, #e6a330 15% 27%, #2a9b8a 28% 43%, #ee5e2c 44% 58%, #278d88 59% 72%, #ef9c2c 73% 86%, #d84932 87%);
-  background-size: 28px 28px, 22px 24px;
-  box-shadow: inset 0 0 0 1px rgba(10, 31, 68, 0.35);
 }
 
 @keyframes loader-reveal {

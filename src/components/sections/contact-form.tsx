@@ -5,8 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { contactFormSchema, ContactFormData } from '@/lib/validations/contact';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { Input, Textarea } from '@/components/ui/input';
 import { FadeIn } from '@/components/animations/fade-in';
 import { CheckCircle, Send, AlertCircle } from 'lucide-react';
 
