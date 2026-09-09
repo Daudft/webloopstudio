@@ -1,84 +1,83 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { FadeIn, FadeInStagger } from '@/components/animations/fade-in';
-import { Compass, PenTool, Terminal, Rocket } from 'lucide-react';
 
 const steps = [
   {
     step: '01',
-    icon: <Compass className="h-6 w-6 text-purple-400" />,
-    title: 'Discovery & Architecture',
+    title: 'We uncover your story',
     description:
-      'We deconstruct your requirements, map user flows, design database models, and specify the optimal tech stack for global scalability.',
+      'We dig deep into your business, surface what makes you irreplaceable, and shape it into a clear digital direction that connects in seconds.',
+    image: '/services/ui-ux-design.jpg',
   },
   {
     step: '02',
-    icon: <PenTool className="h-6 w-6 text-cyan-400" />,
-    title: 'High-Fidelity Design Systems',
+    title: 'We shape your digital presence',
     description:
-      'We prototype pixel-perfect, responsive UI and design tokens in Figma, validating every micro-interaction and accessibility standard.',
+      'With the story locked, we design an experience that feels premium, signals credibility, and gives your audience one clear reason to lean in.',
+    image: '/services/branding-identity.jpg',
   },
   {
     step: '03',
-    icon: <Terminal className="h-6 w-6 text-indigo-400" />,
-    title: 'Agile Full-Stack Engineering',
+    title: 'We bring it into the world',
     description:
-      'We code with Next.js, strict TypeScript, and edge APIs. You get continuous staging preview links and automated end-to-end testing.',
+      'We build, test, and launch a fast, flexible product that earns attention, creates opportunity, and grows with the business behind it.',
+    image: '/services/web-development.jpg',
   },
   {
     step: '04',
-    icon: <Rocket className="h-6 w-6 text-pink-400" />,
-    title: 'Launch & Autonomous Scale',
+    title: 'We stay in your corner',
     description:
-      'Zero-downtime deployment, CDN edge caching, 24/7 telemetry monitoring, and ongoing optimization to ensure peak conversion.',
+      'After launch, we keep improving the system with you, turning real feedback into the next round of meaningful momentum.',
+    image: '/services/cloud-devops.jpg',
   },
 ];
 
 export function ProcessTimeline() {
   return (
-    <section className="py-24 relative" id="process">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
+    <section className="bg-[#0A1F44] py-24 text-[#eaf2ff] sm:py-36" id="process">
+      <div className="container mx-auto max-w-[1500px] px-5 sm:px-10 lg:px-16">
+        <div className="mb-20 sm:mb-28">
           <FadeIn>
-            <span className="text-xs font-bold uppercase tracking-widest text-purple-400">
-              Our Methodology
-            </span>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-              A transparent, battle-tested execution process.
-            </h2>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <p className="text-base sm:text-lg text-muted-foreground">
-              From whiteboard to production deployment, we eliminate friction and keep you in the loop every step of the journey.
+            <p className="font-montserrat text-[10px] font-semibold uppercase tracking-[0.25em] text-white/50">
+              How we work / 01—04
             </p>
+            <h2 className="mt-5 whitespace-nowrap font-sora text-[clamp(4rem,15vw,12rem)] font-extrabold leading-[0.8] tracking-[-0.09em] text-[#eaf2ff]">
+              Process
+            </h2>
           </FadeIn>
         </div>
 
-        <FadeInStagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <FadeInStagger className="space-y-0">
           {steps.map((item) => (
             <div
               key={item.step}
-              className="glass-panel p-8 rounded-3xl border border-white/5 hover:border-purple-500/30 transition-all flex flex-col justify-between group"
+              className="grid gap-8 rounded-[3px] px-3 py-0 sm:grid-cols-[120px_minmax(260px,0.9fr)_minmax(360px,1.25fr)] sm:gap-10 sm:px-5 lg:gap-16"
             >
-              <div>
-                <div className="flex items-center justify-between mb-8">
-                  <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    {item.icon}
-                  </div>
-                  <span className="text-3xl font-black text-white/20 group-hover:text-purple-400/40 transition-colors">
-                    {item.step}
-                  </span>
-                </div>
-
-                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">
+              <div className="flex items-start justify-between py-8 sm:block sm:py-12">
+                <span className="font-montserrat text-[10px] font-semibold uppercase tracking-[0.18em] text-white/65">
+                  Step / {item.step}
+                </span>
+              </div>
+              <div className="max-w-[390px] self-start py-8 sm:py-12">
+                <h3 className="font-sora text-[27px] font-bold leading-[0.98] tracking-[-0.055em] text-white sm:text-[36px]">
                   {item.title}
                 </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="mt-5 font-montserrat text-[13px] font-medium leading-[1.55] text-white/55">
                   {item.description}
                 </p>
+              </div>
+              <div className="relative min-h-[220px] overflow-hidden bg-[#151515] sm:min-h-[280px]">
+                <Image
+                  src={item.image}
+                  alt=""
+                  fill
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  className="object-cover opacity-75 grayscale"
+                  aria-hidden="true"
+                />
               </div>
             </div>
           ))}

@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import { siteConfig } from '@/config/site';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Navbar } from '@/components/common/navbar';
+import { Footer } from '@/components/common/footer';
 import { SiteLoader } from '@/components/common/site-loader';
 import { getOrganizationSchema } from '@/lib/schema';
 
@@ -106,7 +107,8 @@ export default function RootLayout({
         >
           <SiteLoader />
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main id="top" className="flex-1">{children}</main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

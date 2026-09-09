@@ -14,6 +14,10 @@ export const mainNavItems: NavItem[] = [
     href: '/about',
   },
   {
+    title: 'Process',
+    href: '/process',
+  },
+  {
     title: 'Pricing',
     href: '/pricing',
   },
@@ -34,6 +38,7 @@ export const footerNavItems = {
   company: [
     { title: 'About Us', href: '/about' },
     { title: 'Case Studies', href: '/work' },
+    { title: 'Our Process', href: '/process' },
     { title: 'Pricing & Plans', href: '/pricing' },
     { title: 'Contact Studio', href: '/contact' },
   ],
