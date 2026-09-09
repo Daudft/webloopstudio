@@ -1,127 +1,84 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { projectsData } from '@/data/projects';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { FadeIn, FadeInStagger } from '@/components/animations/fade-in';
-import { ArrowUpRight, Sparkles } from 'lucide-react';
-
-const categories = ['All', 'Web Development', 'AI & Automation', 'UI/UX Design', 'Mobile Apps'] as const;
+import { ArrowUpRight } from 'lucide-react';
 
 export function PortfolioGrid() {
-  const [activeCategory, setActiveCategory] = useState<string>('All');
-
-  const filteredProjects =
-    activeCategory === 'All'
-      ? projectsData
-      : projectsData.filter((p) => p.category === activeCategory);
+  const filteredProjects = projectsData;
 
   return (
-    <section className="py-24 bg-secondary/20 relative" id="work">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+    <section className="bg-[#eaf2ff] py-32 text-[#0b234e] sm:py-40" id="work">
+      <div className="mx-auto max-w-[1500px] px-7 sm:px-12 lg:px-16">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <div className="space-y-4 max-w-2xl">
-            <FadeIn>
-              <span className="text-xs font-bold uppercase tracking-widest text-purple-400">
-                Featured Work
-              </span>
-            </FadeIn>
-            <FadeIn delay={0.1}>
-              <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-                Crafted for impact & measurable results.
-              </h2>
-            </FadeIn>
-          </div>
-
-          {/* Category Filter Tabs */}
-          <FadeIn delay={0.2}>
-            <div className="flex flex-wrap gap-2 p-1.5 glass-panel rounded-full border border-white/10">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                    activeCategory === cat
-                      ? 'bg-purple-600 text-white shadow-md shadow-purple-500/25'
-                      : 'text-muted-foreground hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
+        <div className="mb-16 sm:mb-24">
+          <FadeIn>
+            <p className="font-sora text-[13px] font-medium uppercase leading-[1.35] tracking-[0.28em] text-[#0b234e]/90">
+              Success Stories
+            </p>
           </FadeIn>
         </div>
 
-        {/* Project Cards Grid */}
-        <FadeInStagger className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredProjects.map((project) => (
-            <Link
-              key={project.id}
-              href={`/work#${project.slug}`}
-              className="group block rounded-3xl overflow-hidden glass-panel border border-white/10 hover:border-purple-500/40 transition-all duration-300"
-            >
-              {/* Image Preview Container */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-900">
-                <Image
-                  src={project.thumbnail}
-                  alt={project.title}
-                  fill
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-
-                <div className="absolute top-4 left-4">
-                  <Badge variant="glow">{project.category}</Badge>
+        <FadeInStagger className="flex flex-col border-t border-[#0b234e]/20 pt-8">
+          {filteredProjects.map((project, index) => (
+            <React.Fragment key={project.id}>
+              <Link
+                href={`/work#${project.slug}`}
+                className="group grid gap-8 lg:grid-cols-[minmax(0,1.7fr)_minmax(280px,0.9fr)] lg:gap-10"
+              >
+                <div>
+                  <div className="relative aspect-[1.4] overflow-hidden bg-[#d5deeb] sm:aspect-[1.55]">
+                    <Image
+                      src={project.thumbnail}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                      sizes="(max-width: 1024px) 100vw, 68vw"
+                    />
+                  </div>
                 </div>
-
-                <div className="absolute top-4 right-4 h-10 w-10 rounded-full glass-panel flex items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2 transition-all duration-300">
-                  <ArrowUpRight className="h-5 w-5" />
+                <div className="flex flex-col pt-0 lg:pt-1">
+                  <div className="flex items-center gap-3 font-montserrat text-[11px] font-semibold">
+                    <span>SS</span>
+                    <span className="border border-[#0b234e] px-1">{String(index + 1).padStart(2, '0')}/{String(filteredProjects.length).padStart(2, '0')}</span>
+                  </div>
+                  <h2 className="mt-5 max-w-[400px] font-sora text-[28px] font-bold leading-[1.06] tracking-[-0.06em] sm:text-[34px]">
+                    {project.title.split(' — ')[0]}
+                  </h2>
+                  <p className="mt-5 max-w-[440px] font-montserrat text-[15px] font-medium leading-[1.45] text-[#52627a]">
+                    {project.summary}
+                  </p>
+                  <div className="mt-8">
+                    <p className="inline-block bg-[#d8d8d3] px-2 py-1 font-sora text-[24px] font-bold leading-none tracking-[-0.06em]">
+                      {project.metrics[0]?.value}
+                    </p>
+                    <p className="mt-2 max-w-[260px] font-montserrat text-[15px] font-semibold leading-[1.35]">
+                      {project.metrics[0]?.label}
+                    </p>
+                  </div>
                 </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-8 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-purple-400">
-                    {project.client}
-                  </span>
-                  <span className="text-xs text-muted-foreground">{project.year}</span>
+              </Link>
+              {index < filteredProjects.length - 1 && (
+                <div className="flex justify-center py-4 sm:py-6">
+                  <span className="h-px w-full bg-[#0b234e]/20" />
                 </div>
-
-                <h3 className="text-2xl font-bold text-white group-hover:text-purple-300 transition-colors">
-                  {project.title}
-                </h3>
-
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {project.summary}
-                </p>
-
-                {/* Key Metrics */}
-                <div className="pt-4 border-t border-white/5 grid grid-cols-3 gap-4">
-                  {project.metrics.map((m, idx) => (
-                    <div key={idx}>
-                      <div className="text-base font-bold text-white">{m.value}</div>
-                      <div className="text-[11px] text-muted-foreground">{m.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Link>
+              )}
+            </React.Fragment>
           ))}
         </FadeInStagger>
 
-        {/* View All CTA */}
-        <div className="mt-16 text-center">
-          <Link href="/work">
-            <Button variant="outline" size="lg" className="rounded-full">
-              View All Case Studies & Results
-            </Button>
+        <div className="mt-20 flex justify-end border-t border-[#0b234e]/20 pt-8">
+          <Link
+            href="/work"
+            aria-label="See all projects"
+            title="See all projects"
+            className="group inline-flex items-center gap-2 font-sora text-2xl font-bold leading-none tracking-[-0.06em] transition-opacity hover:opacity-60 sm:text-3xl lg:text-4xl"
+          >
+            <span>View all</span>
+            <ArrowUpRight className="h-6 w-6 stroke-[1.5] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 sm:h-7 sm:w-7 lg:h-8 lg:w-8" />
           </Link>
         </div>
       </div>

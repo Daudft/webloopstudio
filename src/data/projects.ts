@@ -10,7 +10,7 @@ export const projectsData: Project[] = [
     tagline: 'Autonomous enterprise knowledge hub powering 50,000+ daily employee inquiries.',
     summary:
       'We designed and developed an AI-driven knowledge retrieval and automation dashboard that cut support resolution time by 74%.',
-    thumbnail: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
+    thumbnail: '/ist.jpg',
     heroImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1800&q=80',
     galleryImages: [
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
@@ -45,7 +45,7 @@ export const projectsData: Project[] = [
     tagline: 'High-frequency portfolio analytics platform managing $400M+ in assets.',
     summary:
       'Built a reactive, real-time financial tracking portal with interactive data visualizers and automated yield rebalancing.',
-    thumbnail: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80',
+    thumbnail: '/second.jpg',
     heroImage: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1800&q=80',
     galleryImages: [
       'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
@@ -113,7 +113,7 @@ export const projectsData: Project[] = [
     tagline: 'Real-time biometric telemetric monitoring connecting patients with top cardiologists.',
     summary:
       'Engineered an offline-first iOS and Android app syncing continuous bluetooth heart telemetry to doctor dashboards.',
-    thumbnail: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
+    thumbnail: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
     heroImage: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1800&q=80',
     galleryImages: [],
     year: '2024',

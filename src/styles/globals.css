@@ -72,9 +72,11 @@
   }
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 88px;
   }
   body {
     @apply overflow-x-hidden bg-background text-foreground antialiased selection:bg-primary/30 selection:text-white;
+    -webkit-overflow-scrolling: touch;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
