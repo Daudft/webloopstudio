@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 
 interface TextRevealProps {
   text: string;
@@ -20,7 +20,7 @@ export function TextReveal({ text, className, delay = 0 }: TextRevealProps) {
     }),
   };
 
-  const child = {
+  const child: Variants = {
     visible: {
       opacity: 1,
       y: 0,

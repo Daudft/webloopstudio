@@ -6,9 +6,9 @@ import { ArrowUpRight } from 'lucide-react';
 export function Footer() {
   const navigation = [
     { title: 'About', href: '/about' },
-    { title: 'Work', href: '/work' },
-    { title: 'Process', href: '/process' },
-    { title: 'Services', href: '/services' },
+    { title: 'Work', href: '/#work' },
+    { title: 'Process', href: '/#process' },
+    { title: 'Services', href: '/#services' },
     { title: 'Pricing', href: '/pricing' },
     { title: 'Contact', href: '/contact' },
   ];

@@ -40,7 +40,7 @@ export function ServicesGrid() {
           {servicesData.map((service, index) => (
             <Link
               key={service.id}
-              href={`/services#${service.slug}`}
+              href="/#services"
               className="group relative z-0 flex items-center justify-between gap-6 rounded-[3px] px-3 py-7 transition-colors duration-300 hover:z-20 hover:bg-white/[0.05] sm:px-5 sm:py-8"
             >
               <Image

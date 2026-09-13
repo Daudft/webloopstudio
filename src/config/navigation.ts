@@ -3,11 +3,11 @@ import { NavItem } from '@/types';
 export const mainNavItems: NavItem[] = [
   {
     title: 'Services',
-    href: '/services',
+    href: '/#services',
   },
   {
     title: 'Work',
-    href: '/work',
+    href: '/#work',
   },
   {
     title: 'About',
@@ -15,7 +15,7 @@ export const mainNavItems: NavItem[] = [
   },
   {
     title: 'Process',
-    href: '/process',
+    href: '/#process',
   },
   {
     title: 'Pricing',
@@ -29,16 +29,16 @@ export const mainNavItems: NavItem[] = [
 
 export const footerNavItems = {
   services: [
-    { title: 'Full-Stack Web Apps', href: '/services#web-development' },
-    { title: 'UI/UX & Product Design', href: '/services#ui-ux-design' },
-    { title: 'AI Integration & Agents', href: '/services#ai-integration' },
-    { title: 'Mobile Applications', href: '/services#mobile-apps' },
-    { title: 'Cloud Infrastructure & DevOps', href: '/services#cloud-devops' },
+    { title: 'Full-Stack Web Apps', href: '/#services' },
+    { title: 'UI/UX & Product Design', href: '/#services' },
+    { title: 'AI Integration & Agents', href: '/#services' },
+    { title: 'Mobile Applications', href: '/#services' },
+    { title: 'Cloud Infrastructure & DevOps', href: '/#services' },
   ],
   company: [
     { title: 'About Us', href: '/about' },
     { title: 'Case Studies', href: '/work' },
-    { title: 'Our Process', href: '/process' },
+    { title: 'Our Process', href: '/#process' },
     { title: 'Pricing & Plans', href: '/pricing' },
     { title: 'Contact Studio', href: '/contact' },
   ],

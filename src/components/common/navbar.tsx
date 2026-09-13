@@ -18,8 +18,23 @@ export function Navbar() {
     setIsMobileMenuOpen(false);
   }, [pathname]);
 
+  const handleSectionNavigation = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!href.startsWith('/#')) return;
+
+    event.preventDefault();
+    const sectionId = href.slice(2);
+
+    if (pathname === '/') {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+      window.history.pushState(null, '', href);
+      return;
+    }
+
+    window.location.href = href;
+  };
+
   return (
-    <header className="fixed left-0 right-0 top-[18px] z-50">
+    <header className="fixed left-0 right-0 top-[18px] z-[70]">
       <div className="mx-auto max-w-[600px] px-4 sm:px-0">
         <div style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600 }} className="font-montserrat flex h-[42px] items-center justify-between rounded-[5px] bg-[#0b234e] px-[17px] text-[#eaf2ff]">
           {/* Logo */}
@@ -42,6 +57,7 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={(event) => handleSectionNavigation(event, item.href)}
                   className={cn(
                     'text-[10px] font-semibold',
                     isActive
@@ -84,6 +100,7 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={(event) => handleSectionNavigation(event, item.href)}
                   className={cn(
                     'px-4 py-3 rounded-xl text-base font-medium transition-colors',
                     pathname === item.href

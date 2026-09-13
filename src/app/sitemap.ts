@@ -4,7 +4,7 @@ import { projectsData } from '@/data/projects';
 import { servicesData } from '@/data/services';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ['', '/about', '/services', '/work', '/process', '/pricing', '/contact', '/privacy', '/terms'].map(
+  const routes = ['', '/about', '/work', '/pricing', '/contact', '/privacy', '/terms'].map(
     (route) => ({
       url: `${siteConfig.url}${route}`,
       lastModified: new Date().toISOString(),
@@ -14,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   );
 
   const serviceRoutes = servicesData.map((service) => ({
-    url: `${siteConfig.url}/services#${service.slug}`,
+    url: `${siteConfig.url}/#services`,
     lastModified: new Date().toISOString(),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
