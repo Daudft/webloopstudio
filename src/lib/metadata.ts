@@ -4,8 +4,6 @@ import { siteConfig } from '@/config/site';
 interface ConstructMetadataProps {
   title?: string;
   description?: string;
-  image?: string;
-  icons?: string;
   noIndex?: boolean;
   canonical?: string;
 }
@@ -13,12 +11,10 @@ interface ConstructMetadataProps {
 export function constructMetadata({
   title,
   description = siteConfig.description,
-  image = siteConfig.ogImage,
-  icons = '/favicon.ico',
   noIndex = false,
   canonical,
 }: ConstructMetadataProps = {}): Metadata {
-  const fullTitle = title ? `${title} | ${siteConfig.name}` : `${siteConfig.name} — Modern Digital Agency & Software Studio`;
+  const fullTitle = title ? `${title} | ${siteConfig.name}` : `${siteConfig.name} — ${siteConfig.tagline}`;
 
   return {
     title: fullTitle,
@@ -28,14 +24,6 @@ export function constructMetadata({
       description,
       url: canonical || siteConfig.url,
       siteName: siteConfig.name,
-      images: [
-        {
-          url: image,
-          width: 1200,
-          height: 630,
-          alt: fullTitle,
-        },
-      ],
       locale: 'en_US',
       type: 'website',
     },
@@ -43,11 +31,7 @@ export function constructMetadata({
       card: 'summary_large_image',
       title: fullTitle,
       description,
-      images: [image],
-      creator: '@webloopstudio',
     },
-    icons,
-    metadataBase: new URL(siteConfig.url),
     ...(canonical && {
       alternates: {
         canonical,

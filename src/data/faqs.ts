@@ -1,34 +1,31 @@
 import { FAQItem } from '@/types';
 
+// TODO(content): these answers are reasonable defaults. Adjust timelines,
+// stack and working style to match how you actually run projects.
 export const faqsData: FAQItem[] = [
   {
-    question: 'How fast can Webloop Studio start and deliver our project?',
+    question: 'How quickly can we start, and how long does a project take?',
     answer:
-      'We typically kick off within 3–5 business days after scope finalization. Standard web applications and branding projects take 2–4 weeks, while complex enterprise platforms and AI workflows span 4–8 weeks with weekly milestone deliverables.',
-    category: 'Process',
+      'We usually kick off within a week of agreeing the scope. Most websites and brand projects take two to four weeks. Larger products and AI workflows run four to eight weeks, with something to review every week.',
   },
   {
-    question: 'What technologies do you specialize in?',
+    question: 'What do you build with?',
     answer:
-      'Our primary stack is Next.js (App Router), React, TypeScript, Tailwind CSS, Node.js/Python backends, PostgreSQL, Prisma, Redis, and modern AI pipelines (LangChain, OpenAI, Pinecone). We deploy on Vercel, AWS, and GCP with automated CI/CD.',
-    category: 'Tech Stack',
+      'Next.js, React and TypeScript on the front end, Node.js or Python on the back end, PostgreSQL for data, and React Native for mobile. We deploy to Vercel or AWS and set up automated deployments from day one.',
   },
   {
-    question: 'How do you guarantee site speed and high-traffic reliability?',
+    question: 'How do you keep sites fast and reliable?',
     answer:
-      'We engineer for high traffic from day one: Edge caching, static prerendering (SSG/ISR), image optimization, zero-dependency lightweight bundles, database query indexing, and serverless auto-scaling. Every build is validated to achieve 95+ Google Lighthouse scores.',
-    category: 'Performance',
+      'We render as much as possible ahead of time, optimise every image, keep JavaScript bundles small and cache at the edge. Before launch we check Core Web Vitals and fix anything that slows the page down.',
   },
   {
-    question: 'Do you offer ongoing maintenance, scaling, and support after launch?',
+    question: 'Do you support the site after launch?',
     answer:
-      'Yes! We provide dedicated monthly maintenance, continuous feature development, security patches, uptime monitoring, and infrastructure management retainers tailored to your growth needs.',
-    category: 'Support',
+      'Yes. You can keep us on a monthly retainer for improvements, updates and monitoring, or bring us back when you need something new. Either way, you own the code and the accounts.',
   },
   {
-    question: 'How do we communicate and track progress during development?',
+    question: 'How do we communicate during the project?',
     answer:
-      'You get direct access to our core engineers and designers via a dedicated Slack/Discord channel, weekly video demos, interactive staging preview links on every commit, and a live Linear/Notion dashboard.',
-    category: 'Communication',
+      'You work directly with Daud. You get a private channel for questions, a staging link you can open at any time, and a short written update every week.',
   },
 ];

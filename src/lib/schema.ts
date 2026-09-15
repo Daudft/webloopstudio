@@ -1,25 +1,23 @@
 import { siteConfig } from '@/config/site';
 
 export function getOrganizationSchema() {
+  const sameAs = [siteConfig.links.linkedin, siteConfig.links.instagram].filter(Boolean);
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: siteConfig.name,
-    legalName: siteConfig.legalName,
     url: siteConfig.url,
-    logo: `${siteConfig.url}/images/logo.png`,
+    logo: `${siteConfig.url}/icons/icon-512.png`,
     description: siteConfig.description,
-    sameAs: [
-      siteConfig.links.twitter,
-      siteConfig.links.github,
-      siteConfig.links.linkedin,
-      siteConfig.links.instagram,
-      siteConfig.links.dribbble,
-    ],
+    founder: {
+      '@type': 'Person',
+      name: siteConfig.founder,
+    },
+    ...(sameAs.length > 0 && { sameAs }),
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: siteConfig.contact.phone,
-      contactType: 'customer service',
+      contactType: 'sales',
       email: siteConfig.contact.email,
       areaServed: 'Worldwide',
       availableLanguage: ['English'],

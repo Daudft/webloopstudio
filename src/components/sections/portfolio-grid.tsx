@@ -44,18 +44,26 @@ export function PortfolioGrid() {
                     <span className="border border-navy px-1">{String(index + 1).padStart(2, '0')}/{String(filteredProjects.length).padStart(2, '0')}</span>
                   </div>
                   <h2 className="mt-5 max-w-[400px] font-sora text-[28px] font-bold leading-[1.06] tracking-[-0.06em] sm:text-[34px]">
-                    {project.title.split(' — ')[0]}
+                    {project.title}
                   </h2>
                   <p className="mt-5 max-w-[440px] font-montserrat text-[15px] font-medium leading-[1.45] text-steel">
                     {project.summary}
                   </p>
                   <div className="mt-8">
-                    <p className="inline-block bg-[#d8d8d3] px-2 py-1 font-sora text-[24px] font-bold leading-none tracking-[-0.06em]">
-                      {project.metrics[0]?.value}
-                    </p>
-                    <p className="mt-2 max-w-[260px] font-montserrat text-[15px] font-semibold leading-[1.35]">
-                      {project.metrics[0]?.label}
-                    </p>
+                    {project.outcome ? (
+                      <>
+                        <p className="inline-block bg-[#d8d8d3] px-2 py-1 font-sora text-[24px] font-bold leading-none tracking-[-0.06em]">
+                          {project.outcome.value}
+                        </p>
+                        <p className="mt-2 max-w-[260px] font-montserrat text-[15px] font-semibold leading-[1.35]">
+                          {project.outcome.label}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="font-montserrat text-[11px] font-semibold uppercase tracking-[0.18em] text-navy/60">
+                        {project.category} · {project.year}
+                      </p>
+                    )}
                   </div>
                 </div>
               </article>

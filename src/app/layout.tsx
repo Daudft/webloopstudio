@@ -27,37 +27,25 @@ const commissioner = Commissioner({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} — Modern Digital Agency & Software Studio`,
+    default: `${siteConfig.name} — ${siteConfig.tagline}`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: [
-    'Web Development Agency',
-    'Next.js Agency',
-    'AI Systems',
-    'UI/UX Design Studio',
-    'Custom Software Development',
-    'React Agency',
-    'Digital Product Studio',
-  ],
-  authors: [{ name: 'Webloop Studio' }],
-  creator: 'Webloop Studio',
+  keywords: ['web design agency', 'web development', 'Next.js', 'mobile apps', 'custom software', 'branding'],
+  authors: [{ name: siteConfig.founder }],
+  creator: siteConfig.name,
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: siteConfig.url,
-    title: siteConfig.name,
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
     siteName: siteConfig.name,
   },
   twitter: {
     card: 'summary_large_image',
-    title: siteConfig.name,
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
-    creator: '@webloopstudio',
-  },
-  icons: {
-    icon: '/favicon.ico',
   },
 };
 

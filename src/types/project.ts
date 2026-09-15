@@ -1,31 +1,20 @@
-export interface ProjectMetric {
-  label: string;
+export type ProjectCategory = 'Web Development' | 'Mobile Apps' | 'UI/UX Design' | 'AI & Automation' | 'Branding';
+
+export interface ProjectOutcome {
+  /** Short headline figure, e.g. "2x" or "3 weeks". */
   value: string;
+  /** What the figure means, e.g. "faster checkout". */
+  label: string;
 }
 
 export interface Project {
   id: string;
   slug: string;
   title: string;
-  client: string;
-  category: 'Web Development' | 'Mobile Apps' | 'UI/UX Design' | 'AI & Automation' | 'Branding';
-  tagline: string;
+  category: ProjectCategory;
   summary: string;
   thumbnail: string;
-  heroImage: string;
-  galleryImages: string[];
   year: string;
-  liveUrl?: string;
-  githubUrl?: string;
-  featured?: boolean;
-  metrics: ProjectMetric[];
-  challenge: string;
-  solution: string;
-  technologies: string[];
-  testimonial?: {
-    quote: string;
-    author: string;
-    role: string;
-    avatar?: string;
-  };
+  /** Only include when you have a real, verifiable result to show. */
+  outcome?: ProjectOutcome;
 }

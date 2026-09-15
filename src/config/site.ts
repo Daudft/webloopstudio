@@ -2,23 +2,18 @@ import { SiteConfig } from '@/types';
 
 export const siteConfig: SiteConfig = {
   name: 'Webloop Studio',
-  legalName: 'Webloop Studio LLC',
+  tagline: 'Websites, apps and custom software for growing businesses',
   description:
-    'Webloop Studio is a premium digital product and engineering agency crafting hyper-scalable web applications, cutting-edge AI systems, and world-class digital brands.',
+    'Webloop Studio designs and builds websites, apps and custom software for businesses whose growth has outpaced their digital presence.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://webloopstudio.com',
-  ogImage: 'https://webloopstudio.com/images/og/og-image.jpg',
+  founder: 'Daud Afzal',
   links: {
-    twitter: 'https://twitter.com/webloopstudio',
-    github: 'https://github.com/webloopstudio',
+    // TODO(content): set real profile URLs, or leave undefined to hide the link.
     linkedin: 'https://linkedin.com/company/webloopstudio',
     instagram: 'https://instagram.com/webloopstudio',
-    dribbble: 'https://dribbble.com/webloopstudio',
   },
   contact: {
+    // TODO(content): confirm this inbox exists and is monitored.
     email: 'hello@webloopstudio.com',
-    phone: '+1 (555) 019-2834',
-    address: '100 Innovation Boulevard, Suite 400',
-    city: 'San Francisco, CA 94107',
-    country: 'United States',
   },
 };
