@@ -22,8 +22,8 @@ const toneStyles: Record<HeroTone, { section: string; wordmark: string; fade: st
     section: 'bg-navy text-ice',
     // The wordmark PNG is navy; render it near-white on the dark background.
     wordmark: 'brightness-0 invert opacity-90',
-    // Melt the bottom edge into the navy intro section below.
-    fade: 'bg-gradient-to-b from-transparent to-navy',
+    // Melt the bottom edge into the near-black intro section below.
+    fade: 'bg-gradient-to-b from-transparent to-ink',
   },
 };
 

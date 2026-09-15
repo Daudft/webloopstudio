@@ -10,7 +10,7 @@ export function Footer() {
   ].filter((social) => Boolean(social.href));
 
   return (
-    <footer className="bg-navy text-ice">
+    <footer className="bg-ink text-ice">
       <div className="mx-auto max-w-[1500px] px-5 pb-10 pt-24 sm:px-10 sm:pt-32 lg:px-16">
         <div className="grid gap-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)] lg:gap-24">
           <div>

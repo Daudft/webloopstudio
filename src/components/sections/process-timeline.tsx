@@ -37,7 +37,7 @@ const steps = [
 
 export function ProcessTimeline() {
   return (
-    <section className="bg-navy py-24 text-ice sm:py-36" id="process">
+    <section className="bg-ink py-24 text-ice sm:py-36" id="process">
       <div className="container mx-auto max-w-[1500px] px-5 sm:px-10 lg:px-16">
         <div className="mb-20 sm:mb-28">
           <FadeIn>

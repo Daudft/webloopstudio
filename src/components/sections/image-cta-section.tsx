@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export function ImageCTASection() {
   return (
-    <section className="relative min-h-[720px] overflow-hidden bg-navy text-ice sm:min-h-[820px]" aria-labelledby="image-cta-heading">
+    <section className="relative min-h-[720px] overflow-hidden bg-ink text-ice sm:min-h-[820px]" aria-labelledby="image-cta-heading">
       <Image
         src="/images/founder.jpg"
         alt="Webloop Studio founder working on a digital product"

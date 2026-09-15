@@ -12,7 +12,7 @@ export function LandingFAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="bg-navy py-24 text-ice sm:py-36" id="faqs">
+    <section className="bg-ink py-24 text-ice sm:py-36" id="faqs">
       <div className="mx-auto grid max-w-[1500px] gap-16 px-5 sm:px-10 lg:grid-cols-[minmax(220px,0.75fr)_minmax(0,1.75fr)] lg:gap-24 lg:px-16">
         <div className="flex flex-col justify-between gap-12 lg:min-h-[660px]">
           <FadeIn>
