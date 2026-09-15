@@ -41,7 +41,9 @@ const OVERLAP_WORDS = 6;
 export function ScrollRevealText({ paragraphs, className, dimOpacity = 0.2 }: ScrollRevealTextProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end 0.5'] });
+  // Finishes when the block's bottom reaches the bottom of the viewport, so it is
+  // complete before the surrounding block pins (see StickyUntilEnd).
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.9', 'end 1'] });
   const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.6, restDelta: 0.0005 });
 
   if (reduceMotion) {

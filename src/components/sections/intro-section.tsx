@@ -1,11 +1,13 @@
 import Image from 'next/image';
 import { ScrollRevealText } from '@/components/animations/scroll-reveal-text';
 import { GapReveal } from '@/components/sections/gap-reveal';
+import { StickyUntilEnd } from '@/components/animations/sticky-until-end';
 
 export function IntroSection() {
   return (
-    <section className="intro-section overflow-hidden bg-ink bg-grain text-white">
-      <div className="mx-auto grid min-h-screen w-full grid-cols-1 gap-8 border-b border-white/15 px-5 pb-12 pt-28 sm:grid-cols-[340px_minmax(0,1fr)] sm:gap-10 sm:px-12 sm:pt-32 lg:grid-cols-[500px_minmax(0,760px)]">
+    <section className="intro-section bg-ink bg-grain text-white" style={{ overflowX: 'clip' }}>
+      {/* overflow-x: clip (not hidden) so the sticky blocks inside keep working. */}
+      <StickyUntilEnd className="mx-auto grid min-h-screen w-full grid-cols-1 gap-8 border-b border-white/15 px-5 pb-12 pt-28 sm:grid-cols-[340px_minmax(0,1fr)] sm:gap-10 sm:px-12 sm:pt-32 lg:grid-cols-[500px_minmax(0,760px)]">
         <div className="self-start">
           <p className="font-sora text-[14px] font-medium uppercase leading-[1.35] tracking-[0.28em] text-white/90">
             Who we work with
@@ -43,7 +45,7 @@ export function IntroSection() {
             </div>
           </div>
         </div>
-      </div>
+      </StickyUntilEnd>
 
       <GapReveal />
     </section>
