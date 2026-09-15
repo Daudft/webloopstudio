@@ -12,7 +12,7 @@ import {
 } from 'framer-motion';
 
 /** Total scroll length of the pinned panel. The extra beyond 100vh is the animation. */
-const PIN_HEIGHT = '250vh';
+const PIN_HEIGHT = '280vh';
 
 /**
  * "WE CLOSE THAT GAP" panel.
@@ -31,8 +31,8 @@ const PIN_HEIGHT = '250vh';
 export function GapReveal() {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  // 0 when the panel has fully covered the screen, 1 at the end of the pin.
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  // 0 when the panel has covered half the screen, 1 at the end of the pin.
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.5', 'end end'] });
   const smooth = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.6, restDelta: 0.0005 });
   const finished = useMotionValue(1);
   const progress = reduceMotion ? finished : smooth;
