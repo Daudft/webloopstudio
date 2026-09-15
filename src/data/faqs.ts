@@ -4,6 +4,11 @@ import { FAQItem } from '@/types';
 // stack and working style to match how you actually run projects.
 export const faqsData: FAQItem[] = [
   {
+    question: 'How much does a project cost?',
+    answer:
+      'Projects range from $1,000 to $10K, depending on scope. A focused website sits at the lower end, while larger web apps, mobile apps and AI workflows sit higher. You get a fixed quote before any work starts, so there are no surprises.',
+  },
+  {
     question: 'How quickly can we start, and how long does a project take?',
     answer:
       'We usually kick off within a week of agreeing the scope. Most websites and brand projects take two to four weeks. Larger products and AI workflows run four to eight weeks, with something to review every week.',

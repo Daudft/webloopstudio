@@ -9,6 +9,7 @@ import { getOrganizationSchema } from '@/lib/schema';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
+  style: ['normal', 'italic'],
   variable: '--font-montserrat',
   display: 'swap',
 });

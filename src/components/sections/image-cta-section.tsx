@@ -1,18 +1,19 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import { CtaArtBackground } from '@/components/sections/cta-art-background';
 
 export function ImageCTASection() {
   return (
     <section className="relative min-h-[720px] overflow-hidden bg-ink text-ice sm:min-h-[820px]" aria-labelledby="image-cta-heading">
-      <Image
-        src="/images/founder.jpg"
-        alt="Webloop Studio founder working on a digital product"
-        fill
-        sizes="100vw"
-        className="scale-[1.02] object-cover grayscale blur-[2px]"
-        priority={false}
+      <CtaArtBackground />
+      {/* Soft dark centre and edges keep the heading readable over the brightest ridges. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse 55% 45% at 50% 45%, rgba(19, 19, 21, 0.55), rgba(19, 19, 21, 0) 70%), linear-gradient(to bottom, rgba(19, 19, 21, 0.6), rgba(19, 19, 21, 0) 25%, rgba(19, 19, 21, 0) 80%, rgba(19, 19, 21, 0.7))',
+        }}
       />
-      <div className="absolute inset-0 bg-black/55" />
 
       <div className="relative z-10 flex min-h-[720px] flex-col items-center justify-center px-5 py-24 text-center sm:min-h-[820px] sm:px-8">
         <h2

@@ -41,10 +41,7 @@ export function ProcessTimeline() {
       <div className="container mx-auto max-w-[1500px] px-5 sm:px-10 lg:px-16">
         <div className="mb-20 sm:mb-28">
           <FadeIn>
-            <p className="font-montserrat text-[10px] font-semibold uppercase tracking-[0.25em] text-white/50">
-              How we work / 01—04
-            </p>
-            <h2 className="mt-5 whitespace-nowrap font-sora text-[clamp(4rem,15vw,12rem)] font-extrabold leading-[0.8] tracking-[-0.09em] text-ice">
+            <h2 className="whitespace-nowrap font-sora text-[clamp(4rem,15vw,12rem)] font-extrabold leading-[0.8] tracking-[-0.09em] text-ice">
               Process
             </h2>
           </FadeIn>

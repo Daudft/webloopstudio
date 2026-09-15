@@ -3,31 +3,29 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { faqsData } from '@/data/faqs';
 import { FadeIn } from '@/components/animations/fade-in';
+import { cn } from '@/lib/utils';
 
-const landingQuestions = faqsData.slice(0, 5);
+const EASE = [0.65, 0, 0.35, 1] as const;
 
 export function LandingFAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <section className="bg-ink bg-grain py-24 text-ice sm:py-36" id="faqs">
-      <div className="mx-auto grid max-w-[1500px] gap-16 px-5 sm:px-10 lg:grid-cols-[minmax(220px,0.75fr)_minmax(0,1.75fr)] lg:gap-24 lg:px-16">
-        <div className="flex flex-col justify-between gap-12 lg:min-h-[660px]">
-          <FadeIn>
-            <p className="font-montserrat text-[10px] font-semibold uppercase tracking-[0.24em] text-sky">
-              FAQs
-            </p>
-          </FadeIn>
-
+      {/* Same container and side padding as the work and services sections, so the left edges line up. */}
+      <div className="mx-auto grid max-w-[1600px] gap-16 px-5 sm:px-6 lg:grid-cols-[minmax(220px,0.75fr)_minmax(0,1.75fr)] lg:gap-24">
+        <div className="flex flex-col justify-end gap-12 lg:min-h-[660px]">
           <FadeIn delay={0.1} className="max-w-[210px]">
-            <div className="relative aspect-[0.82] w-full overflow-hidden bg-[#16345f]">
+            <div className="relative aspect-[0.82] w-full overflow-hidden bg-[#16345f]" style={{ maxWidth: 160 }}>
               <Image
                 src="/images/founder.jpg"
                 alt="Daud Afzal, founder of Webloop Studio"
                 fill
-                sizes="210px"
+                sizes="160px"
                 className="object-cover object-[center_28%]"
               />
             </div>
@@ -36,11 +34,15 @@ export function LandingFAQSection() {
               <br />
               Talk with Daud.
             </h3>
+            {/* Same style as the navbar's "Start a project" button. */}
             <Link
               href="/contact"
-              className="mt-6 inline-flex items-center bg-ice px-3 py-2 font-montserrat text-[11px] font-semibold text-navy transition-opacity hover:opacity-80"
+              className="mt-6 inline-flex h-8 items-center gap-2.5 rounded-[3px] bg-ice pl-3 pr-[5px] font-sans text-[14px] font-semibold tracking-[-0.01em] text-navy transition-colors duration-300 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
               Book a call
+              <span className="flex h-[22px] w-[22px] items-center justify-center rounded-[2px] bg-navy text-ice">
+                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </span>
             </Link>
           </FadeIn>
         </div>
@@ -52,28 +54,75 @@ export function LandingFAQSection() {
             </h2>
           </FadeIn>
 
-          <div className="mt-16 border-t border-white/20">
-            {landingQuestions.map((faq, index) => {
+          <div className="mt-16 border-t border-white/10">
+            {faqsData.map((faq, index) => {
               const isOpen = openIndex === index;
+              const panelId = `faq-panel-${index}`;
 
               return (
-                <div key={faq.question} className="border-b border-white/20">
+                <div key={faq.question} className="border-b border-white/10">
                   <button
                     type="button"
                     onClick={() => setOpenIndex(isOpen ? null : index)}
                     aria-expanded={isOpen}
-                    className="flex w-full items-center justify-between gap-6 py-6 text-left font-montserrat text-[14px] font-semibold text-white transition-opacity hover:opacity-75 sm:py-7 sm:text-[16px]"
+                    aria-controls={panelId}
+                    className="group relative -mb-px flex w-full items-center justify-between gap-6 px-2 py-6 text-left font-montserrat text-[14px] font-semibold text-white focus-visible:outline-none sm:py-7 sm:text-[16px]"
                   >
-                    <span>{faq.question}</span>
-                    <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-white/50 text-[12px] font-normal leading-none text-white/70">
-                      {isOpen ? '−' : '+'}
+                    {/* Light panel that grows from the bottom edge on hover. */}
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 origin-bottom scale-y-0 transition-transform duration-500 group-hover:scale-y-100 group-focus-visible:scale-y-100"
+                      style={{ backgroundColor: '#e6e5e0', transitionTimingFunction: 'cubic-bezier(0.65, 0, 0.35, 1)' }}
+                    />
+                    <span
+                      className={cn(
+                        'relative transition-[color,transform] duration-500 group-hover:translate-x-2 group-hover:text-[#131315] group-focus-visible:translate-x-2 group-focus-visible:text-[#131315]',
+                        isOpen && 'translate-x-2'
+                      )}
+                      style={{ transitionTimingFunction: 'cubic-bezier(0.65, 0, 0.35, 1)' }}
+                    >
+                      {faq.question}
                     </span>
+                    {/* Small dot: a hollow ring that fills on hover and when open. */}
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        'relative mr-2 h-[6px] w-[6px] shrink-0 rounded-full border transition-[background-color,border-color,transform] duration-500 group-hover:scale-110 group-hover:border-[#131315] group-hover:bg-[#131315] group-focus-visible:border-[#131315] group-focus-visible:bg-[#131315]',
+                        isOpen ? 'border-white bg-white' : 'border-white/50 bg-transparent'
+                      )}
+                    />
                   </button>
-                  {isOpen && (
-                    <p className="max-w-2xl pb-6 pr-10 font-montserrat text-[13px] leading-[1.6] text-white/60 sm:pb-7">
-                      {faq.answer}
-                    </p>
-                  )}
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        id={panelId}
+                        key="panel"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{
+                          height: 'auto',
+                          opacity: 1,
+                          transition: { height: { duration: 0.5, ease: EASE }, opacity: { duration: 0.35, delay: 0.1 } },
+                        }}
+                        exit={{
+                          height: 0,
+                          opacity: 0,
+                          transition: { height: { duration: 0.45, ease: EASE }, opacity: { duration: 0.2 } },
+                        }}
+                        className="overflow-hidden"
+                      >
+                        <motion.p
+                          initial={{ y: -8 }}
+                          animate={{ y: 0 }}
+                          exit={{ y: -8 }}
+                          transition={{ duration: 0.5, ease: EASE }}
+                          className="max-w-2xl pb-6 pl-4 pr-10 font-montserrat text-[13px] leading-[1.6] text-white/60 sm:pb-7"
+                        >
+                          {faq.answer}
+                        </motion.p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             })}
