@@ -145,7 +145,7 @@ export function Navbar() {
         className="relative mx-auto flex h-16 items-center justify-between"
         style={{ paddingInline: 'calc((100% - 100vw) / 2 + 24px)' }}
       >
-        <div className="flex items-center gap-12">
+        <div className="flex items-center">
           <Link
             href="/"
             aria-label="Webloop Studio home"
@@ -154,7 +154,12 @@ export function Navbar() {
             <span aria-hidden="true" className="block h-[17px] w-[101px] bg-current" style={logoMaskStyle} />
           </Link>
 
-          <nav aria-label="Primary" className="hidden items-center gap-4 md:flex">
+          {/* Sits left of true centre, nudged toward the logo. */}
+          <nav
+            aria-label="Primary"
+            className="absolute top-1/2 hidden -translate-y-1/2 items-center gap-4 md:flex"
+            style={{ left: '28%' }}
+          >
             {desktopItems.map((item) => {
               const isActive = pathname === item.href;
               return (
