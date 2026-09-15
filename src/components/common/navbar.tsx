@@ -73,13 +73,11 @@ export function Navbar() {
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
   const [surface, setSurface] = useState<Surface>('dark');
-  const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const measure = useCallback(() => {
     const header = headerRef.current;
     if (!header) return;
-    setScrolled(window.scrollY > 8);
     setSurface(detectSurface(header));
   }, []);
 
@@ -125,7 +123,8 @@ export function Navbar() {
   }
 
   const onLight = surface === 'light';
-  const hasBackdrop = scrolled || isMobileMenuOpen;
+  // No background while scrolling; only behind the open mobile menu.
+  const hasBackdrop = isMobileMenuOpen;
 
   return (
     <header
@@ -136,49 +135,57 @@ export function Navbar() {
         hasBackdrop && (onLight ? 'bg-ice/70 backdrop-blur-md' : 'bg-ink/50 backdrop-blur-md')
       )}
     >
-      <div className="relative mx-auto flex h-16 items-center justify-between px-5 sm:px-8">
-        <Link
-          href="/"
-          aria-label="Webloop Studio home"
-          className="rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-4 focus-visible:ring-offset-transparent"
-        >
-          <span aria-hidden="true" className="block h-[17px] w-[101px] bg-current" style={logoMaskStyle} />
-        </Link>
+      {/*
+        Side padding lines up with the hero WEBLOOP wordmark, which is
+        calc(100vw - 48px) wide and centred (its PNG has no transparent edge).
+        100vw includes a classic scrollbar, so the (100% - 100vw) / 2 term
+        cancels it and the edges match with or without one.
+      */}
+      <div
+        className="relative mx-auto flex h-16 items-center justify-between"
+        style={{ paddingInline: 'calc((100% - 100vw) / 2 + 24px)' }}
+      >
+        <div className="flex items-center gap-12">
+          <Link
+            href="/"
+            aria-label="Webloop Studio home"
+            className="rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-4 focus-visible:ring-offset-transparent"
+          >
+            <span aria-hidden="true" className="block h-[17px] w-[101px] bg-current" style={logoMaskStyle} />
+          </Link>
 
-        <nav
-          aria-label="Primary"
-          className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 md:flex"
-        >
-          {desktopItems.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={isActive ? 'page' : undefined}
-                className={cn(
-                  'rounded-sm text-[16px] font-semibold tracking-[-0.02em] transition-opacity hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current',
-                  isActive && 'underline underline-offset-[6px]'
-                )}
-              >
-                {item.title}
-              </Link>
-            );
-          })}
-        </nav>
+          <nav aria-label="Primary" className="hidden items-center gap-4 md:flex">
+            {desktopItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={isActive ? 'page' : undefined}
+                  className={cn(
+                    'rounded-sm text-[16px] font-semibold tracking-[-0.02em] transition-opacity hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current',
+                    isActive && 'underline underline-offset-[6px]'
+                  )}
+                >
+                  {item.title}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
 
         <div className="flex items-center gap-2">
           <Link
             href="/contact"
             className={cn(
-              'hidden h-9 items-center gap-2.5 rounded-[3px] pl-3 pr-1.5 text-[14px] font-semibold tracking-[-0.01em] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 sm:inline-flex',
+              'hidden h-8 items-center gap-2.5 rounded-[3px] pl-3 pr-[5px] text-[14px] font-semibold tracking-[-0.01em] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 sm:inline-flex',
               onLight ? 'bg-navy text-ice hover:bg-navy/90' : 'bg-ice text-navy hover:bg-white'
             )}
           >
             Start a project
             <span
               className={cn(
-                'flex h-6 w-6 items-center justify-center rounded-[2px] transition-colors duration-300',
+                'flex h-[22px] w-[22px] items-center justify-center rounded-[2px] transition-colors duration-300',
                 onLight ? 'bg-ice text-navy' : 'bg-navy text-ice'
               )}
             >
