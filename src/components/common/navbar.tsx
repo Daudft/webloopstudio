@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { mainNavItems } from '@/config/navigation';
-import { Button } from '@/components/ui/button';
+import { buttonClasses } from '@/components/ui/button';
 import { Menu, X, ArrowRight, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -36,7 +36,7 @@ export function Navbar() {
   return (
     <header className="fixed left-0 right-0 top-[18px] z-[70]">
       <div className="mx-auto max-w-[600px] px-4 sm:px-0">
-        <div style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600 }} className="font-montserrat flex h-[42px] items-center justify-between rounded-[5px] bg-[#0b234e] px-[17px] text-[#eaf2ff]">
+        <div style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600 }} className="font-montserrat flex h-[42px] items-center justify-between rounded-[5px] bg-navy px-[17px] text-ice">
           {/* Logo */}
           <Link
             href="/"
@@ -62,7 +62,7 @@ export function Navbar() {
                     'text-[10px] font-semibold',
                     isActive
                       ? 'text-white bg-white/10 font-semibold'
-                      : 'text-[#eaf2ff]'
+                      : 'text-ice'
                   )}
                 >
                   {item.title}
@@ -74,9 +74,9 @@ export function Navbar() {
           {/* CTA & Mobile Toggle */}
           <div className="flex items-center gap-3">
             <Link href="/contact" className="hidden sm:inline-flex">
-              <span className="font-montserrat inline-flex h-[27px] items-center gap-2 rounded-[3px] bg-[#eaf2ff] px-[7px] pl-[11px] text-[10px] font-semibold text-[#0b234e]">
+              <span className="font-montserrat inline-flex h-[27px] items-center gap-2 rounded-[3px] bg-ice px-[7px] pl-[11px] text-[10px] font-semibold text-navy">
                 Start A Project
-                <span className="font-montserrat flex h-[19px] w-[19px] items-center justify-center rounded-[2px] bg-[#0b234e] text-[#eaf2ff]">
+                <span className="font-montserrat flex h-[19px] w-[19px] items-center justify-center rounded-[2px] bg-navy text-ice">
                   <ChevronRight className="h-3 w-3" />
                 </span>
               </span>
@@ -113,11 +113,9 @@ export function Navbar() {
               ))}
             </nav>
             <div className="pt-2 border-t border-white/10">
-              <Link href="/contact" className="w-full">
-                <Button variant="glow" className="w-full justify-center">
-                  Start a Project
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
+              <Link href="/contact" className={buttonClasses({ variant: 'ice', className: 'w-full' })}>
+                Start a Project
+                <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>

@@ -18,7 +18,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="hero-section relative min-h-screen overflow-hidden bg-[#eaf2ff] text-[#0b234e]">
+    <section className="hero-section relative min-h-screen overflow-hidden bg-ice text-navy">
       <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col items-center px-5 pt-[163px] text-center sm:px-8">
         <Globe strokeWidth={2.75} className="mb-3 h-11 w-11" aria-hidden="true" />
         <h1 className="font-sora max-w-[390px] text-[36px] font-bold leading-[1.08] tracking-[-0.04em] sm:text-[38px]">

@@ -18,11 +18,11 @@ const serviceImages = [
 
 export function ServicesGrid() {
   return (
-    <section className="bg-[#0A1F44] py-28 text-white sm:py-36" id="services">
+    <section className="bg-navy py-28 text-white sm:py-36" id="services">
       <div className="mx-auto max-w-[1500px] px-7 sm:px-12 lg:px-16">
         <div className="mb-14 flex flex-col justify-between gap-6 pb-2 sm:mb-20 sm:flex-row sm:items-end">
           <FadeIn>
-            <p className="font-montserrat text-[10px] font-semibold uppercase leading-[1.35] tracking-[0.24em] text-[#a9c8ea]">
+            <p className="font-montserrat text-[10px] font-semibold uppercase leading-[1.35] tracking-[0.24em] text-sky">
               01 — 06 / Capabilities
             </p>
             <p className="mt-3 font-sora text-[13px] font-medium uppercase leading-[1.35] tracking-[0.28em] text-white/90">
@@ -52,7 +52,7 @@ export function ServicesGrid() {
                 aria-hidden="true"
               />
               <span className="relative z-30 flex min-w-0 items-baseline gap-4 sm:gap-7">
-                <span className="font-montserrat text-[10px] font-semibold text-[#a9c8ea]/60 transition-colors duration-300 group-hover:text-[#c8e0f8]">{String(index + 1).padStart(2, '0')}</span>
+                <span className="font-montserrat text-[10px] font-semibold text-sky/60 transition-colors duration-300 group-hover:text-[#c8e0f8]">{String(index + 1).padStart(2, '0')}</span>
                 <span className="font-sora text-[30px] font-bold leading-[1.05] tracking-[-0.06em] text-white/50 transition-colors duration-300 group-hover:text-[#eaf3fc] sm:text-[48px] lg:text-[68px]">
                   {service.title}
                 </span>

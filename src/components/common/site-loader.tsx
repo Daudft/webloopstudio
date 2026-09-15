@@ -16,7 +16,7 @@ export function SiteLoader() {
   }
 
   return (
-    <div className="loader-screen fixed inset-0 z-[100] flex min-h-screen items-center justify-center overflow-hidden bg-[#0A1F44] text-white">
+    <div className="loader-screen fixed inset-0 z-[100] flex min-h-screen items-center justify-center overflow-hidden bg-navy text-white">
       <div className="loader-content w-[min(420px,calc(100vw-48px))]">
         <div className="loader-reveal overflow-hidden">
           <img src="/Logo.png" alt="WEBLOOP" className="mx-auto block h-auto w-[min(260px,80vw)]" />

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export function ImageCTASection() {
   return (
-    <section className="relative min-h-[720px] overflow-hidden bg-[#0A1F44] text-[#eaf2ff] sm:min-h-[820px]" aria-labelledby="image-cta-heading">
+    <section className="relative min-h-[720px] overflow-hidden bg-navy text-ice sm:min-h-[820px]" aria-labelledby="image-cta-heading">
       <Image
         src="/IMG_20230423_200749.jpg.jpeg"
         alt="Webloop Studio founder working on a digital product"
@@ -28,10 +28,10 @@ export function ImageCTASection() {
 
         <Link
           href="/contact"
-          className="group mt-16 inline-flex items-center gap-4 bg-[#eaf2ff] px-4 py-3 font-sora text-[20px] font-bold leading-none tracking-[-0.045em] text-[#0A1F44] transition-colors hover:bg-white sm:mt-20 sm:px-5 sm:py-4 sm:text-[27px]"
+          className="group mt-16 inline-flex items-center gap-4 bg-ice px-4 py-3 font-sora text-[20px] font-bold leading-none tracking-[-0.045em] text-navy transition-colors hover:bg-white sm:mt-20 sm:px-5 sm:py-4 sm:text-[27px]"
         >
           Tell us your story
-          <span className="flex h-8 w-8 items-center justify-center bg-[#0A1F44] text-[22px] leading-none text-[#eaf2ff] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 sm:h-10 sm:w-10 sm:text-[28px]">
+          <span className="flex h-8 w-8 items-center justify-center bg-navy text-[22px] leading-none text-ice transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 sm:h-10 sm:w-10 sm:text-[28px]">
             ↗
           </span>
         </Link>

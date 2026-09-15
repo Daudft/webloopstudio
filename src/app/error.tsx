@@ -26,7 +26,7 @@ export default function Error({
           An unexpected error occurred while rendering this view. Our engineering team has been notified.
         </p>
         <Button
-          variant="glow"
+          variant="navy"
           onClick={() => reset()}
           className="rounded-full gap-2"
         >

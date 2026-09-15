@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export function IntroSection() {
   return (
-    <section className="intro-section overflow-hidden bg-[#0A1F44] text-white">
+    <section className="intro-section overflow-hidden bg-navy text-white">
       <div className="mx-auto grid min-h-screen w-full grid-cols-1 gap-8 border-b border-white/15 px-5 pb-12 pt-28 sm:grid-cols-[340px_minmax(0,1fr)] sm:gap-10 sm:px-12 sm:pt-32 lg:grid-cols-[500px_minmax(0,760px)]">
         <div className="self-start">
           <p className="font-sora text-[14px] font-medium uppercase leading-[1.35] tracking-[0.28em] text-white/90">

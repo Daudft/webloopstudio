@@ -1,24 +1,11 @@
 import type { Metadata, Viewport } from 'next';
-import { Commissioner, Inter, Montserrat, Plus_Jakarta_Sans, Sora } from 'next/font/google';
+import { Commissioner, Montserrat, Sora } from 'next/font/google';
 import '@/styles/globals.css';
 import { siteConfig } from '@/config/site';
-import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Navbar } from '@/components/common/navbar';
 import { Footer } from '@/components/common/footer';
 import { SiteLoader } from '@/components/common/site-loader';
 import { getOrganizationSchema } from '@/lib/schema';
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-});
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-heading',
-  display: 'swap',
-});
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -91,25 +78,18 @@ export default function RootLayout({
   const orgJsonLd = getOrganizationSchema();
 
   return (
-    <html lang="en" className={`dark ${inter.variable} ${plusJakarta.variable} ${montserrat.variable} ${sora.variable} ${commissioner.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${montserrat.variable} ${sora.variable} ${commissioner.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
       </head>
-      <body className="min-h-screen bg-background text-foreground flex flex-col font-sans" suppressHydrationWarning>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <SiteLoader />
-          <Navbar />
-          <main id="top" className="flex-1">{children}</main>
-          <Footer />
-        </ThemeProvider>
+      <body className="flex min-h-screen flex-col font-sans">
+        <SiteLoader />
+        <Navbar />
+        <main id="top" className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );

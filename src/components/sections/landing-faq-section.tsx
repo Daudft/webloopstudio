@@ -12,11 +12,11 @@ export function LandingFAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="bg-[#0A1F44] py-24 text-[#eaf2ff] sm:py-36" id="faqs">
+    <section className="bg-navy py-24 text-ice sm:py-36" id="faqs">
       <div className="mx-auto grid max-w-[1500px] gap-16 px-5 sm:px-10 lg:grid-cols-[minmax(220px,0.75fr)_minmax(0,1.75fr)] lg:gap-24 lg:px-16">
         <div className="flex flex-col justify-between gap-12 lg:min-h-[660px]">
           <FadeIn>
-            <p className="font-montserrat text-[10px] font-semibold uppercase tracking-[0.24em] text-[#a9c8ea]">
+            <p className="font-montserrat text-[10px] font-semibold uppercase tracking-[0.24em] text-sky">
               FAQs
             </p>
           </FadeIn>
@@ -38,7 +38,7 @@ export function LandingFAQSection() {
             </h3>
             <Link
               href="/contact"
-              className="mt-6 inline-flex items-center bg-[#eaf2ff] px-3 py-2 font-montserrat text-[11px] font-semibold text-[#0A1F44] transition-opacity hover:opacity-80"
+              className="mt-6 inline-flex items-center bg-ice px-3 py-2 font-montserrat text-[11px] font-semibold text-navy transition-opacity hover:opacity-80"
             >
               Book a call
             </Link>
@@ -47,7 +47,7 @@ export function LandingFAQSection() {
 
         <div>
           <FadeIn>
-            <h2 className="max-w-[850px] font-sora text-[clamp(2.8rem,6vw,5.8rem)] font-bold leading-[0.94] tracking-[-0.075em] text-[#eaf2ff]">
+            <h2 className="max-w-[850px] font-sora text-[clamp(2.8rem,6vw,5.8rem)] font-bold leading-[0.94] tracking-[-0.075em] text-ice">
               Here&apos;s what you need to consider before partnering with us.
             </h2>
           </FadeIn>

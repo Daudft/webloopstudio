@@ -58,7 +58,7 @@ export function ContactForm() {
             Thank you for reaching out. A senior partner from Webloop Studio will review your project requirements and get back to you within 24 hours.
           </p>
           <Button
-            variant="outline"
+            variant="ghost"
             onClick={() => setIsSuccess(false)}
             className="rounded-full mt-4"
           >
@@ -166,7 +166,7 @@ export function ContactForm() {
 
           <Button
             type="submit"
-            variant="glow"
+            variant="navy"
             size="lg"
             className="w-full rounded-xl gap-2 font-semibold text-base"
             isLoading={isSubmitting}

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { buttonClasses } from '@/components/ui/button';
 import { ArrowLeft, Compass } from 'lucide-react';
 
 export default function NotFound() {
@@ -15,11 +15,9 @@ export default function NotFound() {
           The page or digital case study you are looking for might have been relocated, redesigned, or does not exist.
         </p>
         <div className="pt-4">
-          <Link href="/">
-            <Button variant="glow" className="rounded-full gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Return to Studio Homepage
-            </Button>
+          <Link href="/" className={buttonClasses()}>
+            <ArrowLeft className="h-4 w-4" />
+            Return to Studio Homepage
           </Link>
         </div>
       </div>
