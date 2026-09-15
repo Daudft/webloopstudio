@@ -49,7 +49,6 @@ export function IntroSection() {
               alt=""
               fill
               sizes="(min-width: 1024px) 160px, (min-width: 640px) 124px, 82px"
-              quality={100}
               className="object-cover object-[center_28%]"
             />
           </div>
