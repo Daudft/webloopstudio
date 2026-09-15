@@ -1,5 +1,9 @@
 'use client';
 
+/**
+ * Last-resort error boundary. It replaces the root layout, so global CSS may
+ * not be loaded. Styles are inline on purpose.
+ */
 export default function GlobalError({
   reset,
 }: {
@@ -8,17 +12,45 @@ export default function GlobalError({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-4">
-        <div className="text-center space-y-4 max-w-md">
-          <h1 className="text-3xl font-black text-white">Critical Application Error</h1>
-          <p className="text-sm text-slate-400">
-            A fatal error occurred. Please refresh the page or try again.
+      <body
+        style={{
+          margin: 0,
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '24px',
+          background: '#eaf2ff',
+          color: '#0A1F44',
+          fontFamily: 'system-ui, -apple-system, Segoe UI, sans-serif',
+        }}
+      >
+        <div style={{ maxWidth: 560 }}>
+          <p style={{ margin: 0, fontSize: 10, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', opacity: 0.6 }}>
+            Something broke
+          </p>
+          <h1 style={{ margin: '20px 0 0', fontSize: 'clamp(2rem, 7vw, 4.5rem)', lineHeight: 0.95, letterSpacing: '-0.05em', fontWeight: 800 }}>
+            The site hit an error.
+          </h1>
+          <p style={{ margin: '28px 0 0', fontSize: 15, lineHeight: 1.55, color: '#52627a' }}>
+            Reload the page to try again. If it keeps happening, please email us.
           </p>
           <button
+            type="button"
             onClick={() => reset()}
-            className="px-6 py-2.5 rounded-full bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold transition-all"
+            style={{
+              marginTop: 36,
+              height: 56,
+              padding: '0 28px',
+              border: 0,
+              borderRadius: 3,
+              background: '#0A1F44',
+              color: '#eaf2ff',
+              fontSize: 15,
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
           >
-            Reload Application
+            Reload
           </button>
         </div>
       </body>

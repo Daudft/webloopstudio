@@ -3,106 +3,83 @@ import { constructMetadata } from '@/lib/metadata';
 import { ContactForm } from '@/components/sections/contact-form';
 import { siteConfig } from '@/config/site';
 import { FadeIn } from '@/components/animations/fade-in';
-import { Mail, MapPin, Phone, Clock, Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = constructMetadata({
-  title: 'Contact Webloop Studio',
+  title: 'Contact',
   description:
-    'Start a project inquiry with Webloop Studio. Reach out to discuss timelines, pricing, or book an architectural discovery session.',
+    'Tell Webloop Studio about your business and what you want to build. We read every message and reply personally.',
 });
 
 export default function ContactPage() {
+  const socials = [
+    { title: 'LinkedIn', href: siteConfig.links.linkedin },
+    { title: 'Instagram', href: siteConfig.links.instagram },
+  ].filter((social) => Boolean(social.href));
+
   return (
-    <div className="pt-32 pb-24 relative overflow-hidden">
-      {/* Background Glows */}
-      <div className="glow-ambient w-96 h-96 bg-purple-600/15 top-20 right-10" />
-      <div className="glow-ambient w-96 h-96 bg-cyan-600/10 bottom-10 left-10" />
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
-        <div className="max-w-3xl mx-auto text-center space-y-6 mb-16">
-          <FadeIn>
-            <span className="text-xs font-bold uppercase tracking-widest text-purple-400">
-              Start a Conversation
-            </span>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight">
-              Let’s build something extraordinary together.
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Fill in your project details below and a senior engineering partner will respond within 24 business hours.
-            </p>
-          </FadeIn>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-6xl mx-auto">
-          {/* Left Column: Direct Info */}
-          <div className="lg:col-span-5 space-y-8">
-            <FadeIn delay={0.3}>
-              <div className="glass-panel p-8 rounded-3xl border border-white/10 space-y-6">
-                <h3 className="text-xl font-bold text-white">Direct Contact</h3>
-
-                <div className="space-y-4">
-                  <div className="flex items-start gap-4">
-                    <div className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                      <Mail className="h-5 w-5 text-purple-400" />
-                    </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground font-semibold uppercase">Email Us</div>
-                      <a
-                        href={`mailto:${siteConfig.contact.email}`}
-                        className="text-white hover:text-purple-300 font-medium text-sm transition-colors"
-                      >
-                        {siteConfig.contact.email}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                      <Clock className="h-5 w-5 text-cyan-400" />
-                    </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground font-semibold uppercase">Response Time</div>
-                      <div className="text-white text-sm font-medium">Under 24 Business Hours</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                      <MapPin className="h-5 w-5 text-pink-400" />
-                    </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground font-semibold uppercase">Studio Location</div>
-                      <div className="text-white text-sm font-medium">{siteConfig.contact.city}</div>
-                      <div className="text-xs text-muted-foreground">Operating Worldwide / Remote</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <div className="bg-ice pb-24 pt-[140px] text-navy sm:pb-32 sm:pt-[170px]">
+      <div className="mx-auto max-w-[1500px] px-5 sm:px-10 lg:px-16">
+        <div className="grid gap-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-24">
+          <div>
+            <FadeIn>
+              <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.24em] text-navy/60">
+                Contact
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.1}>
+              <h1 className="mt-5 max-w-[560px] font-display text-[clamp(2.4rem,5.5vw,4.6rem)] font-bold leading-[0.96] tracking-[-0.06em]">
+                Tell us where your business is headed.
+              </h1>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <p className="mt-6 max-w-[440px] font-sans text-[15px] font-medium leading-[1.55] text-steel">
+                Share a little about what you&apos;re building and what&apos;s getting in the way. No pitch decks required.
+                We read every message and reply personally.
+              </p>
             </FadeIn>
 
-            <FadeIn delay={0.4}>
-              <div className="glass-panel p-8 rounded-3xl border border-purple-500/20 bg-purple-950/20 space-y-4">
-                <div className="flex items-center gap-2 text-purple-400 font-bold text-sm">
-                  <Sparkles className="h-4 w-4" />
-                  <span>Our Promise</span>
+            <FadeIn delay={0.3}>
+              <dl className="mt-14 grid gap-8 border-t border-navy/20 pt-8 font-sans sm:grid-cols-2 lg:grid-cols-1">
+                <div>
+                  <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-navy/60">Email</dt>
+                  <dd className="mt-2">
+                    <a
+                      href={`mailto:${siteConfig.contact.email}`}
+                      className="text-[15px] font-semibold underline decoration-navy/30 underline-offset-4 transition-colors hover:decoration-navy"
+                    >
+                      {siteConfig.contact.email}
+                    </a>
+                  </dd>
                 </div>
-                <p className="text-xs text-zinc-300 leading-relaxed">
-                  We treat every inquiry under strict NDA standards. We never outsource your project to junior third parties—every line of code is produced by our vetted senior in-house engineers.
-                </p>
-              </div>
+                {socials.length > 0 && (
+                  <div>
+                    <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-navy/60">Elsewhere</dt>
+                    <dd className="mt-2 flex flex-wrap gap-x-5 gap-y-2">
+                      {socials.map((social) => (
+                        <a
+                          key={social.title}
+                          href={social.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-[15px] font-semibold transition-opacity hover:opacity-60"
+                        >
+                          {social.title} <span aria-hidden="true">↗</span>
+                        </a>
+                      ))}
+                    </dd>
+                  </div>
+                )}
+                <div>
+                  <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-navy/60">Based</dt>
+                  <dd className="mt-2 text-[15px] font-medium text-steel">Working worldwide, remote-first.</dd>
+                </div>
+              </dl>
             </FadeIn>
           </div>
 
-          {/* Right Column: Interactive Form */}
-          <div className="lg:col-span-7">
-            <FadeIn delay={0.3}>
-              <ContactForm />
-            </FadeIn>
-          </div>
+          <FadeIn delay={0.2} className="relative">
+            <ContactForm />
+          </FadeIn>
         </div>
       </div>
     </div>

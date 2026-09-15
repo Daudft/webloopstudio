@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { AlertTriangle, RotateCcw } from 'lucide-react';
+import Link from 'next/link';
+import { RotateCcw } from 'lucide-react';
+import { Button, buttonClasses } from '@/components/ui/button';
 
 export default function Error({
   error,
@@ -12,27 +13,28 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('[Application Error Caught]:', error);
+    console.error('[app error]', error);
   }, [error]);
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center pt-24 pb-16 px-4">
-      <div className="text-center space-y-6 max-w-md mx-auto glass-panel p-8 rounded-3xl border border-red-500/30">
-        <div className="h-16 w-16 rounded-2xl bg-red-500/20 border border-red-500/40 flex items-center justify-center mx-auto text-red-400">
-          <AlertTriangle className="h-8 w-8" />
-        </div>
-        <h2 className="text-2xl font-bold text-white">Something went wrong</h2>
-        <p className="text-sm text-muted-foreground">
-          An unexpected error occurred while rendering this view. Our engineering team has been notified.
+    <div className="flex min-h-screen items-center bg-ice px-5 pb-24 pt-[140px] text-navy sm:px-10 lg:px-16">
+      <div className="mx-auto w-full max-w-[1500px]">
+        <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.24em] text-navy/60">Something broke</p>
+        <h1 className="mt-5 max-w-[900px] font-display text-[clamp(2.4rem,7vw,6rem)] font-extrabold leading-[0.9] tracking-[-0.07em]">
+          This page hit an error.
+        </h1>
+        <p className="mt-8 max-w-[440px] font-sans text-[15px] font-medium leading-[1.55] text-steel">
+          Try again, or head back to the homepage. If it keeps happening, email us and mention what you were doing.
         </p>
-        <Button
-          variant="navy"
-          onClick={() => reset()}
-          className="rounded-full gap-2"
-        >
-          <RotateCcw className="h-4 w-4" />
-          Try Again
-        </Button>
+        <div className="mt-10 flex flex-wrap gap-4">
+          <Button size="lg" onClick={() => reset()}>
+            <RotateCcw className="h-4 w-4" aria-hidden="true" />
+            Try again
+          </Button>
+          <Link href="/" className={buttonClasses({ variant: 'ghost', size: 'lg', className: 'px-0' })}>
+            Back to home
+          </Link>
+        </div>
       </div>
     </div>
   );

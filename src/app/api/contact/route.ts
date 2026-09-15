@@ -1,48 +1,64 @@
 import { NextResponse } from 'next/server';
 import { contactFormSchema } from '@/lib/validations/contact';
+import { sendLead } from '@/lib/leads';
+import { checkRateLimit } from '@/lib/rate-limit';
+
+function clientIp(request: Request): string {
+  const forwarded = request.headers.get('x-forwarded-for');
+  if (forwarded) return forwarded.split(',')[0].trim();
+  return request.headers.get('x-real-ip') ?? 'unknown';
+}
 
 export async function POST(request: Request) {
-  try {
-    const body = await request.json();
+  if (!request.headers.get('content-type')?.includes('application/json')) {
+    return NextResponse.json({ error: 'Expected application/json' }, { status: 415 });
+  }
 
-    // Validate payload against Zod schema
-    const validatedData = contactFormSchema.safeParse(body);
-
-    if (!validatedData.success) {
-      return NextResponse.json(
-        {
-          error: 'Validation failed',
-          details: validatedData.error.flatten().fieldErrors,
-        },
-        { status: 400 }
-      );
-    }
-
-    const { name, email, company, service, budget, message } = validatedData.data;
-
-    // Log the lead inquiry (in production, integrate with Resend, SendGrid, Slack Webhook, or CRM)
-    console.log('[LEAD INQUIRY RECEIVED]:', {
-      timestamp: new Date().toISOString(),
-      name,
-      email,
-      company: company || 'N/A',
-      service,
-      budget,
-      message,
-    });
-
+  const ip = clientIp(request);
+  const limit = checkRateLimit(ip);
+  if (!limit.allowed) {
     return NextResponse.json(
-      {
-        success: true,
-        message: 'Inquiry received successfully. Our team will contact you shortly.',
-      },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error('Contact API Error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error processing inquiry' },
-      { status: 500 }
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } }
     );
   }
+
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
+
+  const parsed = contactFormSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: 'Validation failed', details: parsed.error.flatten().fieldErrors },
+      { status: 400 }
+    );
+  }
+
+  const { website, ...lead } = parsed.data;
+
+  // Honeypot filled: almost certainly a bot. Pretend success so it moves on.
+  if (website) {
+    return NextResponse.json({ success: true });
+  }
+
+  try {
+    await sendLead({
+      ...lead,
+      ip,
+      userAgent: request.headers.get('user-agent') ?? undefined,
+      receivedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('[contact] lead delivery failed:', error);
+    return NextResponse.json(
+      { error: 'We could not deliver your message right now. Please email us directly.' },
+      { status: 502 }
+    );
+  }
+
+  return NextResponse.json({ success: true });
 }

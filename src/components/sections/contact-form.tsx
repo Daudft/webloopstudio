@@ -1,17 +1,40 @@
 'use client';
 
-import React, { useState } from 'react';
+import { Suspense, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { contactFormSchema, ContactFormData } from '@/lib/validations/contact';
+import { AlertCircle, ArrowUpRight, CheckCircle } from 'lucide-react';
+import {
+  budgetOptions,
+  contactFormSchema,
+  serviceOptions,
+  type ContactFormData,
+} from '@/lib/validations/contact';
 import { Button } from '@/components/ui/button';
-import { Input, Textarea } from '@/components/ui/input';
-import { FadeIn } from '@/components/animations/fade-in';
-import { CheckCircle, Send, AlertCircle } from 'lucide-react';
+import { Field, Input, Select, Textarea, fieldErrorId } from '@/components/ui/input';
+import { siteConfig } from '@/config/site';
+
+const isServiceOption = (value: string | null): value is string =>
+  serviceOptions.some((option) => option.value === value);
 
 export function ContactForm() {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  return (
+    <Suspense fallback={<ContactFormFields />}>
+      <ContactFormWithParams />
+    </Suspense>
+  );
+}
+
+function ContactFormWithParams() {
+  const params = useSearchParams();
+  const requested = params.get('service');
+  return <ContactFormFields defaultService={isServiceOption(requested) ? requested : undefined} />;
+}
+
+function ContactFormFields({ defaultService }: { defaultService?: string }) {
+  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
     register,
@@ -21,13 +44,14 @@ export function ContactForm() {
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      service: 'Full-Stack Web Development',
-      budget: '$5,000 - $15,000',
+      service: defaultService ?? 'not-sure',
+      budget: 'not-sure',
+      website: '',
     },
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    setErrorMessage(null);
+    setSubmitError(null);
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -36,146 +60,139 @@ export function ContactForm() {
       });
 
       if (!res.ok) {
-        throw new Error('Failed to submit message. Please try again.');
+        const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(payload?.error ?? 'Something went wrong. Please try again.');
       }
 
-      setIsSuccess(true);
+      setSubmitted(true);
       reset();
-    } catch (err: any) {
-      setErrorMessage(err.message || 'Something went wrong. Please try again.');
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
     }
   };
 
+  if (submitted) {
+    return (
+      <div className="border-t border-navy/20 pt-10" role="status">
+        <CheckCircle className="h-8 w-8 text-navy" aria-hidden="true" />
+        <h2 className="mt-6 font-display text-[28px] font-bold leading-[1.05] tracking-[-0.05em] sm:text-[36px]">
+          Thanks, we got it.
+        </h2>
+        <p className="mt-4 max-w-md font-sans text-[15px] leading-[1.55] text-steel">
+          We read every message personally and will reply by email. If it&apos;s urgent, write to{' '}
+          <a href={`mailto:${siteConfig.contact.email}`} className="text-navy underline underline-offset-4">
+            {siteConfig.contact.email}
+          </a>
+          .
+        </p>
+        <Button variant="ghost" size="sm" className="mt-8 px-0" onClick={() => setSubmitted(false)}>
+          Send another message
+        </Button>
+      </div>
+    );
+  }
+
   return (
-    <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-white/10 relative overflow-hidden">
-      {isSuccess ? (
-        <div className="text-center py-12 space-y-4 animate-in fade-in zoom-in duration-300">
-          <div className="h-16 w-16 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 rounded-full flex items-center justify-center mx-auto">
-            <CheckCircle className="h-8 w-8" />
-          </div>
-          <h3 className="text-2xl font-bold text-white">Project Inquiry Received!</h3>
-          <p className="text-muted-foreground text-sm max-w-md mx-auto">
-            Thank you for reaching out. A senior partner from Webloop Studio will review your project requirements and get back to you within 24 hours.
-          </p>
-          <Button
-            variant="ghost"
-            onClick={() => setIsSuccess(false)}
-            className="rounded-full mt-4"
-          >
-            Send Another Inquiry
-          </Button>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8" noValidate>
+      {submitError && (
+        <div
+          role="alert"
+          className="flex items-start gap-3 border border-red-700/40 bg-red-50 px-4 py-3 font-sans text-[13px] text-red-800"
+        >
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+          <span>{submitError}</span>
         </div>
-      ) : (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {errorMessage && (
-            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm flex items-center gap-2">
-              <AlertCircle className="h-4 w-4 shrink-0" />
-              <span>{errorMessage}</span>
-            </div>
-          )}
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Your Name *
-              </label>
-              <Input
-                placeholder="Sarah Connor"
-                {...register('name')}
-                aria-invalid={!!errors.name}
-              />
-              {errors.name && (
-                <p className="text-xs text-red-400">{errors.name.message}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Business Email *
-              </label>
-              <Input
-                type="email"
-                placeholder="sarah@company.com"
-                {...register('email')}
-                aria-invalid={!!errors.email}
-              />
-              {errors.email && (
-                <p className="text-xs text-red-400">{errors.email.message}</p>
-              )}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Company / Organization
-              </label>
-              <Input
-                placeholder="Acme Innovations"
-                {...register('company')}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Service Needed *
-              </label>
-              <select
-                className="flex h-11 w-full rounded-xl border border-white/10 bg-secondary/50 px-4 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
-                {...register('service')}
-              >
-                <option value="Full-Stack Web Development">Full-Stack Web Development</option>
-                <option value="UI/UX & Product Design">UI/UX & Product Design</option>
-                <option value="AI & Automation Systems">AI & Automation Systems</option>
-                <option value="Cross-Platform Mobile Apps">Cross-Platform Mobile Apps</option>
-                <option value="Cloud Infrastructure & DevOps">Cloud Infrastructure & DevOps</option>
-                <option value="Digital Branding">Digital Branding & Identity</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Estimated Budget *
-            </label>
-            <select
-              className="flex h-11 w-full rounded-xl border border-white/10 bg-secondary/50 px-4 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
-              {...register('budget')}
-            >
-              <option value="<$5,000">&lt; $5,000 (Sprint MVP)</option>
-              <option value="$5,000 - $15,000">$5,000 - $15,000 (Standard Project)</option>
-              <option value="$15,000 - $35,000">$15,000 - $35,000 (Scale & Enterprise)</option>
-              <option value="$35,000+">$35,000+ (Comprehensive Studio Retainer)</option>
-            </select>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Project Scope & Goals *
-            </label>
-            <Textarea
-              placeholder="Tell us about what you want to build, target launch dates, existing architecture, and key deliverables..."
-              rows={4}
-              {...register('message')}
-              aria-invalid={!!errors.message}
-            />
-            {errors.message && (
-              <p className="text-xs text-red-400">{errors.message.message}</p>
-            )}
-          </div>
-
-          <Button
-            type="submit"
-            variant="navy"
-            size="lg"
-            className="w-full rounded-xl gap-2 font-semibold text-base"
-            isLoading={isSubmitting}
-          >
-            <Send className="h-4 w-4" />
-            Submit Project Inquiry
-          </Button>
-        </form>
       )}
-    </div>
+
+      {/* Honeypot: invisible to people, tempting to bots. */}
+      <div className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input id="website" type="text" tabIndex={-1} autoComplete="off" {...register('website')} />
+      </div>
+
+      <div className="grid gap-8 sm:grid-cols-2">
+        <Field id="name" label="Your name" required error={errors.name?.message}>
+          <Input
+            id="name"
+            autoComplete="name"
+            placeholder="Jane Doe"
+            aria-invalid={errors.name ? true : undefined}
+            aria-describedby={errors.name ? fieldErrorId('name') : undefined}
+            {...register('name')}
+          />
+        </Field>
+
+        <Field id="email" label="Email" required error={errors.email?.message}>
+          <Input
+            id="email"
+            type="email"
+            autoComplete="email"
+            placeholder="jane@company.com"
+            aria-invalid={errors.email ? true : undefined}
+            aria-describedby={errors.email ? fieldErrorId('email') : undefined}
+            {...register('email')}
+          />
+        </Field>
+      </div>
+
+      <div className="grid gap-8 sm:grid-cols-2">
+        <Field id="company" label="Company" error={errors.company?.message}>
+          <Input
+            id="company"
+            autoComplete="organization"
+            placeholder="Acme Co."
+            aria-invalid={errors.company ? true : undefined}
+            aria-describedby={errors.company ? fieldErrorId('company') : undefined}
+            {...register('company')}
+          />
+        </Field>
+
+        <Field id="service" label="What do you need" required error={errors.service?.message}>
+          <Select
+            id="service"
+            aria-invalid={errors.service ? true : undefined}
+            aria-describedby={errors.service ? fieldErrorId('service') : undefined}
+            {...register('service')}
+          >
+            {serviceOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </Select>
+        </Field>
+      </div>
+
+      <Field id="budget" label="Budget" required error={errors.budget?.message}>
+        <Select
+          id="budget"
+          aria-invalid={errors.budget ? true : undefined}
+          aria-describedby={errors.budget ? fieldErrorId('budget') : undefined}
+          {...register('budget')}
+        >
+          {budgetOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </Select>
+      </Field>
+
+      <Field id="message" label="About the project" required error={errors.message?.message}>
+        <Textarea
+          id="message"
+          rows={5}
+          placeholder="What are you building, where is the business today, and what would a win look like?"
+          aria-invalid={errors.message ? true : undefined}
+          aria-describedby={errors.message ? fieldErrorId('message') : undefined}
+          {...register('message')}
+        />
+      </Field>
+
+      <Button type="submit" size="lg" className="w-full sm:w-auto" isLoading={isSubmitting}>
+        Send message
+        <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+      </Button>
+    </form>
   );
 }
