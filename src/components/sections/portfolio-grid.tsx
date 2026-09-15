@@ -25,7 +25,7 @@ export function PortfolioGrid() {
             <React.Fragment key={project.id}>
               <article
                 id={project.slug}
-                className="group grid gap-8 lg:grid-cols-[minmax(0,1.7fr)_minmax(280px,0.9fr)] lg:gap-10"
+                className="group grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(280px,0.9fr)] lg:gap-10"
               >
                 <div>
                   <div className="relative aspect-[1.4] overflow-hidden bg-[#d5deeb] sm:aspect-[1.55]">
@@ -34,7 +34,7 @@ export function PortfolioGrid() {
                       alt={project.title}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                      sizes="(max-width: 1024px) 100vw, 68vw"
+                      sizes="(max-width: 1024px) 100vw, 60vw"
                     />
                   </div>
                 </div>
