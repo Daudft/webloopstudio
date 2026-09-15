@@ -4,7 +4,6 @@ import '@/styles/globals.css';
 import { siteConfig } from '@/config/site';
 import { Navbar } from '@/components/common/navbar';
 import { Footer } from '@/components/common/footer';
-import { SiteLoader } from '@/components/common/site-loader';
 import { getOrganizationSchema } from '@/lib/schema';
 
 const montserrat = Montserrat({
@@ -86,7 +85,6 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-screen flex-col font-sans">
-        <SiteLoader />
         <Navbar />
         <main id="top" className="flex-1">{children}</main>
         <Footer />

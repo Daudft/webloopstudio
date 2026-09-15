@@ -38,19 +38,19 @@
   }
 }
 
-/* Intro loader (components/common/site-loader.tsx) */
+/* Intro loader (components/common/site-loader.tsx). Total 2.5s; keep DURATION_MS in sync. */
 .loader-reveal {
   clip-path: inset(0 100% 0 0);
-  animation: loader-reveal 2.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: loader-reveal 1.3s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
 .loader-screen {
-  animation: loader-rise 0.9s cubic-bezier(0.65, 0, 0.35, 1) 4.35s forwards;
+  animation: loader-rise 0.6s cubic-bezier(0.65, 0, 0.35, 1) 1.9s forwards;
 }
 
 .loader-label {
   opacity: 0;
-  animation: loader-label-in 0.45s ease-out 2.85s forwards;
+  animation: loader-label-in 0.4s ease-out 1.2s forwards;
 }
 
 @keyframes loader-reveal {
