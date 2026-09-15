@@ -158,7 +158,7 @@ export function Navbar() {
           <nav
             aria-label="Primary"
             className="absolute top-1/2 hidden -translate-y-1/2 items-center gap-4 md:flex"
-            style={{ left: '28%' }}
+            style={{ left: '24%' }}
           >
             {desktopItems.map((item) => {
               const isActive = pathname === item.href;
