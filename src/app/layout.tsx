@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import { siteConfig } from '@/config/site';
 import { Navbar } from '@/components/common/navbar';
 import { Footer } from '@/components/common/footer';
+import { SiteLoader } from '@/components/common/site-loader';
 import { getOrganizationSchema } from '@/lib/schema';
 
 const montserrat = Montserrat({
@@ -74,6 +75,8 @@ export default function RootLayout({
       </head>
       {/* suppressHydrationWarning: browser extensions (e.g. ColorZilla) inject attributes on <body> before React hydrates. */}
       <body className="flex min-h-screen flex-col font-sans" suppressHydrationWarning>
+        {/* Outside loading.tsx's Suspense boundary, so the intro paints with the first HTML chunk. */}
+        <SiteLoader />
         <Navbar />
         <main id="top" className="flex-1">{children}</main>
         <Footer />

@@ -38,7 +38,11 @@
   }
 }
 
-/* Intro loader (components/common/site-loader.tsx). Total 2.5s; keep DURATION_MS in sync. */
+/*
+ * Intro loader (components/common/site-loader.tsx). Total 2.5s.
+ * The component removes itself when `loader-rise` finishes, so timings here
+ * can change freely; just keep `loader-rise` as the last animation.
+ */
 .loader-reveal {
   clip-path: inset(0 100% 0 0);
   animation: loader-reveal 1.3s cubic-bezier(0.65, 0, 0.35, 1) forwards;
@@ -73,5 +77,12 @@
   to {
     opacity: 0.75;
     transform: translateY(0);
+  }
+}
+
+/* Respect the OS "reduce motion" accessibility setting: no intro animation. */
+@media (prefers-reduced-motion: reduce) {
+  .loader-screen {
+    display: none;
   }
 }
