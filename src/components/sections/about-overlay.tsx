@@ -33,7 +33,7 @@ export function AboutOverlay() {
   return (
     <div className="fixed inset-0 z-[60] flex bg-[#090b0d]/90 backdrop-blur-[7px]" role="dialog" aria-modal="true" aria-labelledby="about-heading">
       <div className="relative hidden flex-1 overflow-hidden lg:block" aria-hidden="true">
-        <Image src="/IMG_20230423_200749.jpg.jpeg" alt="" fill sizes="45vw" className="object-cover opacity-20 grayscale blur-[5px]" />
+        <Image src="/images/founder.jpg" alt="" fill sizes="45vw" className="object-cover opacity-20 grayscale blur-[5px]" />
         <div className="absolute inset-0 bg-[#080b0d]/75" />
         <p className="absolute bottom-10 left-10 max-w-sm font-display text-5xl font-bold uppercase leading-[0.9] tracking-[-0.07em] text-white/20 xl:text-7xl">
           Make the invisible impossible to ignore.
@@ -70,7 +70,7 @@ export function AboutOverlay() {
           </div>
 
           <div className="relative mt-5 aspect-[0.82] overflow-hidden bg-[#b9b0a3] sm:aspect-[1.05]">
-            <Image src="/IMG_20230423_200749.jpg.jpeg" alt="Daud Afzal, founder of Webloop Studio" fill sizes="(min-width: 1024px) 920px, 100vw" className="object-cover" priority />
+            <Image src="/images/founder.jpg" alt="Daud Afzal, founder of Webloop Studio" fill sizes="(min-width: 1024px) 920px, 100vw" className="object-cover" priority />
             <span className="absolute left-7 top-7 font-display text-5xl font-semibold tracking-[-0.08em] text-white sm:text-7xl" aria-hidden="true">listen</span>
             <span className="absolute right-7 top-[38%] font-display text-5xl font-semibold tracking-[-0.08em] text-white sm:text-7xl" aria-hidden="true">create</span>
             <span className="absolute bottom-[24%] left-7 font-display text-5xl font-semibold tracking-[-0.08em] text-white sm:text-7xl" aria-hidden="true">obsess</span>

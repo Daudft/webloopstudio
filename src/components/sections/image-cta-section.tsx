@@ -5,7 +5,7 @@ export function ImageCTASection() {
   return (
     <section className="relative min-h-[720px] overflow-hidden bg-navy text-ice sm:min-h-[820px]" aria-labelledby="image-cta-heading">
       <Image
-        src="/IMG_20230423_200749.jpg.jpeg"
+        src="/images/founder.jpg"
         alt="Webloop Studio founder working on a digital product"
         fill
         sizes="100vw"

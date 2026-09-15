@@ -11,7 +11,7 @@ export const projectsData: Project[] = [
     category: 'AI & Automation',
     summary:
       'An internal tool that gives a distributed operations team one place to find answers, track jobs and hand work between shifts.',
-    thumbnail: '/ist.jpg',
+    thumbnail: '/images/work-01.jpg',
     year: '2025',
   },
   {
@@ -21,7 +21,7 @@ export const projectsData: Project[] = [
     category: 'Web Development',
     summary:
       'A fast, accessible portfolio view with live data, built so the product team could ship new features without a redesign.',
-    thumbnail: '/second.jpg',
+    thumbnail: '/images/work-02.jpg',
     year: '2025',
   },
   {

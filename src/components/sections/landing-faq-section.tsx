@@ -24,7 +24,7 @@ export function LandingFAQSection() {
           <FadeIn delay={0.1} className="max-w-[210px]">
             <div className="relative aspect-[0.82] w-full overflow-hidden bg-[#16345f]">
               <Image
-                src="/IMG_20230423_200749.jpg.jpeg"
+                src="/images/founder.jpg"
                 alt="Daud Afzal, founder of Webloop Studio"
                 fill
                 sizes="210px"

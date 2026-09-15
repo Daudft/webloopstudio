@@ -22,11 +22,10 @@ export function IntroSection() {
           <div className="mt-10 flex items-center gap-3">
             <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-1 ring-white/30">
               <Image
-                src="/IMG_20230423_200749.jpg.jpeg"
+                src="/images/founder.jpg"
                 alt="Daud Afzal"
                 fill
                 sizes="56px"
-                quality={100}
                 className="object-cover object-[center_28%]"
               />
             </div>
@@ -46,7 +45,7 @@ export function IntroSection() {
           </h2>
           <div className="absolute left-1/2 top-1/2 z-0 h-[112px] w-[82px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl opacity-85 shadow-xl ring-1 ring-white/20 sm:h-[170px] sm:w-[124px] lg:h-[220px] lg:w-[160px]" aria-hidden="true">
             <Image
-              src="/IMG_20230423_200749.jpg.jpeg"
+              src="/images/founder.jpg"
               alt=""
               fill
               sizes="(min-width: 1024px) 160px, (min-width: 640px) 124px, 82px"
