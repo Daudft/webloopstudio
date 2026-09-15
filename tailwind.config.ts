@@ -19,8 +19,8 @@ const config: Config = {
     extend: {
       colors: {
         navy: '#0A1F44',
-        /** Near-black used for the dark sections below the hero. */
-        ink: '#0a0a0b',
+        /** Soft near-black for the dark sections below the hero. Pair with `bg-grain`. */
+        ink: '#131315',
         ice: '#eaf2ff',
         sky: '#a9c8ea',
         steel: '#52627a',

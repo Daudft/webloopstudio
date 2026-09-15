@@ -18,7 +18,7 @@ const serviceImages = [
 
 export function ServicesGrid() {
   return (
-    <section className="bg-ink py-28 text-white sm:py-36" id="services">
+    <section className="bg-ink bg-grain py-28 text-white sm:py-36" id="services">
       <div className="mx-auto max-w-[1500px] px-7 sm:px-12 lg:px-16">
         <div className="mb-14 flex flex-col justify-between gap-6 pb-2 sm:mb-20 sm:flex-row sm:items-end">
           <FadeIn>
