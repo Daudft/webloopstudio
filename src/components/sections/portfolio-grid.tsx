@@ -1,11 +1,9 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import { projectsData } from '@/data/projects';
 import { FadeIn, FadeInStagger } from '@/components/animations/fade-in';
-import { ArrowUpRight } from 'lucide-react';
 
 export function PortfolioGrid() {
   const filteredProjects = projectsData;
@@ -25,8 +23,8 @@ export function PortfolioGrid() {
         <FadeInStagger className="flex flex-col border-t border-[#0b234e]/20 pt-8">
           {filteredProjects.map((project, index) => (
             <React.Fragment key={project.id}>
-              <Link
-                href={`/work#${project.slug}`}
+              <article
+                id={project.slug}
                 className="group grid gap-8 lg:grid-cols-[minmax(0,1.7fr)_minmax(280px,0.9fr)] lg:gap-10"
               >
                 <div>
@@ -60,7 +58,7 @@ export function PortfolioGrid() {
                     </p>
                   </div>
                 </div>
-              </Link>
+              </article>
               {index < filteredProjects.length - 1 && (
                 <div className="flex justify-center py-4 sm:py-6">
                   <span className="h-px w-full bg-[#0b234e]/20" />
@@ -69,18 +67,6 @@ export function PortfolioGrid() {
             </React.Fragment>
           ))}
         </FadeInStagger>
-
-        <div className="mt-20 flex justify-end border-t border-[#0b234e]/20 pt-8">
-          <Link
-            href="/work"
-            aria-label="See all projects"
-            title="See all projects"
-            className="group inline-flex items-center gap-2 font-sora text-2xl font-bold leading-none tracking-[-0.06em] transition-opacity hover:opacity-60 sm:text-3xl lg:text-4xl"
-          >
-            <span>View all</span>
-            <ArrowUpRight className="h-6 w-6 stroke-[1.5] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 sm:h-7 sm:w-7 lg:h-8 lg:w-8" />
-          </Link>
-        </div>
       </div>
     </section>
   );

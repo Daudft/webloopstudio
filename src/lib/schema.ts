@@ -26,22 +26,3 @@ export function getOrganizationSchema() {
     },
   };
 }
-
-export function getServiceSchema(service: {
-  name: string;
-  description: string;
-  url: string;
-}) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: service.name,
-    description: service.description,
-    provider: {
-      '@type': 'Organization',
-      name: siteConfig.name,
-      url: siteConfig.url,
-    },
-    url: service.url,
-  };
-}

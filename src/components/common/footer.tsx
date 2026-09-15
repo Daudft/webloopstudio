@@ -9,7 +9,6 @@ export function Footer() {
     { title: 'Work', href: '/#work' },
     { title: 'Process', href: '/#process' },
     { title: 'Services', href: '/#services' },
-    { title: 'Pricing', href: '/pricing' },
     { title: 'Contact', href: '/contact' },
   ];
 

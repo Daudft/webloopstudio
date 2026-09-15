@@ -1,9 +1,3 @@
-export interface BaseEntity {
-  id: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
 export interface NavItem {
   title: string;
   href: string;
@@ -36,28 +30,8 @@ export interface SiteConfig {
   };
 }
 
-export interface StatItem {
-  value: string;
-  label: string;
-  description?: string;
-}
-
 export interface FAQItem {
   question: string;
   answer: string;
   category?: string;
-}
-
-export interface TeamMember {
-  id: string;
-  name: string;
-  role: string;
-  avatar: string;
-  bio: string;
-  socials?: {
-    twitter?: string;
-    linkedin?: string;
-    github?: string;
-    dribbble?: string;
-  };
 }

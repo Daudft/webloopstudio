@@ -1,4 +1,4 @@
-import { FAQItem, TeamMember } from '@/types';
+import { FAQItem } from '@/types';
 
 export const faqsData: FAQItem[] = [
   {
@@ -30,29 +30,5 @@ export const faqsData: FAQItem[] = [
     answer:
       'You get direct access to our core engineers and designers via a dedicated Slack/Discord channel, weekly video demos, interactive staging preview links on every commit, and a live Linear/Notion dashboard.',
     category: 'Communication',
-  },
-];
-
-export const teamData: TeamMember[] = [
-  {
-    id: '1',
-    name: 'Alexander Ross',
-    role: 'Principal Architect & Founder',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
-    bio: 'Ex-BigTech software architect with 10+ years engineering high-scale distributed systems and high-converting web apps.',
-  },
-  {
-    id: '2',
-    name: 'Maya Lin',
-    role: 'Head of Design & Product',
-    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
-    bio: 'Design lead passionate about micro-interactions, brand storytelling, and high-conversion UX design systems.',
-  },
-  {
-    id: '3',
-    name: 'Liam Zhang',
-    role: 'Lead AI & Full-Stack Engineer',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
-    bio: 'Specialist in generative AI pipelines, real-time WebSockets, Next.js server actions, and cloud infrastructure.',
   },
 ];
