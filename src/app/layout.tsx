@@ -72,7 +72,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
       </head>
-      <body className="flex min-h-screen flex-col font-sans">
+      {/* suppressHydrationWarning: browser extensions (e.g. ColorZilla) inject attributes on <body> before React hydrates. */}
+      <body className="flex min-h-screen flex-col font-sans" suppressHydrationWarning>
         <Navbar />
         <main id="top" className="flex-1">{children}</main>
         <Footer />
