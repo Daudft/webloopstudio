@@ -49,7 +49,14 @@ export function GapReveal() {
     <div
       ref={ref}
       className="relative z-10 bg-ink bg-grain"
-      style={{ height: PIN_HEIGHT, boxShadow: '0 -30px 60px rgba(0, 0, 0, 0.45)' }}
+      style={{
+        height: PIN_HEIGHT,
+        // A visible leading edge so the panel reads as a new layer sliding over the text.
+        borderTopLeftRadius: 28,
+        borderTopRightRadius: 28,
+        borderTop: '1px solid rgba(255, 255, 255, 0.14)',
+        boxShadow: '0 -40px 90px rgba(0, 0, 0, 0.65)',
+      }}
     >
       <div
         className="flex w-full flex-col items-center overflow-hidden px-5 pb-20 pt-[120px] text-center sm:px-8 sm:pt-32"
