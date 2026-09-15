@@ -15,12 +15,16 @@ export function IntroSection() {
         </div>
         <div className="self-start min-w-0 max-w-[900px] text-left font-commissioner">
           <ScrollRevealText
-            className="text-pretty text-[32px] font-bold leading-[1.08] tracking-[-0.035em] sm:text-[44px] lg:text-[52px]"
-            text="Your business has outgrown the website you built it on. Whether you're a small business finally ready to look the part, or a startup that's already proven the product the website is usually the last thing to catch up."
-          />
-          <ScrollRevealText
-            className="text-pretty mt-5 text-[32px] font-bold leading-[1.08] tracking-[-0.035em] sm:text-[44px] lg:text-[52px]"
-            text="That gap costs more than looks. It costs the confidence customers need before they trust you with their money."
+            paragraphs={[
+              {
+                className: 'text-pretty text-[32px] font-bold leading-[1.08] tracking-[-0.035em] sm:text-[44px] lg:text-[52px]',
+                text: "Your business has outgrown the website you built it on. Whether you're a small business finally ready to look the part, or a startup that's already proven the product the website is usually the last thing to catch up.",
+              },
+              {
+                className: 'text-pretty mt-5 text-[32px] font-bold leading-[1.08] tracking-[-0.035em] sm:text-[44px] lg:text-[52px]',
+                text: 'That gap costs more than looks. It costs the confidence customers need before they trust you with their money.',
+              },
+            ]}
           />
           <div className="mt-10 flex items-center gap-3">
             <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-1 ring-white/30">

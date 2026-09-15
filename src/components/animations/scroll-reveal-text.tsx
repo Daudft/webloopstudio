@@ -1,52 +1,87 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import { Fragment, useRef } from 'react';
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type MotionValue,
+} from 'framer-motion';
+
+interface RevealParagraph {
+  text: string;
+  className?: string;
+}
 
 interface ScrollRevealTextProps {
-  text: string;
+  /** Paragraphs reveal in order on one shared scroll timeline. */
+  paragraphs: RevealParagraph[];
   className?: string;
   /** Opacity of words that have not been scrolled to yet. */
   dimOpacity?: number;
 }
 
 /**
- * Paragraph whose words brighten one after another as it scrolls up the
- * viewport, and dim again when scrolling back. Progress is tied directly to
- * scroll position, so it works in both directions.
- *
- * Starts when the top of the paragraph reaches 85% down the viewport and
- * finishes when its bottom reaches 45%. Reduced-motion users get plain text.
+ * How many words fade at the same time. Larger values blend neighbouring
+ * words into a softer, smoother wave.
  */
-export function ScrollRevealText({ text, className, dimOpacity = 0.2 }: ScrollRevealTextProps) {
-  const ref = useRef<HTMLParagraphElement>(null);
+const OVERLAP_WORDS = 6;
+
+/**
+ * Words brighten one after another as the block scrolls up the viewport, and
+ * dim again when scrolling back. All paragraphs share one progress value, so
+ * the first paragraph fully reveals before the second begins.
+ *
+ * Starts when the top of the block reaches 85% down the viewport and finishes
+ * when its bottom reaches 50%. Scroll progress is spring-smoothed. Reduced-motion
+ * users get plain text.
+ */
+export function ScrollRevealText({ paragraphs, className, dimOpacity = 0.2 }: ScrollRevealTextProps) {
+  const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end 0.45'] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end 0.5'] });
+  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.6, restDelta: 0.0005 });
 
   if (reduceMotion) {
     return (
-      <p ref={ref} className={className}>
-        {text}
-      </p>
+      <div ref={ref} className={className}>
+        {paragraphs.map((paragraph, index) => (
+          <p key={index} className={paragraph.className}>
+            {paragraph.text}
+          </p>
+        ))}
+      </div>
     );
   }
 
-  const words = text.split(' ');
+  const split = paragraphs.map((paragraph) => paragraph.text.split(' '));
+  const totalWords = split.reduce((sum, words) => sum + words.length, 0);
+  const span = totalWords + OVERLAP_WORDS;
+  let globalIndex = 0;
 
   return (
-    <p ref={ref} className={cn('relative', className)}>
-      {words.map((word, index) => (
-        <Word
-          key={`${word}-${index}`}
-          progress={scrollYProgress}
-          range={[index / words.length, (index + 1) / words.length]}
-          dimOpacity={dimOpacity}
-        >
-          {word}
-        </Word>
+    <div ref={ref} className={className} style={{ position: 'relative' }}>
+      {split.map((words, paragraphIndex) => (
+        <p key={paragraphIndex} className={paragraphs[paragraphIndex].className}>
+          {words.map((word, wordIndex) => {
+            const index = globalIndex++;
+            return (
+              <Fragment key={wordIndex}>
+                <Word
+                  progress={progress}
+                  range={[index / span, (index + OVERLAP_WORDS) / span]}
+                  dimOpacity={dimOpacity}
+                >
+                  {word}
+                </Word>{' '}
+              </Fragment>
+            );
+          })}
+        </p>
       ))}
-    </p>
+    </div>
   );
 }
 
@@ -59,9 +94,5 @@ interface WordProps {
 
 function Word({ children, progress, range, dimOpacity }: WordProps) {
   const opacity = useTransform(progress, range, [dimOpacity, 1]);
-  return (
-    <>
-      <motion.span style={{ opacity }}>{children}</motion.span>{' '}
-    </>
-  );
+  return <motion.span style={{ opacity }}>{children}</motion.span>;
 }
