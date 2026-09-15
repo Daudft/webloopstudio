@@ -129,8 +129,9 @@ export function Navbar() {
   return (
     <header
       ref={headerRef}
+      style={{ top: 10 }}
       className={cn(
-        'fixed inset-x-0 top-0 z-[70] font-sans transition-[background-color,color] duration-300',
+        'fixed inset-x-0 z-[70] font-sans transition-[background-color,color] duration-300',
         onLight ? 'text-navy' : 'text-ice',
         hasBackdrop && (onLight ? 'bg-ice/70 backdrop-blur-md' : 'bg-ink/50 backdrop-blur-md')
       )}
@@ -158,7 +159,7 @@ export function Navbar() {
           <nav
             aria-label="Primary"
             className="absolute top-1/2 hidden -translate-y-1/2 items-center gap-4 md:flex"
-            style={{ left: '24%' }}
+            style={{ left: '20%' }}
           >
             {desktopItems.map((item) => {
               const isActive = pathname === item.href;
