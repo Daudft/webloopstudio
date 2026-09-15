@@ -129,7 +129,7 @@ export function Navbar() {
   return (
     <header
       ref={headerRef}
-      style={{ top: 6 }}
+      style={{ top: 2 }}
       className={cn(
         'fixed inset-x-0 z-[70] font-sans transition-[background-color,color] duration-300',
         onLight ? 'text-navy' : 'text-ice',
