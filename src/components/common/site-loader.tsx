@@ -57,17 +57,23 @@ export function SiteLoader() {
     <div
       ref={ref}
       aria-hidden="true"
+      // The navbar samples the surface under it to pick light or dark text; skip this overlay.
+      data-nav-ignore=""
       className="loader-screen fixed inset-0 z-[100] flex min-h-screen items-center justify-center overflow-hidden bg-navy text-white"
     >
       <div className="w-[min(420px,calc(100vw-48px))]">
         <div className="loader-reveal overflow-hidden">
-          {/* unoptimized: a static 8 KB PNG loads faster than a first-hit image-optimizer request, so the logo is ready when the reveal starts. */}
+          {/*
+            unoptimized: a static 8 KB PNG loads faster than a first-hit image-optimizer request.
+            loading="eager" rather than priority: priority adds a <link rel=preload> that the
+            navbar's CSS mask of the same file cannot reuse, causing a double fetch and a warning.
+          */}
           <Image
             src="/Logo.png"
             alt=""
             width={304}
             height={51}
-            priority
+            loading="eager"
             unoptimized
             className="mx-auto block h-auto w-[min(260px,80vw)]"
           />

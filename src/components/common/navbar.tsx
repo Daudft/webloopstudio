@@ -1,19 +1,109 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { ArrowRight, ArrowUpRight, Menu, X } from 'lucide-react';
 import { mainNavItems } from '@/config/navigation';
 import { buttonClasses } from '@/components/ui/button';
-import { Menu, X, ArrowRight, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+/** The colour of whatever is painted directly beneath the bar. */
+type Surface = 'dark' | 'light';
 
 const desktopItems = mainNavItems.filter((item) => item.href !== '/contact');
 
+/**
+ * The logo PNG is used as a mask over `currentColor`, so it always matches the
+ * nav text colour and cross-fades with it when the surface changes.
+ */
+const LOGO_MASK = "url('/Logo.png')";
+const logoMaskStyle: React.CSSProperties = {
+  maskImage: LOGO_MASK,
+  WebkitMaskImage: LOGO_MASK,
+  maskSize: 'contain',
+  WebkitMaskSize: 'contain',
+  maskRepeat: 'no-repeat',
+  WebkitMaskRepeat: 'no-repeat',
+  maskPosition: 'left center',
+  WebkitMaskPosition: 'left center',
+};
+
+function parseRgba(value: string): [number, number, number, number] | null {
+  const match = value.match(/rgba?\(([^)]+)\)/);
+  if (!match) return null;
+  const [r, g, b, a = 1] = match[1].split(/[\s,/]+/).filter(Boolean).map(Number);
+  return [r, g, b, a];
+}
+
+function relativeLuminance(r: number, g: number, b: number): number {
+  const channel = (c: number) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+}
+
+/**
+ * Looks at the stack of elements under the middle of the bar and returns the
+ * first solid background's lightness. A section can force the answer with
+ * `data-nav-surface="light" | "dark"`, and overlays can opt out with
+ * `data-nav-ignore`.
+ */
+function detectSurface(header: HTMLElement): Surface {
+  const rect = header.getBoundingClientRect();
+  const x = window.innerWidth / 2;
+  const y = rect.top + 32;
+
+  for (const element of document.elementsFromPoint(x, y)) {
+    if (header.contains(element) || element.closest('[data-nav-ignore]')) continue;
+
+    const forced = element.closest('[data-nav-surface]')?.getAttribute('data-nav-surface');
+    if (forced === 'light' || forced === 'dark') return forced;
+
+    const background = parseRgba(getComputedStyle(element).backgroundColor);
+    if (background && background[3] >= 0.5) {
+      return relativeLuminance(background[0], background[1], background[2]) > 0.4 ? 'light' : 'dark';
+    }
+  }
+  return 'dark';
+}
+
 export function Navbar() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const headerRef = useRef<HTMLElement>(null);
+  const [surface, setSurface] = useState<Surface>('dark');
+  const [scrolled, setScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const measure = useCallback(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    setScrolled(window.scrollY > 8);
+    setSurface(detectSurface(header));
+  }, []);
+
+  // Re-read the surface on scroll, resize and route change (throttled to one per frame).
+  useEffect(() => {
+    let frame = 0;
+    const schedule = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(measure);
+    };
+
+    schedule();
+    // Streamed route content can land a moment after navigation.
+    const settle = window.setTimeout(schedule, 400);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(settle);
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+    };
+  }, [pathname, measure]);
 
   // Close the mobile menu on route change and on Escape.
   useEffect(() => {
@@ -29,81 +119,109 @@ export function Navbar() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isMobileMenuOpen]);
 
+  // The About page is a full-screen dialog with its own Close control.
+  if (pathname === '/about') {
+    return null;
+  }
+
+  const onLight = surface === 'light';
+  const hasBackdrop = scrolled || isMobileMenuOpen;
+
   return (
-    <header className="fixed left-0 right-0 top-[18px] z-[70] font-sans font-semibold">
-      <div className="mx-auto max-w-[600px] px-4 sm:px-0">
-        <div className="flex h-[42px] items-center justify-between rounded-[5px] bg-navy px-[17px] text-ice">
-          <Link href="/" className="flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice" aria-label="Webloop Studio home">
-            <Image src="/Logo.png" alt="WEBLOOP" width={304} height={51} className="h-auto w-[72px]" priority />
+    <header
+      ref={headerRef}
+      className={cn(
+        'fixed inset-x-0 top-0 z-[70] font-sans transition-[background-color,color] duration-300',
+        onLight ? 'text-navy' : 'text-ice',
+        hasBackdrop && (onLight ? 'bg-ice/70 backdrop-blur-md' : 'bg-ink/50 backdrop-blur-md')
+      )}
+    >
+      <div className="relative mx-auto flex h-16 items-center justify-between px-5 sm:px-8">
+        <Link
+          href="/"
+          aria-label="Webloop Studio home"
+          className="rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-4 focus-visible:ring-offset-transparent"
+        >
+          <span aria-hidden="true" className="block h-[17px] w-[101px] bg-current" style={logoMaskStyle} />
+        </Link>
+
+        <nav
+          aria-label="Primary"
+          className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 md:flex"
+        >
+          {desktopItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={isActive ? 'page' : undefined}
+                className={cn(
+                  'rounded-sm text-[16px] font-semibold tracking-[-0.02em] transition-opacity hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current',
+                  isActive && 'underline underline-offset-[6px]'
+                )}
+              >
+                {item.title}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <Link
+            href="/contact"
+            className={cn(
+              'hidden h-9 items-center gap-2.5 rounded-[3px] pl-3 pr-1.5 text-[14px] font-semibold tracking-[-0.01em] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 sm:inline-flex',
+              onLight ? 'bg-navy text-ice hover:bg-navy/90' : 'bg-ice text-navy hover:bg-white'
+            )}
+          >
+            Start a project
+            <span
+              className={cn(
+                'flex h-6 w-6 items-center justify-center rounded-[2px] transition-colors duration-300',
+                onLight ? 'bg-ice text-navy' : 'bg-navy text-ice'
+              )}
+            >
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
           </Link>
 
-          <nav className="hidden items-center gap-[22px] md:flex" aria-label="Primary">
-            {desktopItems.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={isActive ? 'page' : undefined}
-                  className={cn(
-                    'rounded-sm text-[10px] transition-opacity hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice',
-                    isActive ? 'underline underline-offset-4' : ''
-                  )}
-                >
-                  {item.title}
-                </Link>
-              );
-            })}
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <Link
-              href="/contact"
-              className="hidden h-[27px] items-center gap-2 rounded-[3px] bg-ice pl-[11px] pr-[7px] text-[10px] text-navy transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice sm:inline-flex"
-            >
-              Start A Project
-              <span className="flex h-[19px] w-[19px] items-center justify-center rounded-[2px] bg-navy text-ice">
-                <ChevronRight className="h-3 w-3" aria-hidden="true" />
-              </span>
-            </Link>
-
-            <button
-              type="button"
-              onClick={() => setIsMobileMenuOpen((open) => !open)}
-              className="-mr-2 rounded-sm p-2 text-ice focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice md:hidden"
-              aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-nav"
-            >
-              {isMobileMenuOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((open) => !open)}
+            className="-mr-2 rounded-sm p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current md:hidden"
+            aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-nav"
+          >
+            {isMobileMenuOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
+          </button>
         </div>
-
-        {isMobileMenuOpen && (
-          <div id="mobile-nav" className="mt-3 flex flex-col gap-4 rounded-[5px] bg-navy p-5 text-ice shadow-2xl shadow-navy/30 md:hidden">
-            <nav className="flex flex-col" aria-label="Mobile">
-              {mainNavItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={pathname === item.href ? 'page' : undefined}
-                  className={cn(
-                    'border-b border-white/10 py-3 font-display text-[22px] font-bold tracking-[-0.04em] transition-colors last:border-b-0 hover:text-sky',
-                    pathname === item.href && 'text-sky'
-                  )}
-                >
-                  {item.title}
-                </Link>
-              ))}
-            </nav>
-            <Link href="/contact" className={buttonClasses({ variant: 'ice', className: 'w-full' })}>
-              Start a Project
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-          </div>
-        )}
       </div>
+
+      {isMobileMenuOpen && (
+        <div id="mobile-nav" className="mx-4 mb-4 flex flex-col gap-4 rounded-[4px] bg-ink p-5 text-ice shadow-2xl shadow-black/40 md:hidden">
+          <nav className="flex flex-col" aria-label="Mobile">
+            {mainNavItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={pathname === item.href ? 'page' : undefined}
+                className={cn(
+                  'border-b border-white/10 py-3 font-display text-[22px] font-bold tracking-[-0.04em] transition-colors last:border-b-0 hover:text-sky',
+                  pathname === item.href && 'text-sky'
+                )}
+              >
+                {item.title}
+              </Link>
+            ))}
+          </nav>
+          <Link href="/contact" className={buttonClasses({ variant: 'ice', className: 'w-full' })}>
+            Start a project
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
+      )}
     </header>
   );
 }
