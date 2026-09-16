@@ -6,13 +6,15 @@ export const serviceOptions = [
   { value: 'not-sure', label: 'Not sure yet' },
 ];
 
-// TODO(content): confirm these budget ranges match how you actually quote work.
+/**
+ * Required: the form starts with no budget selected, so the visitor must pick one.
+ * Ranges run back to back with no gaps, and $10K+ catches larger projects.
+ */
 export const budgetOptions = [
-  { value: 'under-5k', label: 'Under $5,000' },
-  { value: '5k-15k', label: '$5,000 – $15,000' },
-  { value: '15k-35k', label: '$15,000 – $35,000' },
-  { value: '35k-plus', label: '$35,000+' },
-  { value: 'not-sure', label: 'Not sure yet' },
+  { value: 'under-2k', label: '< $2K' },
+  { value: '2k-5k', label: '$2K – $5K' },
+  { value: '5k-10k', label: '$5K – $10K' },
+  { value: '10k-plus', label: '> $10K' },
 ];
 
 const toEnum = (options: { value: string }[]) =>

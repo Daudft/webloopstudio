@@ -6,6 +6,12 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 88px;
+    /*
+     * Always reserve the scrollbar's space. Opening the About overlay locks
+     * scrolling (hiding the scrollbar); without this the page widened by the
+     * scrollbar width and jumped sideways when the overlay opened and closed.
+     */
+    scrollbar-gutter: stable;
   }
   body {
     @apply overflow-x-hidden bg-ice text-navy antialiased selection:bg-navy selection:text-ice;

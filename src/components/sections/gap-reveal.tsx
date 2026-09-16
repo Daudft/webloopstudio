@@ -31,8 +31,8 @@ const PIN_HEIGHT = '280vh';
 export function GapReveal() {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  // 0 when the panel has covered half the screen, 1 at the end of the pin.
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.5', 'end end'] });
+  // 0 as soon as the panel starts covering the screen (15%), 1 at the end of the pin.
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end end'] });
   const smooth = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.6, restDelta: 0.0005 });
   const finished = useMotionValue(1);
   const progress = reduceMotion ? finished : smooth;

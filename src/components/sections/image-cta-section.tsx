@@ -1,11 +1,12 @@
 import Link from 'next/link';
-import { CtaArtBackground } from '@/components/sections/cta-art-background';
+import { HeroBackground } from '@/components/sections/hero-background';
 
 export function ImageCTASection() {
   return (
     <section className="relative min-h-[720px] overflow-hidden bg-ink text-ice sm:min-h-[820px]" aria-labelledby="image-cta-heading">
-      <CtaArtBackground />
-      {/* Soft dark centre and edges keep the heading readable over the brightest ridges. */}
+      {/* Same animated background as the hero; it pauses while off-screen. */}
+      <HeroBackground tone="dark" />
+      {/* Soft dark centre and edges keep the heading readable. */}
       <div
         aria-hidden="true"
         className="absolute inset-0"

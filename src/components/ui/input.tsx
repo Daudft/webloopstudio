@@ -3,7 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const control =
-  'w-full rounded-[3px] border border-navy/20 bg-white font-sans text-[14px] text-navy transition-colors placeholder:text-navy/40 focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/15 disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-red-600 aria-[invalid=true]:focus:ring-red-600/15';
+  'w-full rounded-[3px] border border-black/15 bg-white/60 font-sans text-[14px] text-black transition-colors placeholder:text-black/35 hover:border-black/35 focus:border-black focus:bg-white focus:outline-none focus:ring-2 focus:ring-black/10 disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-red-600 aria-[invalid=true]:focus:ring-red-600/15';
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
@@ -27,7 +27,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(({ classN
       {children}
     </select>
     <ChevronDown
-      className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-navy/60"
+      className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black/60"
       aria-hidden="true"
     />
   </div>
@@ -54,10 +54,10 @@ interface FieldProps {
 export function Field({ id, label, error, required, className, children }: FieldProps) {
   return (
     <div className={cn('space-y-2', className)}>
-      <label htmlFor={id} className="block font-sans text-[10px] font-semibold uppercase tracking-[0.2em] text-navy/60">
+      <label htmlFor={id} className="block font-sans text-[10px] font-semibold uppercase tracking-[0.2em] text-black/60">
         {label}
         {required && (
-          <span className="text-navy/40" aria-hidden="true">
+          <span className="text-black/40" aria-hidden="true">
             {' '}
             *
           </span>

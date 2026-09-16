@@ -11,6 +11,8 @@ export const siteConfig: SiteConfig = {
     // TODO(content): set real profile URLs, or leave undefined to hide the link.
     linkedin: 'https://linkedin.com/company/webloopstudio',
     instagram: 'https://instagram.com/webloopstudio',
+    // TODO(content): add your call-booking link (e.g. Calendly); until then "Book a call" scrolls to the form.
+    booking: undefined,
   },
   contact: {
     // TODO(content): confirm this inbox exists and is monitored.

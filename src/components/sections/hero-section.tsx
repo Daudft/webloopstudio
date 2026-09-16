@@ -19,7 +19,7 @@ const toneStyles: Record<HeroTone, { section: string; wordmark: string; fade: st
     fade: '',
   },
   dark: {
-    section: 'bg-navy text-ice',
+    section: 'bg-ink text-white',
     // The wordmark PNG is navy; render it near-white on the dark background.
     wordmark: 'brightness-0 invert opacity-90',
     // Melt the bottom edge into the near-black intro section below.

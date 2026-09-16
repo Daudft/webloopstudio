@@ -117,11 +117,6 @@ export function Navbar() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isMobileMenuOpen]);
 
-  // The About page is a full-screen dialog with its own Close control.
-  if (pathname === '/about') {
-    return null;
-  }
-
   const onLight = surface === 'light';
   // No background while scrolling; only behind the open mobile menu.
   const hasBackdrop = isMobileMenuOpen;
@@ -132,7 +127,7 @@ export function Navbar() {
       style={{ top: 2 }}
       className={cn(
         'fixed inset-x-0 z-[70] font-sans transition-[background-color,color] duration-300',
-        onLight ? 'text-navy' : 'text-ice',
+        onLight ? 'text-black' : 'text-ice',
         hasBackdrop && (onLight ? 'bg-ice/70 backdrop-blur-md' : 'bg-ink/50 backdrop-blur-md')
       )}
     >
@@ -167,6 +162,8 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  // About opens as an overlay over this page, so keep the scroll position.
+                  scroll={item.href === '/about' ? false : undefined}
                   aria-current={isActive ? 'page' : undefined}
                   className={cn(
                     'rounded-sm text-[16px] font-semibold tracking-[-0.02em] transition-opacity hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current',
@@ -180,19 +177,21 @@ export function Navbar() {
           </nav>
         </div>
 
+        {/* The contact page shows its own Close button in this spot instead. */}
+        {pathname !== '/contact' && (
         <div className="flex items-center gap-2">
           <Link
             href="/contact"
             className={cn(
               'hidden h-8 items-center gap-2.5 rounded-[3px] pl-3 pr-[5px] text-[14px] font-semibold tracking-[-0.01em] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 sm:inline-flex',
-              onLight ? 'bg-navy text-ice hover:bg-navy/90' : 'bg-ice text-navy hover:bg-white'
+              onLight ? 'bg-black text-white hover:bg-black/85' : 'bg-ice text-black hover:bg-ice/85'
             )}
           >
             Start a project
             <span
               className={cn(
                 'flex h-[22px] w-[22px] items-center justify-center rounded-[2px] transition-colors duration-300',
-                onLight ? 'bg-ice text-navy' : 'bg-navy text-ice'
+                onLight ? 'bg-white text-black' : 'bg-black text-white'
               )}
             >
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -210,6 +209,7 @@ export function Navbar() {
             {isMobileMenuOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
           </button>
         </div>
+        )}
       </div>
 
       {isMobileMenuOpen && (
@@ -219,6 +219,8 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
+                // About opens as an overlay over this page, so keep the scroll position.
+                scroll={item.href === '/about' ? false : undefined}
                 aria-current={pathname === item.href ? 'page' : undefined}
                 className={cn(
                   'border-b border-white/10 py-3 font-display text-[22px] font-bold tracking-[-0.04em] transition-colors last:border-b-0 hover:text-sky',
@@ -229,7 +231,7 @@ export function Navbar() {
               </Link>
             ))}
           </nav>
-          <Link href="/contact" className={buttonClasses({ variant: 'ice', className: 'w-full' })}>
+          <Link href="/contact" className={buttonClasses({ variant: 'ice', className: 'w-full bg-ice text-black hover:bg-ice/85' })}>
             Start a project
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>

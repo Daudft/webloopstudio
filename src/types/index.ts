@@ -12,6 +12,8 @@ export interface SiteConfig {
   links: {
     linkedin?: string;
     instagram?: string;
+    /** Call-booking page (e.g. Calendly). When unset, "Book a call" scrolls to the contact form. */
+    booking?: string;
   };
   contact: {
     email: string;

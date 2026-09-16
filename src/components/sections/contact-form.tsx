@@ -13,7 +13,6 @@ import {
 } from '@/lib/validations/contact';
 import { Button } from '@/components/ui/button';
 import { Field, Input, Select, Textarea, fieldErrorId } from '@/components/ui/input';
-import { siteConfig } from '@/config/site';
 
 const isServiceOption = (value: string | null): value is string =>
   serviceOptions.some((option) => option.value === value);
@@ -45,7 +44,7 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
       service: defaultService ?? 'not-sure',
-      budget: 'not-sure',
+      budget: '',
       website: '',
     },
   });
@@ -73,19 +72,18 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
 
   if (submitted) {
     return (
-      <div className="border-t border-navy/20 pt-10" role="status">
-        <CheckCircle className="h-8 w-8 text-navy" aria-hidden="true" />
-        <h2 className="mt-6 font-display text-[28px] font-bold leading-[1.05] tracking-[-0.05em] sm:text-[36px]">
+      <div className="border-t border-black/15 pt-10 text-black" role="status">
+        <CheckCircle className="h-8 w-8" aria-hidden="true" />
+        <h2
+          className="mt-6 font-sora text-[28px] font-semibold leading-[1.05] sm:text-[36px]"
+          style={{ letterSpacing: '-0.05em' }}
+        >
           Thanks, we got it.
         </h2>
-        <p className="mt-4 max-w-md font-sans text-[15px] leading-[1.55] text-steel">
-          We read every message personally and will reply by email. If it&apos;s urgent, write to{' '}
-          <a href={`mailto:${siteConfig.contact.email}`} className="text-navy underline underline-offset-4">
-            {siteConfig.contact.email}
-          </a>
-          .
+        <p className="mt-4 max-w-md font-montserrat text-[15px] font-medium leading-[1.5] text-black/70">
+          We read every message personally and will reply by email soon.
         </p>
-        <Button variant="ghost" size="sm" className="mt-8 px-0" onClick={() => setSubmitted(false)}>
+        <Button variant="ghost" size="sm" className="mt-8 px-0 text-[13px] text-black" onClick={() => setSubmitted(false)}>
           Send another message
         </Button>
       </div>
@@ -136,7 +134,7 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
       </div>
 
       <div className="grid gap-8 sm:grid-cols-2">
-        <Field id="company" label="Company" error={errors.company?.message}>
+        <Field id="company" label="Company (optional)" error={errors.company?.message}>
           <Input
             id="company"
             autoComplete="organization"
@@ -170,6 +168,9 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
           aria-describedby={errors.budget ? fieldErrorId('budget') : undefined}
           {...register('budget')}
         >
+          <option value="" disabled>
+            Select a budget
+          </option>
           {budgetOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -189,10 +190,20 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
         />
       </Field>
 
-      <Button type="submit" size="lg" className="w-full sm:w-auto" isLoading={isSubmitting}>
-        Send message
-        <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-      </Button>
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        aria-busy={isSubmitting || undefined}
+        className="group inline-flex h-11 w-full items-center justify-between gap-4 rounded-[3px] bg-black pl-4 pr-1.5 font-montserrat text-[15px] font-semibold tracking-[-0.01em] text-white transition-colors duration-300 hover:bg-black/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60 sm:w-auto sm:justify-start"
+      >
+        {isSubmitting ? 'Sending…' : 'Send message'}
+        <span className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-white text-black">
+          <ArrowUpRight
+            className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            aria-hidden="true"
+          />
+        </span>
+      </button>
     </form>
   );
 }

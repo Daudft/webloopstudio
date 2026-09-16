@@ -61,8 +61,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  /** Parallel route slot (app/@modal) for overlays such as About, rendered above the current page. */
+  modal: React.ReactNode;
 }) {
   const orgJsonLd = getOrganizationSchema();
 
@@ -81,6 +84,7 @@ export default function RootLayout({
         <Navbar />
         <main id="top" className="flex-1">{children}</main>
         <Footer />
+        {modal}
       </body>
     </html>
   );

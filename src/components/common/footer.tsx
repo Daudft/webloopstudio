@@ -1,5 +1,8 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import { mainNavItems } from '@/config/navigation';
@@ -7,12 +10,18 @@ import { FadeIn } from '@/components/animations/fade-in';
 
 const pad = (value: number) => String(value).padStart(2, '0');
 
+/** Routes that render without the footer (the contact page is a focused, form-only page). */
+const HIDDEN_ON = ['/contact'];
+
 /**
  * Site footer, in the same editorial grid as the homepage sections (dot label
  * column + content), ending with the WEBLOOP wordmark at the same width as the
  * hero's so the page opens and closes on it.
  */
 export function Footer() {
+  const pathname = usePathname();
+  if (HIDDEN_ON.includes(pathname)) return null;
+
   const socials = [
     { title: 'LinkedIn', href: siteConfig.links.linkedin },
     { title: 'Instagram', href: siteConfig.links.instagram },
@@ -37,6 +46,8 @@ export function Footer() {
                 <FadeIn key={item.href} delay={index * 0.05}>
                   <Link
                     href={item.href}
+                    // About opens as an overlay over this page, so keep the scroll position.
+                    scroll={item.href === '/about' ? false : undefined}
                     className="group flex items-start gap-4 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky focus-visible:ring-offset-4 focus-visible:ring-offset-ink sm:gap-6"
                   >
                     <span className="mt-2 border border-white/50 px-[3px] py-[2px] font-montserrat text-[9px] font-semibold leading-none text-white/70 sm:mt-3">
@@ -72,10 +83,10 @@ export function Footer() {
                 </p>
                 <Link
                   href="/contact"
-                  className="mt-6 inline-flex h-8 items-center gap-2.5 rounded-[3px] bg-ice pl-3 pr-[5px] font-sans text-[14px] font-semibold tracking-[-0.01em] text-navy transition-colors duration-300 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                  className="mt-6 inline-flex h-8 items-center gap-2.5 rounded-[3px] bg-ice pl-3 pr-[5px] font-sans text-[14px] font-semibold tracking-[-0.01em] text-black transition-colors duration-300 hover:bg-ice/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                 >
                   Start a project
-                  <span className="flex h-[22px] w-[22px] items-center justify-center rounded-[2px] bg-navy text-ice">
+                  <span className="flex h-[22px] w-[22px] items-center justify-center rounded-[2px] bg-black text-white">
                     <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
                   </span>
                 </Link>

@@ -54,12 +54,12 @@ const PALETTES: Record<HeroTone, Palette> = {
     dotStrength: 0.13,
     grain: 0.03,
   },
-  // Deep navy with a muted steel-blue band: ice hero text stays readable.
+  // Neutral black and white, matching the ink sections below: white hero text stays readable.
   dark: {
-    base: hex('#0d1d3a'),
-    shade: hex('#040b19'),
-    light: hex('#51647f'),
-    ink: hex('#01050d'),
+    base: hex('#2a2a2e'),
+    shade: hex('#161618'),
+    light: hex('#7c7c81'),
+    ink: hex('#0a0a0b'),
     dotStrength: 0.5,
     grain: 0.05,
   },
@@ -233,6 +233,11 @@ export function HeroBackground({ tone = 'light', className }: HeroBackgroundProp
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Stay hidden until a real frame is drawn. The canvas node can be reused
+    // (React dev StrictMode remounts, returning to the page), so never trust a
+    // leftover opacity from an earlier run.
+    canvas.style.opacity = '0';
+
     const gl = canvas.getContext('webgl', {
       alpha: false,
       antialias: false,
@@ -241,7 +246,8 @@ export function HeroBackground({ tone = 'light', className }: HeroBackgroundProp
       premultipliedAlpha: false,
       powerPreference: 'low-power',
     });
-    if (!gl) return;
+    // A dead context would draw nothing and leave a blank canvas over the section.
+    if (!gl || gl.isContextLost()) return;
 
     let fieldProgram: WebGLProgram;
     let composeProgram: WebGLProgram;
@@ -419,13 +425,16 @@ export function HeroBackground({ tone = 'light', className }: HeroBackgroundProp
       document.removeEventListener('visibilitychange', sync);
       reducedMotion.removeEventListener('change', sync);
       canvas.removeEventListener('webglcontextlost', onContextLost);
+      canvas.style.opacity = '0';
+      // Free GPU resources but keep the context alive: forcing it lost here meant a
+      // remount on the same canvas got a dead context back and showed a blank hero.
+      // The browser releases the context itself once the canvas is removed.
       if (!lost) {
         gl.deleteTexture(fieldTexture);
         gl.deleteFramebuffer(framebuffer);
         gl.deleteBuffer(vertexBuffer);
         gl.deleteProgram(fieldProgram);
         gl.deleteProgram(composeProgram);
-        gl.getExtension('WEBGL_lose_context')?.loseContext();
       }
     };
   }, [tone]);
