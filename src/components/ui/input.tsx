@@ -2,8 +2,10 @@ import * as React from 'react';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+// 16px on touch devices: iOS Safari zooms the page in when a field under 16px is focused.
+// Mouse devices keep the original 14px.
 const control =
-  'w-full rounded-[3px] border border-black/15 bg-white/60 font-sans text-[14px] text-black transition-colors placeholder:text-black/35 hover:border-black/35 focus:border-black focus:bg-white focus:outline-none focus:ring-2 focus:ring-black/10 disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-red-600 aria-[invalid=true]:focus:ring-red-600/15';
+  'w-full rounded-[3px] border border-black/15 bg-white/60 font-sans text-[16px] text-black [@media(hover:hover)_and_(pointer:fine)]:text-[14px] transition-colors placeholder:text-black/35 hover:border-black/35 focus:border-black focus:bg-white focus:outline-none focus:ring-2 focus:ring-black/10 disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-red-600 aria-[invalid=true]:focus:ring-red-600/15';
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
@@ -23,7 +25,7 @@ export type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement>;
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(({ className, children, ...props }, ref) => (
   <div className="relative">
-    <select ref={ref} className={cn(control, 'h-12 appearance-none pl-4 pr-10', className)} {...props}>
+    <select ref={ref} className={cn(control, 'h-12 appearance-none truncate pl-4 pr-10', className)} {...props}>
       {children}
     </select>
     <ChevronDown

@@ -7,11 +7,15 @@ import { ArrowRight, ArrowUpRight, Menu, X } from 'lucide-react';
 import { mainNavItems } from '@/config/navigation';
 import { buttonClasses } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { markPageVisit } from '@/lib/in-app-navigation';
 
 /** The colour of whatever is painted directly beneath the bar. */
 type Surface = 'dark' | 'light';
 
 const desktopItems = mainNavItems.filter((item) => item.href !== '/contact');
+
+/** Routes that render a PageCloseButton where the navbar CTA normally sits (/work and every /work/<project>). */
+const showsCloseButton = (pathname: string) => pathname === '/contact' || pathname === '/work' || pathname.startsWith('/work/');
 
 /**
  * The logo PNG is used as a mask over `currentColor`, so it always matches the
@@ -103,18 +107,31 @@ export function Navbar() {
     };
   }, [pathname, measure]);
 
-  // Close the mobile menu on route change and on Escape.
+  // Close the mobile menu on route change and on Escape. Also count the page
+  // visit, so Close buttons know whether there is a page to go back to.
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    markPageVisit(pathname);
   }, [pathname]);
 
+  // While the mobile menu is open: Escape or a tap outside the header closes it,
+  // and the page behind can't scroll.
   useEffect(() => {
     if (!isMobileMenuOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setIsMobileMenuOpen(false);
     };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) setIsMobileMenuOpen(false);
+    };
     window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
+    document.addEventListener('pointerdown', onPointerDown);
+    document.body.classList.add('mobile-menu-open');
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.body.classList.remove('mobile-menu-open');
+    };
   }, [isMobileMenuOpen]);
 
   const onLight = surface === 'light';
@@ -150,11 +167,11 @@ export function Navbar() {
             <span aria-hidden="true" className="block h-[17px] w-[101px] bg-current" style={logoMaskStyle} />
           </Link>
 
-          {/* Sits left of true centre, nudged toward the logo. */}
+          {/* Sits left of true centre, nudged toward the logo; never closer than 170px so it clears the logo at 768–900px. */}
           <nav
             aria-label="Primary"
             className="absolute top-1/2 hidden -translate-y-1/2 items-center gap-4 md:flex"
-            style={{ left: '20%' }}
+            style={{ left: 'max(20%, 170px)' }}
           >
             {desktopItems.map((item) => {
               const isActive = pathname === item.href;
@@ -177,9 +194,9 @@ export function Navbar() {
           </nav>
         </div>
 
-        {/* The contact page shows its own Close button in this spot instead. */}
-        {pathname !== '/contact' && (
         <div className="flex items-center gap-2">
+          {/* Pages with their own Close button show it in this spot instead of the CTA. The menu toggle always stays. */}
+          {!showsCloseButton(pathname) && (
           <Link
             href="/contact"
             className={cn(
@@ -197,6 +214,7 @@ export function Navbar() {
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </span>
           </Link>
+          )}
 
           <button
             type="button"
@@ -209,11 +227,14 @@ export function Navbar() {
             {isMobileMenuOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
           </button>
         </div>
-        )}
       </div>
 
       {isMobileMenuOpen && (
-        <div id="mobile-nav" className="mx-4 mb-4 flex flex-col gap-4 rounded-[4px] bg-ink p-5 text-ice shadow-2xl shadow-black/40 md:hidden">
+        // Scrolls on its own when taller than the screen (landscape phones).
+        <div
+          id="mobile-nav"
+          className="mx-4 mb-4 flex max-h-[calc(100svh-80px)] flex-col gap-4 overflow-y-auto overscroll-contain rounded-[4px] bg-ink p-5 text-ice shadow-2xl shadow-black/40 md:hidden [@media(max-height:500px)]:gap-3 [@media(max-height:500px)]:p-4"
+        >
           <nav className="flex flex-col" aria-label="Mobile">
             {mainNavItems.map((item) => (
               <Link
@@ -223,7 +244,7 @@ export function Navbar() {
                 scroll={item.href === '/about' ? false : undefined}
                 aria-current={pathname === item.href ? 'page' : undefined}
                 className={cn(
-                  'border-b border-white/10 py-3 font-display text-[22px] font-bold tracking-[-0.04em] transition-colors last:border-b-0 hover:text-sky',
+                  'border-b border-white/10 py-3 font-display text-[22px] font-bold tracking-[-0.04em] transition-colors last:border-b-0 hover:text-sky [@media(max-height:500px)]:py-2 [@media(max-height:500px)]:text-[18px]',
                   pathname === item.href && 'text-sky'
                 )}
               >

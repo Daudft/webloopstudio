@@ -17,4 +17,11 @@ export interface Project {
   year: string;
   /** Only include when you have a real, verifiable result to show. */
   outcome?: ProjectOutcome;
+  /** Case study (project preview page). Each section only renders when filled in. */
+  challenge?: string;
+  solution?: string;
+  /** Extra images for the preview page, e.g. '/images/work-01-detail.jpg'. */
+  gallery?: string[];
+  /** Live site or app store link. */
+  url?: string;
 }

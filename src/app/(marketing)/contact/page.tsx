@@ -23,7 +23,10 @@ export default function ContactPage() {
   const bookingIsExternal = Boolean(siteConfig.links.booking);
 
   return (
-    <div className="min-h-screen bg-grain pb-24 pt-[140px] text-black sm:pb-32 sm:pt-[170px]" style={{ backgroundColor: '#e6e5e0' }}>
+    <div
+      className="min-h-svh bg-grain pb-24 pt-[120px] text-black sm:pb-32 sm:pt-[170px] [@media(max-height:500px)]:pb-16 [@media(max-height:500px)]:pt-24"
+      style={{ backgroundColor: '#e6e5e0' }}
+    >
       <PageCloseButton />
       <div className="mx-auto max-w-[1600px] px-5 sm:px-6">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-24" style={{ maxWidth: 1240 }}>

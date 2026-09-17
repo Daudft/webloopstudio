@@ -12,6 +12,9 @@ const pad = (value: number) => String(value).padStart(2, '0');
 
 const EASE = [0.76, 0, 0.24, 1] as const;
 
+/** How many projects the homepage shows before "View All" (the /work page lists every one). */
+const HOME_PROJECT_LIMIT = 4;
+
 /**
  * Success stories.
  *
@@ -21,10 +24,10 @@ const EASE = [0.76, 0, 0.24, 1] as const;
  * one column below lg.
  */
 export function PortfolioGrid() {
-  const projects = projectsData;
+  const projects = projectsData.slice(0, HOME_PROJECT_LIMIT);
 
   return (
-    <section className="bg-grain py-24 text-black sm:py-32" style={{ backgroundColor: '#e6e5e0' }} id="work">
+    <section className="bg-grain py-16 text-black sm:py-24 lg:py-32" style={{ backgroundColor: '#e6e5e0' }} id="work">
       <div className="mx-auto grid max-w-[1600px] gap-10 px-5 sm:px-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-0">
         {/* Label */}
         <div>
@@ -39,14 +42,13 @@ export function PortfolioGrid() {
         {/* Projects */}
         <div className="space-y-8 sm:space-y-10 lg:space-y-12">
           {projects.map((project, index) => (
-            <ProjectRow key={project.id} project={project} index={index} total={projects.length} />
+            <ProjectRow key={project.id} project={project} index={index} total={projectsData.length} />
           ))}
 
-          {/* TODO: point this at the projects page once it exists. */}
           {/* Width matches a project row (740px image + 16px gap + 360px text), so the button ends at the text column's right edge. */}
           <FadeIn className="flex justify-end" style={{ maxWidth: 1116 }}>
             <Link
-              href="#work"
+              href="/work"
               className="group/all inline-flex h-11 items-center gap-3 rounded-[3px] bg-black pl-2 pr-1.5 font-montserrat text-[14px] font-semibold tracking-[-0.01em] text-white transition-colors duration-300 hover:bg-black/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
             >
               <span className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-white/15 transition-transform duration-500 group-hover/all:rotate-90">
@@ -67,21 +69,26 @@ export function PortfolioGrid() {
   );
 }
 
-interface ProjectRowProps {
+export interface ProjectRowProps {
   project: Project;
   index: number;
   total: number;
 }
 
-function ProjectRow({ project, index, total }: ProjectRowProps) {
+/** One project: image plus text column, the whole row is a link. Shared with the /work page. */
+export function ProjectRow({ project, index, total }: ProjectRowProps) {
   const reduceMotion = useReducedMotion();
 
   return (
     <article id={project.slug}>
-      {/* The whole row (image and text) is one link. TODO: build the project detail page at this URL. */}
+      {/*
+        The whole row (image and text) is one link to the project preview page.
+        Capped at 1116px (the View All button's right edge) and split 2:1, so the image stays
+        wider than the text at every desktop width (about 740 / 360 at full size).
+      */}
       <Link
         href={`/work/${project.slug}`}
-        className="group grid gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-4 lg:grid-cols-[minmax(0,740px)_minmax(260px,360px)] lg:gap-4"
+        className="group grid gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-4 lg:max-w-[1116px] lg:grid-cols-[minmax(0,2fr)_minmax(240px,1fr)] lg:gap-4"
       >
         {/* Image */}
         <motion.div
@@ -103,7 +110,7 @@ function ProjectRow({ project, index, total }: ProjectRowProps) {
               src={project.thumbnail}
               alt={project.title}
               fill
-              sizes="(min-width: 1024px) 740px, 100vw"
+              sizes="(min-width: 1024px) 744px, 100vw"
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             />
           </motion.div>
@@ -111,10 +118,10 @@ function ProjectRow({ project, index, total }: ProjectRowProps) {
 
       {/* Text */}
       <FadeIn delay={0.15} className="flex flex-col text-black">
-        <div className="flex items-center gap-1.5 font-montserrat text-[9px] font-semibold uppercase leading-none tracking-[0.02em]">
+        <div className="flex items-center gap-1.5 font-montserrat text-[10px] font-semibold uppercase leading-none tracking-[0.02em] sm:text-[9px]">
           <span>SS</span>
           <span className="flex items-center" aria-hidden="true">
-            <span className="text-[9px] leading-none">←</span>
+            <span className="leading-none">←</span>
             <span className="-ml-px h-px w-3 bg-black" />
           </span>
           <span className="border border-black px-[3px] py-[2px]">
@@ -133,7 +140,7 @@ function ProjectRow({ project, index, total }: ProjectRowProps) {
         </p>
 
         {/* TODO(content): add a real, verifiable `outcome` to the project to replace the category/year fact. */}
-        <div className="mt-10 sm:mt-14">
+        <div className="mt-8 lg:mt-14">
           <p
             className="inline-block px-1.5 py-1 font-sora text-[18px] font-semibold leading-none text-black"
             style={{ backgroundColor: 'rgba(0, 0, 0, 0.08)', letterSpacing: '-0.04em' }}

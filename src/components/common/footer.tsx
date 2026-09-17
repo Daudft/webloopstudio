@@ -29,7 +29,7 @@ export function Footer() {
 
   return (
     <footer className="overflow-hidden bg-ink bg-grain text-white">
-      <div className="mx-auto max-w-[1600px] px-5 pt-24 sm:px-6 sm:pt-32">
+      <div className="mx-auto max-w-[1600px] px-5 pt-16 sm:px-6 sm:pt-24 lg:pt-32">
         <div className="grid gap-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-0">
           {/* Label */}
           <FadeIn>
@@ -50,13 +50,14 @@ export function Footer() {
                     scroll={item.href === '/about' ? false : undefined}
                     className="group flex items-start gap-4 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky focus-visible:ring-offset-4 focus-visible:ring-offset-ink sm:gap-6"
                   >
-                    <span className="mt-2 border border-white/50 px-[3px] py-[2px] font-montserrat text-[9px] font-semibold leading-none text-white/70 sm:mt-3">
+                    <span className="mt-2 border border-white/50 px-[3px] py-[2px] font-montserrat text-[10px] font-semibold leading-none text-white/70 sm:mt-3 sm:text-[9px]">
                       {pad(index + 1)}/{pad(mainNavItems.length)}
                     </span>
                     <span
                       className="flex items-center gap-3 font-sora font-semibold text-white/90 transition-[color,transform] duration-500 group-hover:translate-x-2 group-hover:text-white"
                       style={{
-                        fontSize: 'clamp(2.5rem, 5.5vw, 4.75rem)',
+                        // 4.6vw keeps the hover arrow clear of the Studio column at 1024px.
+                        fontSize: 'clamp(2.5rem, 4.6vw, 4.75rem)',
                         lineHeight: 1,
                         letterSpacing: '-0.06em',
                         transitionTimingFunction: 'cubic-bezier(0.65, 0, 0.35, 1)',
@@ -122,7 +123,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-24 flex flex-col gap-3 font-montserrat text-[11px] font-medium text-white/55 sm:mt-32 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-3 font-montserrat text-[11px] font-medium text-white/55 sm:mt-24 sm:flex-row sm:items-center sm:justify-between lg:mt-32">
           <p>
             © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>

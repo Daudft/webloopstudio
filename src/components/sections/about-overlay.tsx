@@ -68,19 +68,18 @@ export function AboutOverlay({ mode = 'page' }: AboutOverlayProps) {
       {/* The page underneath blurs and dims while the card comes in, and clears as it leaves. Clicking it does nothing: only Close or Esc close the overlay. */}
       <motion.div
         aria-hidden="true"
-        className="absolute inset-0"
-        initial={{ backgroundColor: 'rgba(9, 11, 13, 0)', backdropFilter: 'blur(0px)' }}
-        animate={
-          closing
-            ? { backgroundColor: 'rgba(9, 11, 13, 0)', backdropFilter: 'blur(0px)' }
-            : { backgroundColor: 'rgba(9, 11, 13, 0.45)', backdropFilter: 'blur(10px)' }
-        }
+        // Fixed blur, faded in with opacity: animating the blur radius itself redrew the whole
+        // screen every frame and made the slide stutter on phones, which get no blur at all.
+        // touch-none stops swipes on the backdrop scrolling the page underneath on iOS.
+        className="absolute inset-0 touch-none bg-[rgba(9,11,13,0.45)] md:backdrop-blur-[10px]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: closing ? 0 : 1 }}
         transition={{ duration, ease: [0.76, 0, 0.24, 1] }}
       />
 
       {/* Card slides in from the right edge, and back out before navigating home. */}
       <motion.section
-        className="relative h-full w-full overflow-y-auto bg-[#f0f0ec] text-[#111315] shadow-[-18px_0_60px_rgba(0,0,0,0.3)] lg:w-[min(57vw,920px)] lg:min-w-[620px]"
+        className="relative h-full w-full overflow-y-auto overflow-x-hidden overscroll-contain bg-[#f0f0ec] text-[#111315] shadow-[-18px_0_60px_rgba(0,0,0,0.3)] lg:w-[min(57vw,920px)] lg:min-w-[620px]"
         initial={{ x: '100%' }}
         animate={{ x: closing ? '100%' : '0%' }}
         transition={{ duration, ease: [0.76, 0, 0.24, 1] }}
@@ -94,10 +93,11 @@ export function AboutOverlay({ mode = 'page' }: AboutOverlayProps) {
           onClick={close}
           aria-label="Close about page"
           aria-keyshortcuts="Escape"
-          className="absolute right-5 top-5 z-10 inline-flex h-9 items-center gap-3 rounded-[4px] bg-[#101214] pl-3 pr-1.5 font-sans text-[15px] font-semibold tracking-[-0.02em] text-white transition-colors duration-300 hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111315] focus-visible:ring-offset-2"
+          className="absolute right-5 top-5 z-10 inline-flex h-9 items-center gap-3 rounded-[4px] bg-[#101214] pl-3 pr-3 font-sans text-[15px] font-semibold tracking-[-0.02em] text-white transition-colors duration-300 hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111315] focus-visible:ring-offset-2 [@media(hover:hover)_and_(pointer:fine)]:pr-1.5"
         >
           Close
-          <kbd className="flex h-6 items-center rounded-[3px] border border-white/15 bg-white/15 px-1.5 font-sans text-[8px] font-semibold uppercase tracking-[0.04em] text-white/70">
+          {/* Keyboard hint only on devices with a mouse (and so, usually, a keyboard). */}
+          <kbd className="hidden h-6 items-center [@media(hover:hover)_and_(pointer:fine)]:flex rounded-[3px] border border-white/15 bg-white/15 px-1.5 font-sans text-[8px] font-semibold uppercase tracking-[0.04em] text-white/70">
             Esc
           </kbd>
         </button>
@@ -108,7 +108,7 @@ export function AboutOverlay({ mode = 'page' }: AboutOverlayProps) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: duration * 0.9, ease: [0.22, 1, 0.36, 1], delay: duration * 0.35 }}
         >
-          <div className="mb-14 flex items-center gap-3 pr-32">
+          <div className="mb-14 flex items-center gap-3 pr-24 sm:pr-32">
             <span className="h-3 w-3 rounded-full bg-[#999b95]" aria-hidden="true" />
             <h1 id="about-heading" className="font-sans text-sm font-bold text-[#111315]">About the studio</h1>
           </div>

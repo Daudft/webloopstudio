@@ -1,10 +1,13 @@
 import { MetadataRoute } from 'next';
 import { siteConfig } from '@/config/site';
+import { projectsData } from '@/data/projects';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date().toISOString();
 
-  return ['', '/about', '/contact'].map((route) => ({
+  const routes = ['', '/work', '/about', '/contact', ...projectsData.map((project) => `/work/${project.slug}`)];
+
+  return routes.map((route) => ({
     url: `${siteConfig.url}${route}`,
     lastModified,
     changeFrequency: 'monthly' as const,

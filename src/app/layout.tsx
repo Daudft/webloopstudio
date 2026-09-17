@@ -78,7 +78,7 @@ export default function RootLayout({
         />
       </head>
       {/* suppressHydrationWarning: browser extensions (e.g. ColorZilla) inject attributes on <body> before React hydrates. */}
-      <body className="flex min-h-screen flex-col font-sans" suppressHydrationWarning>
+      <body className="flex min-h-svh flex-col font-sans" suppressHydrationWarning>
         {/* Outside loading.tsx's Suspense boundary, so the intro paints with the first HTML chunk. */}
         <SiteLoader />
         <Navbar />

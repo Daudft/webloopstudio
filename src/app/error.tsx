@@ -17,7 +17,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center bg-ice px-5 pb-24 pt-[140px] text-navy sm:px-10 lg:px-16">
+    <div className="flex min-h-svh items-center bg-ice px-5 pb-24 pt-[140px] text-navy sm:px-10 lg:px-16">
       <div className="mx-auto w-full max-w-[1500px]">
         <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.24em] text-navy/60">Something broke</p>
         <h1 className="mt-5 max-w-[900px] font-display text-[clamp(2.4rem,7vw,6rem)] font-extrabold leading-[0.9] tracking-[-0.07em]">

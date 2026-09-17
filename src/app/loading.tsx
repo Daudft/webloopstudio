@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function Loading() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-ice text-navy" role="status" aria-label="Loading">
+    <div className="flex min-h-svh items-center justify-center bg-ice text-navy" role="status" aria-label="Loading">
       <div className="flex w-[min(420px,calc(100vw-48px))] flex-col items-center">
         <Image
           src="/WEBLOOP.png"

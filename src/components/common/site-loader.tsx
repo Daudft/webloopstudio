@@ -59,7 +59,7 @@ export function SiteLoader() {
       aria-hidden="true"
       // The navbar samples the surface under it to pick light or dark text; skip this overlay.
       data-nav-ignore=""
-      className="loader-screen fixed inset-0 z-[100] flex min-h-screen items-center justify-center overflow-hidden bg-navy text-white"
+      className="loader-screen fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-navy text-white"
     >
       <div className="w-[min(420px,calc(100vw-48px))]">
         <div className="loader-reveal overflow-hidden">
@@ -78,7 +78,7 @@ export function SiteLoader() {
             className="mx-auto block h-auto w-[min(260px,80vw)]"
           />
         </div>
-        <span className="loader-label mt-3 block text-center font-display text-[9px] font-light uppercase tracking-[0.42em] text-white/75">
+        <span className="loader-label mt-3 block text-center font-display text-[10px] font-light sm:text-[9px] uppercase tracking-[0.42em] text-white/75">
           STUDIO
         </span>
       </div>

@@ -62,19 +62,25 @@ export function ServicesGrid() {
     measure();
   }, [measure]);
 
-  // Re-measure when the window or any row changes size (e.g. when web fonts load).
+  // Re-measure when the window or any row changes size, and once web fonts have loaded
+  // (a font swap can move a title's right edge without changing the row's size).
   useEffect(() => {
+    let cancelled = false;
     const observer = new ResizeObserver(measure);
     rowRefs.current.forEach((row) => row && observer.observe(row));
     window.addEventListener('resize', measure);
+    document.fonts?.ready.then(() => {
+      if (!cancelled) measure();
+    });
     return () => {
+      cancelled = true;
       observer.disconnect();
       window.removeEventListener('resize', measure);
     };
   }, [measure]);
 
   return (
-    <section className="bg-ink bg-grain py-24 text-white sm:py-32" id="services">
+    <section className="bg-ink bg-grain py-16 text-white sm:py-24 lg:py-32" id="services">
       <div className="mx-auto grid max-w-[1600px] gap-10 px-5 sm:px-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-0">
         {/* Label */}
         <div>
@@ -88,10 +94,13 @@ export function ServicesGrid() {
 
         {/* Services. This column is the positioning context for the rows and the preview. */}
         <div ref={columnRef} className="relative">
-          {/* Preview, placed just right of the active title. Rows keep lg:pr-72 (288px) free so gap + width always fits. */}
+          {/*
+            Preview, placed just right of the active title. Rows keep pr-72 (288px) free so gap + width always fits.
+            Only on large screens that can hover: touch tablets have no hover to move it, so they get a plain list.
+          */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-0 top-0 z-10 hidden overflow-hidden bg-white/5 transition-transform duration-700 lg:block"
+            className="pointer-events-none absolute left-0 top-0 z-10 hidden overflow-hidden bg-white/5 transition-transform duration-700 lg:[@media(hover:hover)]:block"
             style={{
               width: PREVIEW_WIDTH,
               height: PREVIEW_HEIGHT,
@@ -124,10 +133,10 @@ export function ServicesGrid() {
                     rowRefs.current[index] = element;
                   }}
                   onPointerEnter={() => setActive(index)}
-                  className="py-6 sm:py-8 lg:pr-72"
+                  className="py-6 sm:py-8 lg:[@media(hover:hover)]:pr-72"
                 >
                   <div className="max-w-[740px]">
-                    <div className="flex items-center gap-1.5 font-montserrat text-[9px] font-semibold uppercase leading-none tracking-[0.02em] text-white/70">
+                    <div className="flex items-center gap-1.5 font-montserrat text-[10px] font-semibold uppercase leading-none tracking-[0.02em] text-white/70 sm:text-[9px]">
                       <span className="border border-white/60 px-[3px] py-[2px]">
                         {pad(index + 1)}/{pad(services.length)}
                       </span>
@@ -135,7 +144,8 @@ export function ServicesGrid() {
                     <h3
                       className={cn(
                         'mt-4 font-sora font-semibold text-white transition-colors duration-500',
-                        !isActive && 'lg:text-white/30'
+                        // Dimming follows the hovered row, so it only applies on devices that can hover.
+                        !isActive && 'lg:[@media(hover:hover)]:text-white/30'
                       )}
                       style={{ fontSize: 'clamp(1.9rem, 3.4vw, 3.25rem)', lineHeight: 1, letterSpacing: '-0.05em' }}
                     >
@@ -150,7 +160,7 @@ export function ServicesGrid() {
                     <p
                       className={cn(
                         'mt-4 max-w-[460px] font-montserrat text-[14px] font-medium leading-[1.45] tracking-[-0.01em] text-white/65 transition-opacity duration-500',
-                        !isActive && 'lg:opacity-40'
+                        !isActive && 'lg:[@media(hover:hover)]:opacity-40'
                       )}
                     >
                       {service.shortDescription}

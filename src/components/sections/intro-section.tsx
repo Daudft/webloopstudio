@@ -7,7 +7,12 @@ export function IntroSection() {
   return (
     <section className="intro-section bg-ink bg-grain text-white" style={{ overflowX: 'clip' }}>
       {/* overflow-x: clip (not hidden) so the sticky blocks inside keep working. */}
-      <StickyUntilEnd className="mx-auto grid min-h-screen w-full grid-cols-1 gap-8 border-b border-white/15 px-5 pb-40 pt-28 sm:pb-48 sm:grid-cols-[340px_minmax(0,1fr)] sm:gap-10 sm:px-12 sm:pt-32 lg:grid-cols-[500px_minmax(0,760px)]">
+      {/*
+        One column on phones; a narrow label column from md so the statement keeps a readable
+        width on tablets and small laptops; the original 500px label column from xl. On very wide
+        screens the two columns are centred instead of leaving a large gap on the right.
+      */}
+      <StickyUntilEnd className="mx-auto grid min-h-svh w-full grid-cols-1 gap-8 border-b border-white/15 px-5 pb-40 pt-28 sm:px-12 sm:pb-48 sm:pt-32 md:grid-cols-[200px_minmax(0,1fr)] md:gap-10 lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[500px_minmax(0,760px)] 2xl:justify-center [@media(max-height:500px)]:pb-24 [@media(max-height:500px)]:pt-20">
         <div className="self-start">
           <p className="font-sora text-[14px] font-medium uppercase leading-[1.35] tracking-[0.28em] text-white/90">
             Who we work with
@@ -20,11 +25,11 @@ export function IntroSection() {
           <ScrollRevealText
             paragraphs={[
               {
-                className: 'text-pretty text-[32px] font-bold leading-[1.08] tracking-[-0.035em] sm:text-[44px] lg:text-[52px]',
+                className: 'text-pretty text-[clamp(28px,4.2vw,52px)] font-bold leading-[1.08] tracking-[-0.035em]',
                 text: "Your business has outgrown the website you built it on. Whether you're a small business finally ready to look the part, or a startup that's already proven the product the website is usually the last thing to catch up.",
               },
               {
-                className: 'text-pretty mt-5 text-[32px] font-bold leading-[1.08] tracking-[-0.035em] sm:text-[44px] lg:text-[52px]',
+                className: 'text-pretty mt-5 text-[clamp(28px,4.2vw,52px)] font-bold leading-[1.08] tracking-[-0.035em]',
                 text: 'That gap costs more than looks. It costs the confidence customers need before they trust you with their money.',
               },
             ]}

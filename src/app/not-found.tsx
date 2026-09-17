@@ -4,7 +4,7 @@ import { buttonClasses } from '@/components/ui/button';
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen items-center bg-ice px-5 pb-24 pt-[140px] text-navy sm:px-10 lg:px-16">
+    <div className="flex min-h-svh items-center bg-ice px-5 pb-24 pt-[140px] text-navy sm:px-10 lg:px-16">
       <div className="mx-auto w-full max-w-[1500px]">
         <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.24em] text-navy/60">Error 404</p>
         <h1 className="mt-5 font-display text-[clamp(3rem,12vw,10rem)] font-extrabold leading-[0.85] tracking-[-0.08em]">

@@ -1,4 +1,5 @@
-import type { ContactFormData } from '@/lib/validations/contact';
+import nodemailer from 'nodemailer';
+import { budgetOptions, serviceOptions, type ContactFormData } from '@/lib/validations/contact';
 
 export type Lead = Omit<ContactFormData, 'website'> & {
   ip?: string;
@@ -11,13 +12,17 @@ export interface LeadTransport {
   send(lead: Lead): Promise<void>;
 }
 
+/** Human-readable label for a select value, e.g. '2k-5k' -> '$2K – $5K'. */
+const labelFor = (options: { value: string; label: string }[], value: string) =>
+  options.find((option) => option.value === value)?.label ?? value;
+
 function formatLead(lead: Lead): string {
   return [
     `Name: ${lead.name}`,
     `Email: ${lead.email}`,
     `Company: ${lead.company || '—'}`,
-    `Service: ${lead.service}`,
-    `Budget: ${lead.budget}`,
+    `Service: ${labelFor(serviceOptions, lead.service)}`,
+    `Budget: ${labelFor(budgetOptions, lead.budget)}`,
     '',
     lead.message,
     '',
@@ -35,6 +40,31 @@ const consoleTransport: LeadTransport = {
   },
 };
 
+/**
+ * Gmail over SMTP (nodemailer). No third-party service: mail is sent from your
+ * own Gmail account. Needs a Gmail app password (Google Account → Security →
+ * 2-Step Verification → App passwords), not the normal account password.
+ */
+function createGmailTransport(user: string, appPassword: string, to: string): LeadTransport {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user, pass: appPassword },
+  });
+
+  return {
+    name: 'gmail',
+    async send(lead) {
+      await transporter.sendMail({
+        from: `Webloop Studio <${user}>`,
+        to,
+        replyTo: lead.email,
+        subject: `New inquiry from ${lead.name} (${labelFor(budgetOptions, lead.budget)})`,
+        text: formatLead(lead),
+      });
+    },
+  };
+}
+
 /** Resend REST API. Requires a verified sending domain for a custom `from`. */
 function createResendTransport(apiKey: string, to: string, from: string): LeadTransport {
   return {
@@ -50,7 +80,7 @@ function createResendTransport(apiKey: string, to: string, from: string): LeadTr
           from,
           to: [to],
           reply_to: lead.email,
-          subject: `New inquiry from ${lead.name}`,
+          subject: `New inquiry from ${lead.name} (${labelFor(budgetOptions, lead.budget)})`,
           text: formatLead(lead),
         }),
       });
@@ -63,9 +93,18 @@ function createResendTransport(apiKey: string, to: string, from: string): LeadTr
   };
 }
 
+/** Picks the first configured transport: Gmail, then Resend, then the console log. */
 export function getLeadTransport(): LeadTransport {
-  const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_RECEIVER_EMAIL;
+
+  const gmailUser = process.env.GMAIL_USER;
+  // Google shows app passwords in groups of four; spaces are not part of the password.
+  const gmailAppPassword = process.env.GMAIL_APP_PASSWORD?.replace(/\s+/g, '');
+  if (gmailUser && gmailAppPassword && to) {
+    return createGmailTransport(gmailUser, gmailAppPassword, to);
+  }
+
+  const apiKey = process.env.RESEND_API_KEY;
 
   if (apiKey && to) {
     const from = process.env.CONTACT_FROM_EMAIL ?? 'Webloop Studio <onboarding@resend.dev>';

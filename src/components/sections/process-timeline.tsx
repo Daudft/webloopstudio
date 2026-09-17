@@ -37,9 +37,10 @@ const steps = [
 
 export function ProcessTimeline() {
   return (
-    <section className="bg-ink bg-grain py-24 text-ice sm:py-36" id="process">
-      <div className="container mx-auto max-w-[1500px] px-5 sm:px-10 lg:px-16">
-        <div className="mb-20 sm:mb-28">
+    <section className="bg-ink bg-grain py-16 text-ice sm:py-24 lg:py-36" id="process">
+      {/* Same container and side padding as the other sections, so left edges line up. */}
+      <div className="mx-auto max-w-[1600px] px-5 sm:px-6">
+        <div className="mb-12 sm:mb-20 lg:mb-28">
           <FadeIn>
             <h2 className="whitespace-nowrap font-sora text-[clamp(4rem,15vw,12rem)] font-extrabold leading-[0.8] tracking-[-0.09em] text-ice">
               Process
@@ -49,16 +50,19 @@ export function ProcessTimeline() {
 
         <FadeInStagger className="space-y-0">
           {steps.map((item) => (
+            // Phones: label, text and image stacked. Tablets: label on its own row, then text beside
+            // the image. Desktop: the original three columns. No fixed minimum widths, so rows never
+            // grow wider than the screen.
             <div
               key={item.step}
-              className="grid gap-8 rounded-[3px] px-3 py-0 sm:grid-cols-[120px_minmax(260px,0.9fr)_minmax(360px,1.25fr)] sm:gap-10 sm:px-5 lg:gap-16"
+              className="grid gap-0 rounded-[3px] px-3 pb-10 sm:px-5 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-x-10 lg:grid-cols-[120px_minmax(0,0.9fr)_minmax(0,1.25fr)] lg:gap-x-16 lg:pb-0"
             >
-              <div className="flex items-start justify-between py-8 sm:block sm:py-12">
+              <div className="pb-4 pt-6 md:col-span-2 md:pt-10 lg:col-span-1 lg:py-12">
                 <span className="font-montserrat text-[10px] font-semibold uppercase tracking-[0.18em] text-white/65">
                   Step / {item.step}
                 </span>
               </div>
-              <div className="max-w-[390px] self-start py-8 sm:py-12">
+              <div className="max-w-[390px] self-start pb-6 md:pb-0 lg:py-12">
                 <h3 className="font-sora text-[27px] font-bold leading-[0.98] tracking-[-0.055em] text-white sm:text-[36px]">
                   {item.title}
                 </h3>
@@ -71,7 +75,7 @@ export function ProcessTimeline() {
                   src={item.image}
                   alt=""
                   fill
-                  sizes="(max-width: 640px) 100vw, 50vw"
+                  sizes="(min-width: 768px) 50vw, 100vw"
                   className="object-cover opacity-75 grayscale"
                   aria-hidden="true"
                 />

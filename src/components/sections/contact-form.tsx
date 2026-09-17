@@ -102,8 +102,8 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
         </div>
       )}
 
-      {/* Honeypot: invisible to people, tempting to bots. */}
-      <div className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+      {/* Honeypot: invisible to people, tempting to bots. Clipped in place (not pushed off-screen) so it can never cause sideways scroll. */}
+      <div className="pointer-events-none absolute left-0 top-0 h-px w-px overflow-hidden opacity-0 [clip-path:inset(50%)]" aria-hidden="true">
         <label htmlFor="website">Website</label>
         <input id="website" type="text" tabIndex={-1} autoComplete="off" {...register('website')} />
       </div>
@@ -133,6 +133,7 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
         </Field>
       </div>
 
+      {/* Company and budget are short, so they can share a row. */}
       <div className="grid gap-8 sm:grid-cols-2">
         <Field id="company" label="Company (optional)" error={errors.company?.message}>
           <Input
@@ -145,14 +146,17 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
           />
         </Field>
 
-        <Field id="service" label="What do you need" required error={errors.service?.message}>
+        <Field id="budget" label="Budget" required error={errors.budget?.message}>
           <Select
-            id="service"
-            aria-invalid={errors.service ? true : undefined}
-            aria-describedby={errors.service ? fieldErrorId('service') : undefined}
-            {...register('service')}
+            id="budget"
+            aria-invalid={errors.budget ? true : undefined}
+            aria-describedby={errors.budget ? fieldErrorId('budget') : undefined}
+            {...register('budget')}
           >
-            {serviceOptions.map((option) => (
+            <option value="" disabled>
+              Select a budget
+            </option>
+            {budgetOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
@@ -161,17 +165,15 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
         </Field>
       </div>
 
-      <Field id="budget" label="Budget" required error={errors.budget?.message}>
+      {/* Full width: service names like "Cloud Infrastructure & DevOps" were cut off in a half-width field. */}
+      <Field id="service" label="What do you need" required error={errors.service?.message}>
         <Select
-          id="budget"
-          aria-invalid={errors.budget ? true : undefined}
-          aria-describedby={errors.budget ? fieldErrorId('budget') : undefined}
-          {...register('budget')}
+          id="service"
+          aria-invalid={errors.service ? true : undefined}
+          aria-describedby={errors.service ? fieldErrorId('service') : undefined}
+          {...register('service')}
         >
-          <option value="" disabled>
-            Select a budget
-          </option>
-          {budgetOptions.map((option) => (
+          {serviceOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>

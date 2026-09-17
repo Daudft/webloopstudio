@@ -18,7 +18,14 @@
     -webkit-overflow-scrolling: touch;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  body.about-overlay-open {
+  /* Scroll lock while the About overlay or the mobile menu is open. */
+  body.about-overlay-open,
+  body.mobile-menu-open {
+    overflow: hidden;
+  }
+  /* iOS Safari scrolls the page through a body-only lock; lock the root too. */
+  html:has(body.about-overlay-open),
+  html:has(body.mobile-menu-open) {
     overflow: hidden;
   }
 }

@@ -57,13 +57,27 @@ export function StickyUntilEnd({ children, className }: StickyUntilEndProps) {
     };
     update();
 
+    // Mobile browsers fire resize when the address bar collapses or expands while
+    // scrolling. Re-measuring then made the pinned block jump, so ignore resizes
+    // where only the height changed by a toolbar's worth.
+    let lastWidth = window.innerWidth;
+    let lastHeight = window.innerHeight;
+    const onWindowResize = () => {
+      const widthChanged = window.innerWidth !== lastWidth;
+      const heightJump = Math.abs(window.innerHeight - lastHeight) >= 120;
+      if (!widthChanged && !heightJump) return;
+      lastWidth = window.innerWidth;
+      lastHeight = window.innerHeight;
+      update();
+    };
+
     const resizeObserver = new ResizeObserver(update);
     resizeObserver.observe(element);
-    window.addEventListener('resize', update);
+    window.addEventListener('resize', onWindowResize);
 
     return () => {
       resizeObserver.disconnect();
-      window.removeEventListener('resize', update);
+      window.removeEventListener('resize', onWindowResize);
     };
   }, [pinAt, viewportHeight]);
 

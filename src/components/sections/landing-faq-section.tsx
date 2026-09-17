@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { faqsData } from '@/data/faqs';
+import { siteConfig } from '@/config/site';
 import { FadeIn } from '@/components/animations/fade-in';
 import { cn } from '@/lib/utils';
 
@@ -15,10 +16,11 @@ export function LandingFAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="bg-ink bg-grain py-24 text-ice sm:py-36" id="faqs">
+    <section className="bg-ink bg-grain py-16 text-ice sm:py-24 lg:py-36" id="faqs">
       {/* Same container and side padding as the work and services sections, so the left edges line up. */}
-      <div className="mx-auto grid max-w-[1600px] gap-16 px-5 sm:px-6 lg:grid-cols-[minmax(220px,0.75fr)_minmax(0,1.75fr)] lg:gap-24">
-        <div className="flex flex-col justify-end gap-12 lg:min-h-[660px]">
+      <div className="mx-auto grid max-w-[1600px] gap-12 px-5 sm:px-6 lg:grid-cols-[minmax(220px,0.75fr)_minmax(0,1.75fr)] lg:gap-24">
+        {/* Founder card: after the questions on phones and tablets, in the left column on desktop. */}
+        <div className="order-last flex flex-col justify-end gap-12 lg:order-none lg:min-h-[660px]">
           <FadeIn delay={0.1} className="max-w-[210px]">
             <div className="relative aspect-[0.82] w-full overflow-hidden bg-[#16345f]" style={{ maxWidth: 160 }}>
               <Image
@@ -34,9 +36,10 @@ export function LandingFAQSection() {
               <br />
               Talk with Daud.
             </h3>
-            {/* Same style as the navbar's "Start a project" button. */}
+            {/* Same style as the navbar's "Start a project" button. Opens the Calendly booking page when set. */}
             <Link
-              href="/contact"
+              href={siteConfig.links.booking ?? '/contact'}
+              {...(siteConfig.links.booking ? { target: '_blank', rel: 'noreferrer' } : {})}
               className="mt-6 inline-flex h-8 items-center gap-2.5 rounded-[3px] bg-ice pl-3 pr-[5px] font-sans text-[14px] font-semibold tracking-[-0.01em] text-navy transition-colors duration-300 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
               Book a call

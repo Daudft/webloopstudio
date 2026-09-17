@@ -55,7 +55,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('[contact] lead delivery failed:', error);
     return NextResponse.json(
-      { error: 'We could not deliver your message right now. Please email us directly.' },
+      { error: 'We could not send your message right now. Please try again in a moment.' },
       { status: 502 }
     );
   }
