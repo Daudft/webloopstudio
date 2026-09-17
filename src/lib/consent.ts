@@ -36,6 +36,17 @@ export function writeConsent(choice: ConsentChoice): void {
   window.dispatchEvent(new CustomEvent(CONSENT_EVENT));
 }
 
+/**
+ * Send an event to Google Analytics, but only when analytics is configured and the visitor has
+ * accepted cookies. Safe to call from anywhere: it does nothing if GA isn't loaded.
+ * Never pass personal data (names, emails, message text) as parameters.
+ */
+export function trackEvent(name: string, params: Record<string, string | number | boolean> = {}): void {
+  if (!analyticsId || readConsent() !== 'granted') return;
+  const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+  gtag?.('event', name, params);
+}
+
 /** Forget the choice so the banner shows again ("Cookie settings"). */
 export function resetConsent(): void {
   try {

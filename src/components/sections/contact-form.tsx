@@ -12,6 +12,7 @@ import {
   type ContactFormData,
 } from '@/lib/validations/contact';
 import { Field, Input, Select, Textarea, fieldErrorId } from '@/components/ui/input';
+import { trackEvent } from '@/lib/consent';
 
 const isServiceOption = (value: string | null): value is string =>
   serviceOptions.some((option) => option.value === value);
@@ -66,6 +67,10 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
         const payload = (await res.json().catch(() => null)) as { error?: string } | null;
         throw new Error(payload?.error ?? 'Something went wrong. Please try again.');
       }
+
+      // Count the inquiry in GA4 (standard "generate_lead" event). No personal data: just which
+      // service and budget was picked. Does nothing unless the visitor accepted analytics cookies.
+      trackEvent('generate_lead', { method: 'contact_form', service: data.service, budget: data.budget });
 
       // Sent: show the confirmation on its own page (also a clean conversion URL for analytics).
       setIsRedirecting(true);

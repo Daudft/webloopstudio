@@ -18,6 +18,12 @@ export function generateStaticParams() {
   return projectsData.map((project) => ({ slug: project.slug }));
 }
 
+/**
+ * Only the slugs above exist. Without this, an unknown slug such as /work/nope was still rendered
+ * on demand and answered 200 with the 404 page inside it (a "soft 404" that search engines index).
+ */
+export const dynamicParams = false;
+
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = projectsData.find((item) => item.slug === slug);
