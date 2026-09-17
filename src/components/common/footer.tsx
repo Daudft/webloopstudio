@@ -7,11 +7,12 @@ import { ArrowUpRight } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import { mainNavItems } from '@/config/navigation';
 import { FadeIn } from '@/components/animations/fade-in';
+import { analyticsId, resetConsent } from '@/lib/consent';
 
 const pad = (value: number) => String(value).padStart(2, '0');
 
-/** Routes that render without the footer (the contact page is a focused, form-only page). */
-const HIDDEN_ON = ['/contact'];
+/** Routes that render without the footer (the contact page and its thank-you page are focused, form-only pages). */
+const HIDDEN_ON = ['/contact', '/thank-you'];
 
 /**
  * Site footer, in the same editorial grid as the homepage sections (dot label
@@ -127,9 +128,23 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>
-          <Link href="/#top" className="w-fit text-white/80 transition-colors hover:text-white">
-            Back to top ↑
-          </Link>
+          <nav aria-label="Legal" className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <Link href="/privacy" className="text-white/80 transition-colors hover:text-white">
+              Privacy
+            </Link>
+            <Link href="/terms" className="text-white/80 transition-colors hover:text-white">
+              Terms
+            </Link>
+            {/* Reopens the cookie banner so visitors can change their analytics choice. */}
+            {analyticsId && (
+              <button type="button" onClick={resetConsent} className="text-white/80 transition-colors hover:text-white">
+                Cookie settings
+              </button>
+            )}
+            <Link href="/#top" className="text-white/80 transition-colors hover:text-white">
+              Back to top ↑
+            </Link>
+          </nav>
         </div>
       </div>
 

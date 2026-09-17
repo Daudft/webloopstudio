@@ -15,10 +15,11 @@ export function getOrganizationSchema() {
       name: siteConfig.founder,
     },
     ...(sameAs.length > 0 && { sameAs }),
+    // Points to the contact page instead of publishing an email address.
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'sales',
-      email: siteConfig.contact.email,
+      url: `${siteConfig.url}/contact`,
       areaServed: 'Worldwide',
       availableLanguage: ['English'],
     },

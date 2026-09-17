@@ -10,7 +10,8 @@ import { PageCloseButton } from '@/components/common/page-close-button';
 export const metadata: Metadata = constructMetadata({
   title: 'Contact',
   description:
-    'Tell Webloop Studio about your business and what you want to build. We read every message and reply personally.',
+    'Start a project with Webloop Studio. Tell us about your business, budget and goals, or book a free 30-minute intro call. We read every message and reply personally.',
+  path: '/contact',
 });
 
 /**

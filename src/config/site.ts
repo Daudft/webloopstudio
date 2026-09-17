@@ -5,7 +5,8 @@ export const siteConfig: SiteConfig = {
   tagline: 'Websites, apps and custom software for growing businesses',
   description:
     'Webloop Studio designs and builds websites, apps and custom software for businesses whose growth has outpaced their digital presence.',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://webloopstudio.com',
+  // Set NEXT_PUBLIC_SITE_URL on the host; this fallback is the production domain.
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://webloop.studio',
   founder: 'Daud Afzal',
   links: {
     // TODO(content): set real profile URLs, or leave undefined to hide the link.
@@ -15,7 +16,8 @@ export const siteConfig: SiteConfig = {
     booking: 'https://calendly.com/daudafzal654/30min',
   },
   contact: {
-    // TODO(content): confirm this inbox exists and is monitored.
-    email: 'hello@webloopstudio.com',
+    // Not shown on the public site (contact goes through the form and Book a call).
+    // Used only as the contact address on the Privacy Policy and Terms pages.
+    email: 'daudafzal654@gmail.com',
   },
 };

@@ -5,6 +5,9 @@ import { siteConfig } from '@/config/site';
 import { Navbar } from '@/components/common/navbar';
 import { Footer } from '@/components/common/footer';
 import { SiteLoader } from '@/components/common/site-loader';
+import { MobileStickyCta } from '@/components/common/mobile-sticky-cta';
+import { CookieConsent } from '@/components/common/cookie-consent';
+import { Analytics } from '@/components/common/analytics';
 import { getOrganizationSchema } from '@/lib/schema';
 
 const montserrat = Montserrat({
@@ -52,7 +55,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0A1F44',
+  themeColor: '#131315',
   colorScheme: 'light',
   width: 'device-width',
   initialScale: 1,
@@ -85,6 +88,10 @@ export default function RootLayout({
         <main id="top" className="flex-1">{children}</main>
         <Footer />
         {modal}
+        <MobileStickyCta />
+        {/* Both render nothing until NEXT_PUBLIC_GA_ID is set; GA loads only after the visitor accepts. */}
+        <CookieConsent />
+        <Analytics />
       </body>
     </html>
   );

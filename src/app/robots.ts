@@ -6,7 +6,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/'],
+      // /thank-you is only reached after sending the contact form; keep it out of search results.
+      disallow: ['/api/', '/thank-you'],
     },
     sitemap: `${siteConfig.url}/sitemap.xml`,
   };

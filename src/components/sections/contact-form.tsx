@@ -1,17 +1,16 @@
 'use client';
 
-import { Suspense, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AlertCircle, ArrowUpRight, CheckCircle } from 'lucide-react';
+import { AlertCircle, ArrowUpRight, Loader2 } from 'lucide-react';
 import {
   budgetOptions,
   contactFormSchema,
   serviceOptions,
   type ContactFormData,
 } from '@/lib/validations/contact';
-import { Button } from '@/components/ui/button';
 import { Field, Input, Select, Textarea, fieldErrorId } from '@/components/ui/input';
 
 const isServiceOption = (value: string | null): value is string =>
@@ -32,16 +31,21 @@ function ContactFormWithParams() {
 }
 
 function ContactFormFields({ defaultService }: { defaultService?: string }) {
-  const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
   const [submitError, setSubmitError] = useState<string | null>(null);
+  // Stays true after a successful send until /thank-you has loaded, so the button can't be pressed twice.
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const errorRef = useRef<HTMLDivElement>(null);
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
+    // Validate a field when the visitor leaves it, then re-check as they type to clear the error.
+    // Submitting still validates everything and focuses the first invalid field.
+    mode: 'onTouched',
     defaultValues: {
       service: defaultService ?? 'not-sure',
       budget: '',
@@ -63,39 +67,29 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
         throw new Error(payload?.error ?? 'Something went wrong. Please try again.');
       }
 
-      setSubmitted(true);
-      reset();
+      // Sent: show the confirmation on its own page (also a clean conversion URL for analytics).
+      setIsRedirecting(true);
+      router.push('/thank-you');
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
     }
   };
 
-  if (submitted) {
-    return (
-      <div className="border-t border-black/15 pt-10 text-black" role="status">
-        <CheckCircle className="h-8 w-8" aria-hidden="true" />
-        <h2
-          className="mt-6 font-sora text-[28px] font-semibold leading-[1.05] sm:text-[36px]"
-          style={{ letterSpacing: '-0.05em' }}
-        >
-          Thanks, we got it.
-        </h2>
-        <p className="mt-4 max-w-md font-montserrat text-[15px] font-medium leading-[1.5] text-black/70">
-          We read every message personally and will reply by email soon.
-        </p>
-        <Button variant="ghost" size="sm" className="mt-8 px-0 text-[13px] text-black" onClick={() => setSubmitted(false)}>
-          Send another message
-        </Button>
-      </div>
-    );
-  }
+  // Move focus to a server error (e.g. rate limit, delivery failure) so it's seen and announced.
+  useEffect(() => {
+    if (submitError) errorRef.current?.focus();
+  }, [submitError]);
+
+  const isBusy = isSubmitting || isRedirecting;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8" noValidate>
       {submitError && (
         <div
+          ref={errorRef}
           role="alert"
-          className="flex items-start gap-3 border border-red-700/40 bg-red-50 px-4 py-3 font-sans text-[13px] text-red-800"
+          tabIndex={-1}
+          className="flex items-start gap-3 border border-red-700/40 bg-red-50 px-4 py-3 font-sans text-[13px] text-red-800 outline-none focus-visible:ring-2 focus-visible:ring-red-700/40"
         >
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
           <span>{submitError}</span>
@@ -194,16 +188,20 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
 
       <button
         type="submit"
-        disabled={isSubmitting}
-        aria-busy={isSubmitting || undefined}
+        disabled={isBusy}
+        aria-busy={isBusy || undefined}
         className="group inline-flex h-11 w-full items-center justify-between gap-4 rounded-[3px] bg-black pl-4 pr-1.5 font-montserrat text-[15px] font-semibold tracking-[-0.01em] text-white transition-colors duration-300 hover:bg-black/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60 sm:w-auto sm:justify-start"
       >
-        {isSubmitting ? 'Sending…' : 'Send message'}
+        {isBusy ? 'Sending…' : 'Send message'}
         <span className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-white text-black">
-          <ArrowUpRight
-            className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            aria-hidden="true"
-          />
+          {isBusy ? (
+            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+          ) : (
+            <ArrowUpRight
+              className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              aria-hidden="true"
+            />
+          )}
         </span>
       </button>
     </form>

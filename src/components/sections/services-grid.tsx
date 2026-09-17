@@ -113,6 +113,7 @@ export function ServicesGrid() {
                 key={service.id}
                 src={serviceImages[service.slug] ?? '/services/web-development.jpg'}
                 alt=""
+                aria-hidden="true"
                 fill
                 sizes={`${PREVIEW_WIDTH}px`}
                 className={cn(

@@ -4,9 +4,10 @@ import { AboutOverlay } from '@/components/sections/about-overlay';
 import HomePage from '../page';
 
 export const metadata: Metadata = constructMetadata({
-  title: 'About Our Studio',
+  title: 'About',
   description:
-    'Learn about Webloop Studio, our values, our engineering philosophy, and the elite team building high-performance digital products.',
+    'Webloop Studio is a founder-led digital studio run by Daud Afzal. Read why we started, how we work, and the principles behind every website, app and product we build.',
+  path: '/about',
 });
 
 /**

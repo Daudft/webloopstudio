@@ -9,7 +9,9 @@ import { PageCloseButton } from '@/components/common/page-close-button';
 
 export const metadata: Metadata = constructMetadata({
   title: 'Work',
-  description: 'Selected websites, apps and custom software built by Webloop Studio, from first conversation to launch.',
+  description:
+    'Selected work by Webloop Studio: websites, web apps, mobile apps and custom software for growing businesses, from first conversation to launch.',
+  path: '/work',
 });
 
 const pad = (value: number) => String(value).padStart(2, '0');

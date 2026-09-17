@@ -15,7 +15,8 @@ type Surface = 'dark' | 'light';
 const desktopItems = mainNavItems.filter((item) => item.href !== '/contact');
 
 /** Routes that render a PageCloseButton where the navbar CTA normally sits (/work and every /work/<project>). */
-const showsCloseButton = (pathname: string) => pathname === '/contact' || pathname === '/work' || pathname.startsWith('/work/');
+const showsCloseButton = (pathname: string) =>
+  pathname === '/contact' || pathname === '/thank-you' || pathname === '/work' || pathname.startsWith('/work/');
 
 /**
  * The logo PNG is used as a mask over `currentColor`, so it always matches the

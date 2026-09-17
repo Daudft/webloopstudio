@@ -22,7 +22,11 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   const { slug } = await params;
   const project = projectsData.find((item) => item.slug === slug);
   if (!project) return constructMetadata({ title: 'Project not found', noIndex: true });
-  return constructMetadata({ title: project.title, description: project.summary });
+  return constructMetadata({
+    title: project.title,
+    description: `${project.category} project by Webloop Studio (${project.year}). ${project.summary}`,
+    path: `/work/${project.slug}`,
+  });
 }
 
 /**

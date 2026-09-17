@@ -2,39 +2,45 @@ import { Metadata } from 'next';
 import { siteConfig } from '@/config/site';
 
 interface ConstructMetadataProps {
+  /** Bare page title, e.g. "Contact". The root layout's template adds " | Webloop Studio". */
   title?: string;
   description?: string;
   noIndex?: boolean;
-  canonical?: string;
+  /** Route path, e.g. "/contact". Sets the canonical URL and og:url for this page. */
+  path?: string;
 }
 
 export function constructMetadata({
   title,
   description = siteConfig.description,
   noIndex = false,
-  canonical,
+  path,
 }: ConstructMetadataProps = {}): Metadata {
-  const fullTitle = title ? `${title} | ${siteConfig.name}` : `${siteConfig.name} — ${siteConfig.tagline}`;
+  // Social titles are not run through the layout template, so they get the suffix here.
+  const socialTitle = title ? `${title} | ${siteConfig.name}` : `${siteConfig.name} — ${siteConfig.tagline}`;
+  const url = path ? `${siteConfig.url}${path}` : siteConfig.url;
 
   return {
-    title: fullTitle,
+    // Bare title: the layout template turns it into "Contact | Webloop Studio" (previously the
+    // suffix was added here too, producing "Contact | Webloop Studio | Webloop Studio").
+    ...(title && { title }),
     description,
     openGraph: {
-      title: fullTitle,
+      title: socialTitle,
       description,
-      url: canonical || siteConfig.url,
+      url,
       siteName: siteConfig.name,
       locale: 'en_US',
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: fullTitle,
+      title: socialTitle,
       description,
     },
-    ...(canonical && {
+    ...(path && {
       alternates: {
-        canonical,
+        canonical: path,
       },
     }),
     ...(noIndex && {
