@@ -45,27 +45,6 @@
   }
 }
 
-/* Route-transition loading state (app/loading.tsx) */
-@keyframes loader-mark {
-  0%, 100% {
-    opacity: 0.55;
-    transform: scale(0.98);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes loader-line {
-  0% {
-    transform: translateX(-140%);
-  }
-  100% {
-    transform: translateX(440%);
-  }
-}
-
 /*
  * Intro loader (components/common/site-loader.tsx). Total 2.5s.
  * The component removes itself when `loader-rise` finishes, so timings here

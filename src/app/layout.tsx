@@ -82,7 +82,7 @@ export default function RootLayout({
       </head>
       {/* suppressHydrationWarning: browser extensions (e.g. ColorZilla) inject attributes on <body> before React hydrates. */}
       <body className="flex min-h-svh flex-col font-sans" suppressHydrationWarning>
-        {/* Outside loading.tsx's Suspense boundary, so the intro paints with the first HTML chunk. */}
+        {/* Intro animation on full page loads only; client-side navigation keeps the layout mounted. */}
         <SiteLoader />
         <Navbar />
         <main id="top" className="flex-1">{children}</main>

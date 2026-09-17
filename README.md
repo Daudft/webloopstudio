@@ -35,7 +35,7 @@ src/
 │   ├── icon.svg / apple-icon.png Favicons (file conventions)
 │   ├── opengraph-image.tsx       Open Graph image, generated at build time
 │   ├── manifest.ts, robots.ts, sitemap.ts
-│   └── error.tsx, global-error.tsx, not-found.tsx, loading.tsx
+│   └── error.tsx, global-error.tsx, not-found.tsx
 ├── components/
 │   ├── common/                   Navbar, Footer, SiteLoader (intro animation)
 │   ├── sections/                 Homepage sections, contact form, about overlay

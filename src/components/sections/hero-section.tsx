@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight, Globe } from 'lucide-react';
-import { siteConfig } from '@/config/site';
 import { HeroBackground, type HeroTone } from '@/components/sections/hero-background';
 import { cn } from '@/lib/utils';
 
@@ -63,8 +62,11 @@ export function HeroSection() {
           Websites, apps, and custom software for businesses whose growth has outpaced their digital presence
         </p>
 
-        {/* Above-the-fold CTA: primary "Start a project" (same style as the navbar button) plus a Calendly link. */}
-        <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 [@media(max-height:500px)]:mt-4">
+        {/*
+          Above-the-fold CTA on phones and tablets only. On desktop the navbar's "Start a project"
+          button is already visible in the same view, so the hero stays clean.
+        */}
+        <div className="mt-7 flex items-center justify-center lg:hidden [@media(max-height:500px)]:mt-4">
           <Link
             href="/contact"
             className="group inline-flex h-10 items-center gap-2.5 rounded-[3px] bg-ice pl-3.5 pr-[5px] font-sans text-[15px] font-semibold tracking-[-0.01em] text-black transition-colors duration-300 hover:bg-ice/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
@@ -77,20 +79,6 @@ export function HeroSection() {
               />
             </span>
           </Link>
-          {siteConfig.links.booking && (
-            <a
-              href={siteConfig.links.booking}
-              target="_blank"
-              rel="noreferrer"
-              className="group inline-flex items-center gap-1.5 font-sans text-[15px] font-semibold text-white underline decoration-white/35 underline-offset-4 transition-colors hover:decoration-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
-            >
-              Book a call
-              <ArrowUpRight
-                className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                aria-hidden="true"
-              />
-            </a>
-          )}
         </div>
         <div
           onPointerMove={handleWordmarkMove}
