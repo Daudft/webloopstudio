@@ -3,9 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ArrowRight, ArrowUpRight, Menu, X } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
 import { mainNavItems } from '@/config/navigation';
 import { buttonClasses } from '@/components/ui/button';
+import { RollText } from '@/components/ui/roll-text';
+import { RollArrow } from '@/components/ui/roll-arrow';
 import { cn } from '@/lib/utils';
 import { markPageVisit } from '@/lib/in-app-navigation';
 
@@ -184,11 +186,12 @@ export function Navbar() {
                   scroll={item.href === '/about' ? false : undefined}
                   aria-current={isActive ? 'page' : undefined}
                   className={cn(
-                    'rounded-sm text-[16px] font-semibold tracking-[-0.02em] transition-opacity hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current',
-                    isActive && 'underline underline-offset-[6px]'
+                    'relative rounded-sm text-[16px] font-semibold tracking-[-0.02em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current',
+                    // Underline drawn outside the text, since the roll clips anything below the line.
+                    isActive && 'after:absolute after:inset-x-0 after:-bottom-[4px] after:h-px after:bg-current'
                   )}
                 >
-                  {item.title}
+                  <RollText>{item.title}</RollText>
                 </Link>
               );
             })}
@@ -205,14 +208,14 @@ export function Navbar() {
               onLight ? 'bg-black text-white hover:bg-black/85' : 'bg-ice text-black hover:bg-ice/85'
             )}
           >
-            Start a project
+            <RollText>Start a project</RollText>
             <span
               className={cn(
                 'flex h-[22px] w-[22px] items-center justify-center rounded-[2px] transition-colors duration-300',
                 onLight ? 'bg-white text-black' : 'bg-black text-white'
               )}
             >
-              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+              <RollArrow className="h-3.5 w-3.5" />
             </span>
           </Link>
           )}
@@ -254,7 +257,7 @@ export function Navbar() {
             ))}
           </nav>
           <Link href="/contact" className={buttonClasses({ variant: 'ice', className: 'w-full bg-ice text-black hover:bg-ice/85' })}>
-            Start a project
+            <RollText>Start a project</RollText>
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>

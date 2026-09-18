@@ -46,6 +46,110 @@
 }
 
 /*
+ * Hover label roll (components/ui/roll-text.tsx). The visible line moves up
+ * and out while its copy, parked just below, moves up into place.
+ */
+.roll-text {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  line-height: 1.2;
+}
+
+.roll-text__track {
+  position: relative;
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.roll-text__line {
+  display: block;
+  white-space: nowrap;
+}
+
+.roll-text__clone {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :is(a, button):hover .roll-text__track {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+:is(a, button):focus-visible .roll-text__track {
+  transform: translate3d(0, -100%, 0);
+}
+
+/* Arrow roll (components/ui/roll-arrow.tsx): out to the top right, copy in from the bottom left. */
+.roll-arrow {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+}
+
+.roll-arrow__icon {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.roll-arrow__clone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate3d(-100%, 100%, 0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :is(a, button):hover .roll-arrow__icon {
+    transform: translate3d(100%, -100%, 0);
+  }
+  :is(a, button):hover .roll-arrow__clone {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+:is(a, button):focus-visible .roll-arrow__icon {
+  transform: translate3d(100%, -100%, 0);
+}
+
+:is(a, button):focus-visible .roll-arrow__clone {
+  transform: translate3d(0, 0, 0);
+}
+
+/* Left arrows: out to the left, copy in from the right. */
+.roll-arrow--left .roll-arrow__clone {
+  transform: translate3d(100%, 0, 0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :is(a, button):hover .roll-arrow--left .roll-arrow__icon {
+    transform: translate3d(-100%, 0, 0);
+  }
+  :is(a, button):hover .roll-arrow--left .roll-arrow__clone {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+:is(a, button):focus-visible .roll-arrow--left .roll-arrow__icon {
+  transform: translate3d(-100%, 0, 0);
+}
+
+:is(a, button):focus-visible .roll-arrow--left .roll-arrow__clone {
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roll-text__track,
+  .roll-arrow__icon {
+    transition: none;
+  }
+}
+
+/*
  * Intro loader (components/common/site-loader.tsx). Total 2.5s.
  * The component removes itself when `loader-rise` finishes, so timings here
  * can change freely; just keep `loader-rise` as the last animation.

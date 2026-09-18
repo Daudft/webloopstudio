@@ -3,11 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { ArrowUpRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { faqsData } from '@/data/faqs';
 import { siteConfig } from '@/config/site';
 import { FadeIn } from '@/components/animations/fade-in';
+import { RollText } from '@/components/ui/roll-text';
+import { RollArrow } from '@/components/ui/roll-arrow';
 import { cn } from '@/lib/utils';
 
 const EASE = [0.65, 0, 0.35, 1] as const;
@@ -42,9 +43,9 @@ export function LandingFAQSection() {
               {...(siteConfig.links.booking ? { target: '_blank', rel: 'noreferrer' } : {})}
               className="mt-6 inline-flex h-8 items-center gap-2.5 rounded-[3px] bg-ice pl-3 pr-[5px] font-sans text-[14px] font-semibold tracking-[-0.01em] text-navy transition-colors duration-300 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
-              Book a call
+              <RollText>Book a call</RollText>
               <span className="flex h-[22px] w-[22px] items-center justify-center rounded-[2px] bg-navy text-ice">
-                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                <RollArrow className="h-3.5 w-3.5" />
               </span>
             </Link>
           </FadeIn>

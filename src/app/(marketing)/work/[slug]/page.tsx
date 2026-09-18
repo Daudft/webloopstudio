@@ -7,6 +7,8 @@ import { constructMetadata } from '@/lib/metadata';
 import { projectsData } from '@/data/projects';
 import { FadeIn } from '@/components/animations/fade-in';
 import { PageCloseButton } from '@/components/common/page-close-button';
+import { RollText } from '@/components/ui/roll-text';
+import { RollArrow } from '@/components/ui/roll-arrow';
 
 const pad = (value: number) => String(value).padStart(2, '0');
 
@@ -239,12 +241,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 href="/contact"
                 className="group mt-5 inline-flex h-11 items-center gap-3 rounded-[3px] bg-black pl-4 pr-1.5 font-montserrat text-[15px] font-semibold tracking-[-0.01em] text-white transition-colors duration-300 hover:bg-black/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
               >
-                Start a similar project
+                <RollText>Start a similar project</RollText>
                 <span className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-white text-black">
-                  <ArrowUpRight
-                    className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                    aria-hidden="true"
-                  />
+                  <RollArrow className="h-4 w-4" />
                 </span>
               </Link>
             </FadeIn>

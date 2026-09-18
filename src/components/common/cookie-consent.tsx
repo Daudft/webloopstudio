@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { analyticsId, CONSENT_EVENT, readConsent, writeConsent } from '@/lib/consent';
+import { RollText } from '@/components/ui/roll-text';
 
 /**
  * GDPR-friendly cookie banner for Google Analytics.
@@ -51,14 +52,14 @@ export function CookieConsent() {
           onClick={() => writeConsent('granted')}
           className="inline-flex h-9 flex-1 items-center justify-center rounded-[3px] bg-ice px-4 font-sans text-[14px] font-semibold text-black transition-colors hover:bg-ice/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
         >
-          Accept
+          <RollText>Accept</RollText>
         </button>
         <button
           type="button"
           onClick={() => writeConsent('denied')}
           className="inline-flex h-9 flex-1 items-center justify-center rounded-[3px] px-4 font-sans text-[14px] font-semibold text-white ring-1 ring-white/30 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice"
         >
-          Reject
+          <RollText>Reject</RollText>
         </button>
       </div>
     </div>

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { RollText } from '@/components/ui/roll-text';
 
 const principles = [
   ['Outcomes first, taste second', 'Every creative decision we make is interrogated against one question: does this actually serve your growth?'],
@@ -95,7 +96,7 @@ export function AboutOverlay({ mode = 'page' }: AboutOverlayProps) {
           aria-keyshortcuts="Escape"
           className="absolute right-5 top-5 z-10 inline-flex h-9 items-center gap-3 rounded-[4px] bg-[#101214] pl-3 pr-3 font-sans text-[15px] font-semibold tracking-[-0.02em] text-white transition-colors duration-300 hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111315] focus-visible:ring-offset-2 [@media(hover:hover)_and_(pointer:fine)]:pr-1.5"
         >
-          Close
+          <RollText>Close</RollText>
           {/* Keyboard hint only on devices with a mouse (and so, usually, a keyboard). */}
           <kbd className="hidden h-6 items-center [@media(hover:hover)_and_(pointer:fine)]:flex rounded-[3px] border border-white/15 bg-white/15 px-1.5 font-sans text-[8px] font-semibold uppercase tracking-[0.04em] text-white/70">
             Esc

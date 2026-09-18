@@ -3,6 +3,7 @@
 import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { RollText } from '@/components/ui/roll-text';
 import { hasInAppHistory } from '@/lib/in-app-navigation';
 
 interface PageCloseButtonProps {
@@ -53,7 +54,7 @@ export function PageCloseButton({ href = '/', preferBack = false, className }: P
         className
       )}
     >
-      Close
+      <RollText>Close</RollText>
       {/* Keyboard hint only on devices with a mouse (and so, usually, a keyboard). */}
       <kbd className="hidden h-6 items-center rounded-[3px] border border-white/15 bg-white/15 px-1.5 font-sans text-[8px] font-semibold uppercase tracking-[0.04em] text-white/70 [@media(hover:hover)_and_(pointer:fine)]:flex">
         Esc

@@ -3,9 +3,11 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight, Globe } from 'lucide-react';
+import { Globe } from 'lucide-react';
 import { HeroBackground, type HeroTone } from '@/components/sections/hero-background';
 import { cn } from '@/lib/utils';
+import { RollText } from '@/components/ui/roll-text';
+import { RollArrow } from '@/components/ui/roll-arrow';
 
 /**
  * 'light' keeps the brand ice hero with navy type.
@@ -71,12 +73,9 @@ export function HeroSection() {
             href="/contact"
             className="group inline-flex h-10 items-center gap-2.5 rounded-[3px] bg-ice pl-3.5 pr-[5px] font-sans text-[15px] font-semibold tracking-[-0.01em] text-black transition-colors duration-300 hover:bg-ice/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
           >
-            Start a project
+            <RollText>Start a project</RollText>
             <span className="flex h-[30px] w-[30px] items-center justify-center rounded-[2px] bg-black text-white">
-              <ArrowUpRight
-                className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                aria-hidden="true"
-              />
+              <RollArrow className="h-4 w-4" />
             </span>
           </Link>
         </div>

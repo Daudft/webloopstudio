@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { RotateCcw } from 'lucide-react';
 import { Button, buttonClasses } from '@/components/ui/button';
+import { RollText } from '@/components/ui/roll-text';
 
 export default function Error({
   error,
@@ -29,7 +30,7 @@ export default function Error({
         <div className="mt-10 flex flex-wrap gap-4">
           <Button size="lg" onClick={() => reset()}>
             <RotateCcw className="h-4 w-4" aria-hidden="true" />
-            Try again
+            <RollText>Try again</RollText>
           </Button>
           <Link href="/" className={buttonClasses({ variant: 'ghost', size: 'lg', className: 'px-0' })}>
             Back to home

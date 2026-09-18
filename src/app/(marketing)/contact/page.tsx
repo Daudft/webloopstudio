@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
-import { ArrowUpRight } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import { constructMetadata } from '@/lib/metadata';
 import { ContactForm } from '@/components/sections/contact-form';
 import { FadeIn } from '@/components/animations/fade-in';
 import { PageCloseButton } from '@/components/common/page-close-button';
+import { RollText } from '@/components/ui/roll-text';
+import { RollArrow } from '@/components/ui/roll-arrow';
 
 export const metadata: Metadata = constructMetadata({
   title: 'Contact',
@@ -72,12 +73,9 @@ export default function ContactPage() {
                 {...(bookingIsExternal ? { target: '_blank', rel: 'noreferrer' } : {})}
                 className="group mt-6 inline-flex h-8 items-center gap-2.5 rounded-[3px] bg-black pl-3 pr-[5px] font-sans text-[14px] font-semibold tracking-[-0.01em] text-white transition-colors duration-300 hover:bg-black/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
               >
-                Book a call
+                <RollText>Book a call</RollText>
                 <span className="flex h-[22px] w-[22px] items-center justify-center rounded-[2px] bg-white text-black">
-                  <ArrowUpRight
-                    className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                    aria-hidden="true"
-                  />
+                  <RollArrow className="h-3.5 w-3.5" />
                 </span>
               </a>
             </FadeIn>

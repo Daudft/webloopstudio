@@ -2,10 +2,12 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { projectsData } from '@/data/projects';
 import { FadeIn } from '@/components/animations/fade-in';
+import { RollText } from '@/components/ui/roll-text';
+import { RollArrow } from '@/components/ui/roll-arrow';
 import type { Project } from '@/types/project';
 
 const pad = (value: number) => String(value).padStart(2, '0');
@@ -54,12 +56,9 @@ export function PortfolioGrid() {
               <span className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-white/15 transition-transform duration-500 group-hover/all:rotate-90">
                 <Plus className="h-4 w-4" aria-hidden="true" />
               </span>
-              View All
+              <RollText>View All</RollText>
               <span className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-white text-black">
-                <ArrowUpRight
-                  className="h-4 w-4 transition-transform duration-300 group-hover/all:-translate-y-0.5 group-hover/all:translate-x-0.5"
-                  aria-hidden="true"
-                />
+                <RollArrow className="h-4 w-4" />
               </span>
             </Link>
           </FadeIn>

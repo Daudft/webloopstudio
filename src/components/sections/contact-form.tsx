@@ -4,7 +4,7 @@ import { Suspense, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AlertCircle, ArrowUpRight, Loader2 } from 'lucide-react';
+import { AlertCircle, Loader2 } from 'lucide-react';
 import {
   budgetOptions,
   contactFormSchema,
@@ -13,6 +13,8 @@ import {
 } from '@/lib/validations/contact';
 import { Field, Input, Select, Textarea, fieldErrorId } from '@/components/ui/input';
 import { trackEvent } from '@/lib/consent';
+import { RollText } from '@/components/ui/roll-text';
+import { RollArrow } from '@/components/ui/roll-arrow';
 
 const isServiceOption = (value: string | null): value is string =>
   serviceOptions.some((option) => option.value === value);
@@ -197,15 +199,12 @@ function ContactFormFields({ defaultService }: { defaultService?: string }) {
         aria-busy={isBusy || undefined}
         className="group inline-flex h-11 w-full items-center justify-between gap-4 rounded-[3px] bg-black pl-4 pr-1.5 font-montserrat text-[15px] font-semibold tracking-[-0.01em] text-white transition-colors duration-300 hover:bg-black/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60 sm:w-auto sm:justify-start"
       >
-        {isBusy ? 'Sending…' : 'Send message'}
+        <RollText>{isBusy ? 'Sending…' : 'Send message'}</RollText>
         <span className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-white text-black">
           {isBusy ? (
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
           ) : (
-            <ArrowUpRight
-              className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
+            <RollArrow className="h-4 w-4" />
           )}
         </span>
       </button>

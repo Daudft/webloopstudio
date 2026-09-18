@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { RollText } from '@/components/ui/roll-text';
+import { RollArrow } from '@/components/ui/roll-arrow';
 
 /** Pages where a "Start a project" bar would be redundant. */
 const HIDDEN_ROUTES = ['/contact', '/thank-you'];
@@ -57,9 +58,9 @@ export function MobileStickyCta() {
         )}
         style={{ transitionTimingFunction: 'cubic-bezier(0.65, 0, 0.35, 1)' }}
       >
-        Start a project
+        <RollText>Start a project</RollText>
         <span className="flex h-9 w-9 items-center justify-center rounded-[3px] bg-ice text-black">
-          <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+          <RollArrow className="h-4 w-4" />
         </span>
       </Link>
     </div>

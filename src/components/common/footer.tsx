@@ -7,6 +7,8 @@ import { ArrowUpRight } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import { mainNavItems } from '@/config/navigation';
 import { FadeIn } from '@/components/animations/fade-in';
+import { RollText } from '@/components/ui/roll-text';
+import { RollArrow } from '@/components/ui/roll-arrow';
 import { analyticsId, resetConsent } from '@/lib/consent';
 
 const pad = (value: number) => String(value).padStart(2, '0');
@@ -87,9 +89,9 @@ export function Footer() {
                   href="/contact"
                   className="mt-6 inline-flex h-8 items-center gap-2.5 rounded-[3px] bg-ice pl-3 pr-[5px] font-sans text-[14px] font-semibold tracking-[-0.01em] text-black transition-colors duration-300 hover:bg-ice/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ice focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                 >
-                  Start a project
+                  <RollText>Start a project</RollText>
                   <span className="flex h-[22px] w-[22px] items-center justify-center rounded-[2px] bg-black text-white">
-                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    <RollArrow className="h-3.5 w-3.5" />
                   </span>
                 </Link>
               </div>

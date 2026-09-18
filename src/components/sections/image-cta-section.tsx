@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { HeroBackground } from '@/components/sections/hero-background';
+import { RollText } from '@/components/ui/roll-text';
+import { RollArrow } from '@/components/ui/roll-arrow';
 
 export function ImageCTASection() {
   return (
@@ -33,11 +35,11 @@ export function ImageCTASection() {
 
         <Link
           href="/contact"
-          className="group mt-12 inline-flex items-center gap-4 bg-ice px-4 py-3 font-sora text-[20px] font-bold leading-none tracking-[-0.045em] text-navy transition-colors hover:bg-white sm:mt-20 sm:px-5 sm:py-4 sm:text-[27px]"
+          className="group mt-12 inline-flex items-center gap-4 bg-ice px-4 py-3 font-sora text-[20px] font-bold leading-none tracking-[-0.045em] text-black transition-colors hover:bg-white sm:mt-20 sm:px-5 sm:py-4 sm:text-[27px]"
         >
-          Tell us your story
-          <span className="flex h-8 w-8 items-center justify-center bg-navy text-[22px] leading-none text-ice transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 sm:h-10 sm:w-10 sm:text-[28px]">
-            ↗
+          <RollText>Tell us your story</RollText>
+          <span className="flex h-8 w-8 items-center justify-center bg-black text-white sm:h-10 sm:w-10">
+            <RollArrow className="h-5 w-5 sm:h-6 sm:w-6" />
           </span>
         </Link>
       </div>
